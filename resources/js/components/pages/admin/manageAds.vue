@@ -1,0 +1,506 @@
+<template>
+    <div>
+        <Navbar />
+
+        <Leftbar />
+
+        <div class="content-wrap">
+            <div class="main">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-8 p-r-0 title-margin-right">
+                            <div class="page-header p-5">
+                                <div class="page-title">
+                                    <Button @click="addingAdsModal = true" type="primary" ghost>
+                                        <Icon type="md-add" />
+                                        Add New Ad
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 p-l-0 title-margin-left">
+                            <div class="page-header">
+                                <div class="page-title">
+                                    <ol class="breadcrumb text-right">
+                                        <li>
+                                            <router-link to="dashboard">Dashboard</router-link>
+                                        </li>
+                                        <li class="active">Ads</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="main-content">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card alert">
+                                    <div class="order-list-item">
+                                        <table class="table item-center">
+                                            <thead class="content-center">
+                                                <tr>
+                                                    <th width="5%">ID</th>
+                                                    <th width="15%">Picture</th>
+                                                    <th width="25%">Position</th>
+                                                    <th width="25%">Province</th>
+                                                    <th width="30%">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(ad, i) in ads" :key="i">
+                                                    <td>{{ ++i }}</td>
+                                                    <td>
+                                                        <template>
+                                                            <img v-if="ad.image" class="img-fluid" width="60"
+                                                                style="border-radius: 10%"
+                                                                :src="`${url_api}uploads/ads/${ad.image}`" alt="Ad Image" />
+                                                            <img class="img-fluid" width="60" style="border-radius: 10%"
+                                                                v-else src="uploads/ads/default.png" alt="Ad Image" />
+                                                        </template>
+                                                    </td>
+                                                    <td> {{ ad.position }}</td>
+                                                    <td v-if="ad.prv.length >0">{{ ad.prv[0].province }}</td>
+                                                    <td v-else>No Province</td>
+                                                    <td>
+                                                        <Button
+                                                            @click="viewAdModal(i, ad.id, ad.position, ad.image, ad.prv)">
+                                                            <Icon type="ios-eye-outline" color="blue" size="25" />
+                                                        </Button>
+                                                        <Button
+                                                            @click=" editAdModal(i, ad.id, ad.position, ad.image, ad.prv)">
+                                                            <Icon type="ios-create-outline" color="green" size="25" />
+                                                        </Button>
+                                                        <Button v-if="$store.state.userInfos.level == 1"
+                                                            @click="deleteAd(ad.id)">
+                                                            <Icon type="ios-trash-outline" color="red" size="25" />
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <Modal v-model="deleteAdModal" title="Delete Ad" width="30%" class="text-center">
+            <template #header>
+                <p style="color:#f60;text-align:center">
+                    <Icon type="ios-information-circle"></Icon>
+                    <span>Delete confirmation</span>
+                </p>
+            </template>
+            <div style="text-align:center">
+                <p><strong>Are you sure you want to delete this <i>{{ adName }}</i> ad?</strong></p>
+                <p><strong>This action cannot be undone. Once deleted, the ad will be permanently removed.</strong></p>
+            </div>
+            <div slot="footer">
+                <Button @click="confirmDeleteAd()" type="error">
+                    <Icon type="ios-trash" size="18" />
+                    Delete
+                </Button>
+                <Button @click="closeModal('validateAdForm')" type="warning">
+                    <Icon type="md-close-circle" size="18" />
+                    Cancel
+                </Button>
+            </div>
+        </Modal>
+
+        <Modal v-model="viewingAdsModal" :title="ad.position + ' - Ad '" width="40%">
+            <template>
+                <div class="text-center">
+                    <br>
+                    <div class="ad-img">
+                        <img :src="`${url_api}uploads/ads/${ad.image}`" class="rounded-circle" alt="profile-image"
+                            width="400px" style="object-fit: cover; border-radius: 20px;" />
+                    </div>
+                    <br />
+                </div>
+            </template>
+            <div slot="footer">
+                <Button @click="closeModal('addFormValidation')" type="error">
+                    <Icon type="md-close-circle" size="18" />
+                    Close
+                </Button>
+            </div>
+        </Modal>
+
+        <Modal v-model="addingAdsModal" title="Add Ad" width="40%">
+            <template>
+                <Form ref="addFormValidation" :model="ad" :rules="ruleValidate">
+                    <Row>
+                        <Col v-if="ad.position != 'navbar'" span="11">
+                        <FormItem label="Position" prop="position">
+                            <Select v-model="ad.position" filterable>
+                                <Option value="sidebar">Sidebar</Option>
+                                <Option value="navbar">Navbar</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col v-if="ad.position === 'navbar'" offset="1">
+                        <FormItem label="Position" prop="position">
+                            <Select v-model="ad.position" filterable>
+                                <Option value="sidebar">Sidebar</Option>
+                                <Option value="navbar">Navbar</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col v-if="ad.position != 'navbar'" span="11" offset="1">
+                        <FormItem label="Province" prop="province">
+                            <Select v-model="ad.province" filterable>
+                                <Option v-for="(prov, i) in provinces" :key="i" :value="prov.id">{{
+                                    prov.province
+                                }}</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col span="21" offset="1">
+                        <template>
+                            <Upload action="/upload_ads_image" type="drag" :headers="{ 'x-csrf-token': token }"
+                                :on-success="handleSuccess" :format="['png', 'jpg', 'jpeg', 'gif']"
+                                :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :max-size="2048">
+                                <div style="padding: 20px 0">
+                                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff" />
+                                    <p>Click or drag ads here to upload</p>
+                                </div>
+                            </Upload>
+                        </template>
+                        </Col>
+                        <Col span="24" v-if="ad.image">
+                        <img style="object-fit: cover; width: 100%;" :src="`${url_api}uploads/ads/${ad.image}`"
+                            class="img-fluid" />
+                        </Col>
+                    </Row>
+                </Form>
+            </template>
+            <div slot="footer">
+                <Button @click="closeModal('addFormValidation')" type="error">
+                    <Icon type="md-close-circle" size="18" />
+                    Cancel
+                </Button>
+                <Button @click="addNewAd('addFormValidation')" type="primary" :disabled="isSaving" :loading="isSaving">
+                    <Icon type="md-document" size="18" />
+                    {{ isSaving ? "Saving..." : "Save" }}
+                </Button>
+            </div>
+        </Modal>
+
+        <Modal v-model="editingModal" title="Edit Ad Info" width="40%">
+            <template>
+                <Form ref="editFormValidation" :model="ad" :rules="ruleValidate">
+                    <Row>
+                        <Col v-if="ad.position != 'navbar'" span="11">
+                        <FormItem label="Position" prop="position">
+                            <Select v-model="ad.position" filterable>
+                                <Option value="sidebar">Sidebar</Option>
+                                <Option value="navbar">Navbar</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col v-if="ad.position === 'navbar'" offset="1">
+                        <FormItem label="Position" prop="position">
+                            <Select v-model="ad.position" filterable>
+                                <Option value="sidebar">Sidebar</Option>
+                                <Option value="navbar">Navbar</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col v-if="ad.position != 'navbar'" span="11" offset="1">
+                        <FormItem label="Province" prop="province">
+                            <Select v-model="ad.province" filterable>
+                                <Option v-for="(prov, i) in provinces" :key="i" :value="prov.id">{{
+                                    prov.province
+                                }}</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col span="21" offset="1">
+                        <template>
+                            <Upload action="/upload_ads_image" type="drag" :headers="{ 'x-csrf-token': token }"
+                                :on-success="handleSuccess" :format="['png', 'jpg', 'jpeg', 'gif']"
+                                :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :max-size="2048">
+                                <div style="padding: 20px 0">
+                                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff" />
+                                    <p>Click or drag ads here to upload</p>
+                                </div>
+                            </Upload>
+                        </template>
+                        </Col>
+                        <Col span="24" v-if="ad.image">
+                        <img style="object-fit: cover; width: 100%;" :src="`${url_api}uploads/ads/${ad.image}`"
+                            class="img-fluid" />
+                        </Col>
+                    </Row>
+                </Form>
+            </template>
+            <div slot="footer">
+                <Button @click="closeModal('editFormValidation')" type="error">
+                    <Icon type="md-close-circle" size="18" />
+                    Cancel
+                </Button>
+                <Button @click="editAd('editFormValidation')" type="primary" :disabled="isEditing" :loading="isEditing">
+                    <Icon type="md-document" size="18" />
+                    {{ isEditing ? "Updating..." : "Update" }}
+                </Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+
+<script>
+import Navbar from "../../inc/navbar";
+import Leftbar from "../../inc/leftbar";
+import Footer from "../../inc/footer";
+export default {
+    components: { Navbar, Leftbar, Footer },
+    data() {
+        return {
+            addingAdsModal: false,
+            viewingAdsModal: false,
+            deleteAdModal: false,
+            isSaving: false,
+            deleteImageDetail: "",
+            ads: [],
+            provinces: [],
+            tableLoading: true,
+            keyword: "",
+            editingModal: false,
+            isEditing: false,
+            adsId: "",
+            adName: "",
+            rowIndex: "",
+            status: "",
+            token: "",
+            ad: { position: "", province: "", image: "" },
+
+            ruleValidate: {
+                title: [
+                    {
+                        required: true,
+                        message: "Title field cannot be empty.",
+                        trigger: "blur",
+                    },
+                ],
+                link: [
+                    {
+                        required: true,
+                        message: "Link cannot be empty.",
+                        trigger: "blur",
+                    },
+                ],
+            },
+
+            updateRuleValidate: {
+                title: [
+                    {
+                        required: true,
+                        message: "Title field cannot be empty.",
+                        trigger: "blur",
+                    },
+                ],
+                link: [
+                    {
+                        required: true,
+                        message: "Link cannot be empty.",
+                        trigger: "blur",
+                    },
+                ],
+            },
+        };
+    },
+
+    async created() {
+        this.token = window.Laravel.csrfToken;
+        await this.getAds();
+        await this.getProvinces();
+    },
+
+    methods: {
+
+        async getProvinces() {
+            const res = await this.callApi("get", "/get_provinces");
+            if (res.data.status === "success") {
+                this.provinces = res.data.data;
+            } else {
+                this.provinces = [];
+            }
+        },
+
+        async confirmDeleteAd() {
+            this.isSaving = true;
+            var data = { id: this.adsId };
+            const res = await this.callApi("post", "/delete_ad", data);
+            if (res.data.status_code === 200) {
+                this.getAds();
+                this.deleteAdModal = false;
+                this.isSaving = false;
+                this.adsId = "";
+                return this.s("Ads was deleted successfully");
+            } else {
+                this.isSaving = false;
+                return this.swr();
+            }
+
+        },
+
+        deleteAd(id) {
+            this.deleteAdModal = true;
+            this.adsId = id;
+        },
+
+        truncate(text, length) {
+            if (text.length <= length) {
+                return text;
+            } else {
+                return text.slice(0, length) + "...";
+            }
+        },
+        async handleSuccess(response, file) {
+            if (this.deleteImageDetail) {
+                var path = this.url_api + "uploads/ads/" + this.deleteImageDetail;
+                const res = await this.callApi("post", "/delete_images", { path: path });
+                if (res.data.success == 1) {
+                    console.log("image removed");
+                } else {
+                    console.log("image was not deleted in the server");
+                }
+            }
+            this.ad.image = response;
+        },
+
+        handleFormatError(file) {
+            this.$Notice.warning({
+                title: "The file format is incorrect",
+                desc: "File format of " + file.name + " is incorrect, Please select jpg or png. ",
+            });
+        },
+
+        handleMaxSize(file) {
+            this.$Notice.warning({
+                title: "Exceeding file size limit",
+                desc: "File " + file.name + " is too large, no more than 2 MB. ",
+            });
+        },
+
+        async getAds() {
+            const res = await this.callApi("get", "/get_ads");
+            if (res.data.status === "success") {
+                this.ads = res.data.data;
+                this.tableLoading = false;
+            } else {
+                this.ads = [];
+                this.tableLoading = false;
+            }
+        },
+
+        addNewAd(name) {
+            this.$refs[name].validate(async (valid) => {
+                if (valid) {
+                    this.isSaving = true;
+                    const res = await this.callApi("post", "/add_new_ads", this.ad);
+                    if (res.data.status_code === 201) {
+                        this.getAds();
+                        this.addingAdsModal = false;
+                        this.isSaving = false;
+                        this.ad.image = "";
+                        this.$refs[name].resetFields();
+                        return this.s("New ads was added successfully");
+                    } else {
+                        this.isSaving = false;
+                        return this.swr();
+                    }
+                } else {
+                }
+            });
+        },
+
+        viewAdModal(i, id, position, image, province) {
+            this.viewingAdsModal = true;
+            this.rowIndex = i;
+            this.adsId = id;
+            this.ad.position = position;
+            if (province.length > 0) {
+                this.ad.province = province[0].id;
+            } else {
+            this.ad.province = '';
+            }
+            if (image) {
+                this.ad.image = image;
+            } else {
+                this.ad.image = "";
+            }
+        },
+        editAdModal(i, id, position, image, province) {
+            this.editingModal = true;
+            this.rowIndex = i;
+            this.adsId = id;
+            this.ad.position = position;
+            
+            if (province.length > 0) {
+                this.ad.province = province[0].id;
+
+            } else {
+                this.ad.province = '';
+            }
+            if (image) {
+                this.ad.image = image;
+                this.deleteImageDetail = image;
+            } else {
+                this.ad.image = "";
+            }
+        },
+
+        editAd(name) {
+            this.$refs[name].validate(async (valid) => {
+                if (valid) {
+                    this.isEditing = true;
+                    const updatedData = { id: this.adsId, ...this.ad };
+                    const res = await this.callApi("post", "/edit_ads", updatedData);
+                    if (res.data.status === "success") {
+                        await this.getAds();
+                        this.editingModal = false;
+                        this.isEditing = false;
+                        this.ad.image = ""
+                        this.ad.position = ""
+                        this.ad.province = ""
+                        this.adsId = ""
+                        this.$refs[name].resetFields();
+                        return this.s("Ads infos wa updated successfully");
+                    } else {
+                        this.isEditing = false;
+                        return this.swr();
+                    }
+                } else {
+                }
+            });
+        },
+
+        async updateStatus(id, status) {
+            const updatedData = { id: id, status: status };
+            const res = await this.callApi("post", "/edit_ads", updatedData);
+            if (res.data.status === "success") {
+                await this.getAds();
+            }
+        },
+
+        closeModal(name) {
+            this.addingAdsModal = false
+            this.editingModal = false
+            this.viewingAdsModal = false
+            this.deleteAdModal = false
+            this.ad.image = ""
+            this.ad.position = ""
+            this.ad.province = ""
+            this.adsId = ""
+
+            // this.$refs[name].resetFields();
+        },
+    },
+};
+</script>
