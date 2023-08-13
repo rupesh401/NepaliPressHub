@@ -39,7 +39,7 @@
                             </a>
                         </div>
                         <div class="navbar-right float-right">
-                            <a href="#">
+                            <a href="{{ $navAds->link }}" target="_blank">
                                 <img style="width: 730px; height: 90px; object-fit:cover;" class="img-fluid"
                                     src='{{ "$pF/storage/uploads/ads/" . $navAds->image }}' alt="Image" /></a>
                         </div>

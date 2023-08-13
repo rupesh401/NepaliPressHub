@@ -17,7 +17,7 @@ class CreateEmailsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email');
-            $table->string('subject');
+            $table->string('subject')->nullable();
             $table->longText('message');
             $table->string('status');
             $table->timestamps();

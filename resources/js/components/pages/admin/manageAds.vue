@@ -61,15 +61,15 @@
                                                         </template>
                                                     </td>
                                                     <td> {{ ad.position }}</td>
-                                                    <td v-if="ad.prv.length >0">{{ ad.prv[0].province }}</td>
+                                                    <td v-if="ad.prv.length > 0">{{ ad.prv[0].province }}</td>
                                                     <td v-else>No Province</td>
                                                     <td>
                                                         <Button
-                                                            @click="viewAdModal(i, ad.id, ad.position, ad.image, ad.prv)">
+                                                            @click="viewAdModal(i, ad.id, ad.position, ad.image, ad.prv, ad.link)">
                                                             <Icon type="ios-eye-outline" color="blue" size="25" />
                                                         </Button>
                                                         <Button
-                                                            @click=" editAdModal(i, ad.id, ad.position, ad.image, ad.prv)">
+                                                            @click=" editAdModal(i, ad.id, ad.position, ad.image, ad.prv, ad.link)">
                                                             <Icon type="ios-create-outline" color="green" size="25" />
                                                         </Button>
                                                         <Button v-if="$store.state.userInfos.level == 1"
@@ -121,6 +121,8 @@
                             width="400px" style="object-fit: cover; border-radius: 20px;" />
                     </div>
                     <br />
+                    <p v-if="ad.province != ''" style="text-align: center;">{{ province_name }}</p>
+                    <p style="text-align: center;">{{ ad.link }}</p>
                 </div>
             </template>
             <div slot="footer">
@@ -135,29 +137,38 @@
             <template>
                 <Form ref="addFormValidation" :model="ad" :rules="ruleValidate">
                     <Row>
-                        <Col v-if="ad.position != 'navbar'" span="11">
+                        <Col v-if="ad.position === 'sidebar'" span="11">
                         <FormItem label="Position" prop="position">
                             <Select v-model="ad.position" filterable>
                                 <Option value="sidebar">Sidebar</Option>
+                                <Option value="sidebar-home">Sidebar Home</Option>
+                                <Option value="home-between">Home Between</Option>
                                 <Option value="navbar">Navbar</Option>
                             </Select>
                         </FormItem>
                         </Col>
-                        <Col v-if="ad.position === 'navbar'" offset="1">
+                        <Col v-if="ad.position != 'sidebar'" span="21" offset="1">
                         <FormItem label="Position" prop="position">
                             <Select v-model="ad.position" filterable>
                                 <Option value="sidebar">Sidebar</Option>
+                                <Option value="sidebar-home">Sidebar Home</Option>
+                                <Option value="home-between">Home Between</Option>
                                 <Option value="navbar">Navbar</Option>
                             </Select>
                         </FormItem>
                         </Col>
-                        <Col v-if="ad.position != 'navbar'" span="11" offset="1">
+                        <Col v-if="ad.position === 'sidebar'" span="11" offset="1">
                         <FormItem label="Province" prop="province">
                             <Select v-model="ad.province" filterable>
                                 <Option v-for="(prov, i) in provinces" :key="i" :value="prov.id">{{
                                     prov.province
                                 }}</Option>
                             </Select>
+                        </FormItem>
+                        </Col>
+                        <Col span="21" offset="1">
+                        <FormItem label="Ads Link" prop="link">
+                            <Input v-model="ad.link" type="text" placeholder="Write ads link here"></Input>
                         </FormItem>
                         </Col>
                         <Col span="21" offset="1">
@@ -195,29 +206,38 @@
             <template>
                 <Form ref="editFormValidation" :model="ad" :rules="ruleValidate">
                     <Row>
-                        <Col v-if="ad.position != 'navbar'" span="11">
+                        <Col v-if="ad.position === 'sidebar'" span="11">
                         <FormItem label="Position" prop="position">
                             <Select v-model="ad.position" filterable>
                                 <Option value="sidebar">Sidebar</Option>
+                                <Option value="sidebar-home">Sidebar Home</Option>
+                                <Option value="home-between">Home Between</Option>
                                 <Option value="navbar">Navbar</Option>
                             </Select>
                         </FormItem>
                         </Col>
-                        <Col v-if="ad.position === 'navbar'" offset="1">
+                        <Col v-if="ad.position != 'sidebar'" span="21" offset="1">
                         <FormItem label="Position" prop="position">
                             <Select v-model="ad.position" filterable>
                                 <Option value="sidebar">Sidebar</Option>
+                                <Option value="sidebar-home">Sidebar Home</Option>
+                                <Option value="home-between">Home Between</Option>
                                 <Option value="navbar">Navbar</Option>
                             </Select>
                         </FormItem>
                         </Col>
-                        <Col v-if="ad.position != 'navbar'" span="11" offset="1">
+                        <Col v-if="ad.position === 'sidebar'" span="11" offset="1">
                         <FormItem label="Province" prop="province">
                             <Select v-model="ad.province" filterable>
                                 <Option v-for="(prov, i) in provinces" :key="i" :value="prov.id">{{
                                     prov.province
                                 }}</Option>
                             </Select>
+                        </FormItem>
+                        </Col>
+                        <Col span="21" offset="1">
+                        <FormItem label="Ads Link" prop="link">
+                            <Input v-model="ad.link" type="text" placeholder="Write ads link here"></Input>
                         </FormItem>
                         </Col>
                         <Col span="21" offset="1">
@@ -268,6 +288,7 @@ export default {
             deleteImageDetail: "",
             ads: [],
             provinces: [],
+            province_name: '',
             tableLoading: true,
             keyword: "",
             editingModal: false,
@@ -277,7 +298,7 @@ export default {
             rowIndex: "",
             status: "",
             token: "",
-            ad: { position: "", province: "", image: "" },
+            ad: { position: "sidebar", province: "", image: "", link: "" },
 
             ruleValidate: {
                 title: [
@@ -409,6 +430,9 @@ export default {
                         this.addingAdsModal = false;
                         this.isSaving = false;
                         this.ad.image = "";
+                        this.ad.position = "";
+                        this.ad.link = "";
+                        this.ad.province = "";
                         this.$refs[name].resetFields();
                         return this.s("New ads was added successfully");
                     } else {
@@ -420,15 +444,19 @@ export default {
             });
         },
 
-        viewAdModal(i, id, position, image, province) {
+        viewAdModal(i, id, position, image, province, link) {
+            console.log(province)
             this.viewingAdsModal = true;
             this.rowIndex = i;
             this.adsId = id;
             this.ad.position = position;
+            this.ad.link = link;
             if (province.length > 0) {
                 this.ad.province = province[0].id;
+                this.province_name = province[0].province;
+               
             } else {
-            this.ad.province = '';
+                this.ad.province = '';
             }
             if (image) {
                 this.ad.image = image;
@@ -436,12 +464,13 @@ export default {
                 this.ad.image = "";
             }
         },
-        editAdModal(i, id, position, image, province) {
+        editAdModal(i, id, position, image, province, link) {
             this.editingModal = true;
             this.rowIndex = i;
             this.adsId = id;
             this.ad.position = position;
-            
+            this.ad.link = link;
+
             if (province.length > 0) {
                 this.ad.province = province[0].id;
 
@@ -469,6 +498,7 @@ export default {
                         this.ad.image = ""
                         this.ad.position = ""
                         this.ad.province = ""
+                        this.ad.link = ""
                         this.adsId = ""
                         this.$refs[name].resetFields();
                         return this.s("Ads infos wa updated successfully");
@@ -494,6 +524,7 @@ export default {
             this.editingModal = false
             this.viewingAdsModal = false
             this.deleteAdModal = false
+            this.ad.link = ""
             this.ad.image = ""
             this.ad.position = ""
             this.ad.province = ""

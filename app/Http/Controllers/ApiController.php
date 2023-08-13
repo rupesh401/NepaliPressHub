@@ -52,9 +52,10 @@ class ApiController extends Controller
             $updateAds =  Ads::find($request->id);
             $updateAds->position = $request->position;
             $updateAds->image = $request->image;
+            $updateAds->link = $request->link;
 
             if ($updateAds->update()) {
-                PostProv::where('ads_id', $request->id)->delete();
+                ProvAds::where('ads_id', $request->id)->delete();
                 if ($request->province) {
                     $adsProv = ['province_id' => $request->province, 'ads_id' => $updateAds->id];
                     ProvAds::insert($adsProv);
@@ -82,6 +83,7 @@ class ApiController extends Controller
             $newAds->user_id = Auth::user()->id;
             $newAds->position = $request->position;
             $newAds->image = $request->image;
+            $newAds->link = $request->link;
 
             if ($newAds->save()) {
                 if ($request->province) {

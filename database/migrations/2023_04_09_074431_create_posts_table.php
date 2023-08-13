@@ -20,8 +20,11 @@ class CreatePostsTable extends Migration
             $table->longText('content');
             $table->string('image')->nullable();
             $table->string('status');
-            $table->longText('slug')->unique();
-            $table->string('views')->default(0);
+            $table->string('slug')->unique();
+            $table->integer('views')->default(0);
+            $table->integer('likes')->default(0);
+            $table->string('lang')->default('en');
+            $table->boolean('flash_news')->default(false);
             $table->timestamps();
         });
     }
