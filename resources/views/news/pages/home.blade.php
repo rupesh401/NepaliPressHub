@@ -12,9 +12,6 @@
             </div>
         </div>
     </div>
-    {{-- <div class="section add inner-add">
-        <a href="#"><img class="img-fluid" src='{{ ("$pF/news/assets/images/post/add/add2.jpg") }}' alt="Image" /></a>
-    </div> --}}
     <div class="section">
         
     </div>
