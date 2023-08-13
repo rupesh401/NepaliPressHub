@@ -979,10 +979,12 @@ public function home(Request $request)
     $breakingNews = BreakingNews::where('lang', $lang)->orderBy('created_at', 'desc')->take(6)->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $homeBtn = Ads::where('position', 'home-between')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.home', [
         'navAds' => $navAds,
         'sideAds' => $sideAds,
+        'homeBtn' => $homeBtn,
         'logo' => $logo,
         'lang' => $lang,
         'posts' => $posts,

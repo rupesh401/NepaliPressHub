@@ -32,6 +32,22 @@ use Illuminate\Support\Facades\Storage;
 
 class ApiController extends Controller
 {
+    public function deleteImageInAlbum(Request $request)
+    {
+        $image = Image::find($request->id);
+        if (!$image) {
+            return response()->json(['status' => 'failed', 'status_code' => 404]);
+        } else {
+
+            $delImage = GalMage::where('image_id', $request->id);
+            if ($delImage->count() != 0) {
+                $delImage->delete();
+            }
+            $image->delete();
+            return response()->json(['status' => 'success', 'status_code' => 200]);
+        }
+    }
+
     public function getAds()
     {
         $ads = Ads::with(['prv'])->orderBy('created_at', 'DESC')->get();
@@ -216,7 +232,7 @@ class ApiController extends Controller
     public function deleteImages(Request $request)
     {
         $currentBaseUrl = request()->root();
-        if (Str::startsWith($currentBaseUrl, 'https://techviewed.com')) {
+        if (Str::startsWith($currentBaseUrl, 'https://presshub.com')) {
             $path = str_replace('public/storage/', '', $request->path);
         } else {
             $path = str_replace('storage/', '', $request->path);
@@ -411,6 +427,7 @@ class ApiController extends Controller
             $newGalleryImage->user_id = Auth::user()->id;
             $newGalleryImage->album_title = $request->album_title;
             if ($newGalleryImage->save()) {
+                // return $request->images;
                 foreach ($request->image as $image) {
                     $newImage = new Image();
                     $newImage->image = $image;

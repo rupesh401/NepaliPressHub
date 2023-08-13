@@ -164,6 +164,9 @@ Route::post('/uploads_images', 'ApiController@uploadImages');
 //  Delete Images
 Route::post('/delete_images', 'ApiController@deleteImages');
 
+//  Delete Images
+Route::post('/delete_image_in_album', 'ApiController@deleteImageInAlbum');
+
 //  Uploading Profile Picture
 Route::post('/upload_profile_picture', 'ApiController@uploadProfilePicture');
 

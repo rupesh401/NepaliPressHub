@@ -4257,3 +4257,14 @@ html {
         display: inline-grid !important;
     }
 }
+
+.image-card {
+    position: relative;
+}
+
+.close-icon {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 1;
+}

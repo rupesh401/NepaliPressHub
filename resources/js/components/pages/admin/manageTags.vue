@@ -97,6 +97,7 @@
                 </Button>
             </div>
         </Modal>
+        
         <Modal v-model="viewTagModal" title="View Tag" width="30%" class="text-center">
             <template>
                 <Tag :color="tagColor(1)" type="border">{{ tagName }}</Tag>
@@ -108,6 +109,7 @@
                 </Button>
             </div>
         </Modal>
+
         <Modal v-model="addingTagModal" title="Add Tag" width="30%">
             <template>
                 <Form ref="validateTagForm" :model="tag" :rules="validateTag">
@@ -131,6 +133,7 @@
                 </Button>
             </div>
         </Modal>
+
         <Modal v-model="editingTagModal" title="Edit Tag" width="30%">
             <template>
                 <Form ref="validateEditTagForm" :model="tag" :rules="validateTag">

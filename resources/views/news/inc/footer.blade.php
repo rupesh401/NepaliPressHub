@@ -7,7 +7,11 @@
             <div class="row">
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xm-4">
                     <div class="widget">
+                        @if ($lang == 'en')
                         <h1 class="section- title">Follow Us</h1>
+                        @else
+                        <h1 class="section- title">हमीलाई पछ्याउनुहोस</h1>
+                        @endif
                         <ul class="list-inline social-icons">
                             @if (@$contact[0]->facebook)
                                 <li><a href="{{ @$contact[0]->facebook }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
@@ -46,8 +50,10 @@
                     <div class="widget">
                         @if ($sideAds != '')
                             <div>
+                                <a href="{{ $sideAds->link }}" target="_blank">
                                 <img style="width: 300px; height: 250px; object-fit:cover;"
                                     src="{{ "$pF/storage/uploads/ads/" . $sideAds->image }}" alt="">
+                                </a>
                             </div>
                         @endif
                     </div>

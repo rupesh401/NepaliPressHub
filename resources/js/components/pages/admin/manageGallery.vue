@@ -42,7 +42,7 @@
                                             <thead class="content-center">
                                                 <tr>
                                                     <th width="20%">ID</th>
-                                                    <th width="50%">Tag</th>
+                                                    <th width="50%">Album Name</th>
                                                     <th width="30%">Action</th>
                                                 </tr>
                                             </thead>
@@ -51,14 +51,14 @@
                                                     <td>{{ ++i }}</td>
                                                     <td>{{ img.album_title }}</td>
                                                     <td>
-                                                        <Button @click="viewImages(img.id,img.album_title, img.img)">
+                                                        <Button @click="viewImages(img.id, img.album_title, img.img)">
                                                             <Icon type="ios-eye-outline" color="blue" size="25" />
                                                         </Button>
                                                         <Button @click="editTagModal(i, img.id)">
                                                             <Icon type="ios-create-outline" color="green" size="25" />
                                                         </Button>
                                                         <Button v-if="$store.state.userInfos.level == 1"
-                                                            @click="deleteTag(img.id)">
+                                                            @click="deleteAlbum(img.id, img.album_title)">
                                                             <Icon type="ios-trash-outline" color="red" size="25" />
                                                         </Button>
                                                     </td>
@@ -74,16 +74,42 @@
             </div>
         </div>
 
+        <Modal v-model="deleteAlbumModal" title="Delete Album" width="30%" class="text-center">
+            <template #header>
+                <p style="color:#f60;text-align:center">
+                    <Icon type="ios-information-circle"></Icon>
+                    <span>Delete confirmation</span>
+                </p>
+            </template>
+            <div style="text-align:center">
+                <p><strong>Are you sure you want to delete this <i>{{ image.album_title }}</i> album?</strong></p>
+                <p><strong>This action cannot be undone. Once deleted, the album will be permanently removed.</strong></p>
+            </div>
+            <div slot="footer">
+                <Button @click="confirmDeleteAlbum()" type="error">
+                    <Icon type="ios-trash" size="18" />
+                    Delete
+                </Button>
+                <Button @click="closeModal('validateTagForm')" type="warning">
+                    <Icon type="md-close-circle" size="18" />
+                    Cancel
+                </Button>
+            </div>
+        </Modal>
+
         <Modal v-model="viewingImageModal" :title="image.album_title + ' - Image '" width="90%">
             <template>
                 <div class="text-center">
                     <template>
                         <Row>
-                            <Col v-for="(img,i) in image.image" :key="i" span="4">
-                            <Card>
-                                <template>
-                                    <img style="height: 100%; width: 100%; object-fit: cover;" :src="`${url_api}uploads/gallery/images/${img.image}`" class="img-fluid" />
-                                </template>
+                            <Col v-for="(img, i) in image.image" :key="i" span="4">
+                            <Card class="image-card">
+                                <Button @click="deleteImageInAlbum(img.id, img.image)"
+                                    style="width: 12px; height: 12px; font-size: 8px;" type="error" ghost shape="circle"
+                                    size="small" icon="md-close" class="close-icon">
+                                </Button>
+                                <img :src="`${url_api}uploads/gallery/images/${img.image}`" fit="cover" width="100%"
+                                    height="100%" />
                             </Card>
                             </Col>
                         </Row>
@@ -97,6 +123,7 @@
                 </Button>
             </div>
         </Modal>
+
         <Modal v-model="addingImageModal" title="Add Image" width="40%">
             <template>
                 <Form ref="addFormValidation" :model="image" :rules="ruleValidate">
@@ -188,6 +215,7 @@ export default {
             addingImageModal: false,
             viewingImageModal: false,
             editingImageModal: false,
+            deleteAlbumModal: false,
             isSaving: false,
             deleteImageDetail: "",
             images: [],
@@ -195,6 +223,7 @@ export default {
             keyword: "",
             isEditing: false,
             imageId: "",
+            albumId: "",
             rowIndex: "",
             status: "",
             token: "",
@@ -235,6 +264,54 @@ export default {
     },
 
     methods: {
+        async deleteImageInAlbum(id, image) {
+            this.isSaving = true;
+            var data = { id: id };
+            const res = await this.callApi("post", "/delete_image_in_album", data);
+            if (res.data.status_code === 200) {
+                this.getImages();
+                this.deleteSingleImage(id, image);
+                this.deleteAlbumModal = false;
+                this.isSaving = false;
+            } else {
+                this.isSaving = false;
+                return this.swr();
+            }
+
+        },
+
+        async confirmDeleteAlbum() {
+            this.isSaving = true;
+            var data = { id: this.albumId };
+            const res = await this.callApi("post", "/delete_album", data);
+            if (res.data.status_code === 200) {
+                this.getImages();
+                this.deleteAlbumModal = false;
+                this.isSaving = false;
+                this.albumId = "";
+                return this.s("Album was deleted successfully");
+            } else {
+                this.isSaving = false;
+                return this.swr();
+            }
+
+        },
+
+        deleteAlbum(id, album_title) {
+            this.deleteAlbumModal = true;
+            this.image.album_title = album_title;
+            this.albumId = id;
+        },
+        async deleteSingleImage(id, image) {
+
+            var path = this.url_api + "uploads/gallery/images/" + image;
+            const res = await this.callApi("post", "/delete_images", { path: path });
+            if (res.data.success == 1) {
+                console.log("image removed");
+            } else {
+                console.log("image was not deleted in the server");
+            }
+        },
         truncate(text, length) {
             if (text.length <= length) {
                 return text;
@@ -304,7 +381,7 @@ export default {
             });
         },
 
-        viewImages( id, title, image) {
+        viewImages(id, title, image) {
             this.viewingImageModal = true;
             this.imageId = id;
             this.image.album_title = title;
@@ -360,6 +437,7 @@ export default {
             (this.addingImageModal = false),
                 (this.editingImageModal = false),
                 (this.viewingImageModal = false),
+                (this.deleteAlbumModal = false),
                 (this.image.image = "");
             this.$refs[name].resetFields();
         },

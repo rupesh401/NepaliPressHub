@@ -1,5 +1,6 @@
 @extends('news.layouts.app')
 
+@section('title') {{ $singlePost->title }} @endsection
 
 @section('content')
 
