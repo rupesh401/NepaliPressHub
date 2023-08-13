@@ -38,6 +38,42 @@
                     <div class="main-content">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xm-12 col-12">
+                                <template>
+                                    <Form>
+                                        <Row>
+                                        <Col span="6" class="p-4 m-4">
+                                            <Select v-model="categoryFilter" placeholder="Filter by Category" filterable>
+                                                <Option value="">All Categories</Option>
+                                                <Option v-for="(cat, i) in categories" :key="i" :value="cat.category" >{{ cat.category }}</Option>
+                                            </Select>
+                                        </Col>
+                                        <Col span="6" class="p-4 m-4">
+                                            <Select v-model="provinceFilter" placeholder="Filter by Province" filterable>
+                                                <Option value="">All Provinces</Option>
+                                                <Option v-for="(prov, i) in provinces" :key="i" :value="prov.province">{{ prov.province }}</Option>
+                                            </Select>
+                                        </Col>
+                                        <Col span="6" class="p-4 m-4">
+                                            <Select v-model="langFilter" placeholder="Filter by Language" filterable>
+                                                <Option value="">All Language</Option>
+                                                <Option value="en">English</Option>
+                                                <Option value="np">Nepali</Option>
+                                            </Select>
+                                        </Col>
+                                        <Col span="6" class="p-4 m-4">
+                                            <Select v-model="statusFilter" placeholder="Filter by Status" filterable>
+                                                <Option value="">All Status</Option>
+                                                <Option value="published">Published</Option>
+                                                <Option value="un published">Un Published</Option>
+                                            </Select>
+                                        </Col>
+                                    </Row>
+                                    </Form>
+                                    <div>
+                                        <!-- Input fields for title and category filters -->
+                                        <!-- <Input v-model="titleFilter" placeholder="Search by Title" /> -->
+                                    </div>
+                                </template>
                                 <div class="card alert">
                                     <div class="order-list-item">
                                         <table class="table">
@@ -55,7 +91,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(post, i) in posts" :key="i">
+                                                <tr v-for="(post, i) in newDatas" :key="i">
                                                     <td>{{ ++i }}</td>
                                                     <!-- <td>Ferdinand</td> -->
                                                     <td><img v-if="post.image" class="img-fluid" width="60"
@@ -347,6 +383,13 @@ export default {
             isSaving: false,
             clearType: false,
             posts: [],
+            // newDatas: [],
+            filteredPosts: [],
+            titleFilter: "",
+            categoryFilter: "",
+            provinceFilter: "",
+            langFilter: "",
+            statusFilter: "",
             tags: [],
             provinces: [],
             categories: [],
@@ -470,7 +513,62 @@ export default {
         await this.getCategory();
     },
 
-    computed: {},
+    computed: {
+        // Apply filters to the posts
+        newDatas() {
+            let filteredPosts = this.posts;
+
+            // Apply title filter
+            if (this.titleFilter) {
+                filteredPosts = filteredPosts.filter(post =>
+                    post.title.toLowerCase().includes(this.titleFilter.toLowerCase())
+                );
+            }
+
+            // Apply category filter
+            if (this.categoryFilter) {
+                filteredPosts = filteredPosts.filter(post =>
+                    post.cat[0].category.toLowerCase().includes(this.categoryFilter.toLowerCase())
+                );
+            }
+            // Apply province filter
+            if (this.provinceFilter) {
+                filteredPosts = filteredPosts.filter(post => {
+                    if (post.prov && post.prov.length > 0) {
+                        return post.prov[0].province.toLowerCase().includes(this.provinceFilter.toLowerCase());
+                    } else {
+                        return false; // Exclude posts without valid province information
+                    }
+                });
+            }// Apply province filter
+            if (this.provinceFilter) {
+                filteredPosts = filteredPosts.filter(post => {
+                    if (post.prov && post.prov.length > 0) {
+                        return post.prov[0].province.toLowerCase().includes(this.provinceFilter.toLowerCase());
+                    } else {
+                        return false; // Exclude posts without valid province information
+                    }
+                });
+            }
+            // Apply language filter
+            if (this.langFilter) {
+                filteredPosts = filteredPosts.filter(post =>
+                    post.lang.toLowerCase().includes(this.langFilter.toLowerCase())
+                );
+            }
+            // Apply status filter
+            if (this.statusFilter) {
+                filteredPosts = filteredPosts.filter(post => {
+                    const status = post.status.toLowerCase();
+                    return (
+                        (this.statusFilter.toLowerCase() === "published" && status === "published") ||
+                        (this.statusFilter.toLowerCase() === "un published" && status.includes("un published"))
+                    );
+                });
+            }
+            return filteredPosts;
+        }
+    },
 
     methods: {
 

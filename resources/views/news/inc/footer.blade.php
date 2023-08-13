@@ -131,7 +131,6 @@
 <script src='{{ "$pF/news/assets/js/switcher.js" }}'></script>
 
 @if (Route::currentRouteName() == 'single-post')
-{{ Route::currentRouteName() }}
 <script>
     // Set the CSRF token for every AJAX request
     $.ajaxSetup({
