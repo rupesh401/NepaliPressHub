@@ -330,11 +330,11 @@ class ApiController extends Controller
 
     public function uploadGalleryImage(Request $request)
     {
-        $picture = time() . '.' . $request->file->extension();
+        $uniqueFilename = time() . '_' . rand(1000, 9999) . '.' . $request->file->extension();
         $path = 'uploads/gallery/images';
-        $filePath = $request->file->storeAs($path, $picture, 'storage');
-
-        return $picture;
+        $filePath = $request->file->storeAs($path, $uniqueFilename, 'storage');
+    
+        return $uniqueFilename;
     }
 
     public function getAllImages()
@@ -427,7 +427,6 @@ class ApiController extends Controller
             $newGalleryImage->user_id = Auth::user()->id;
             $newGalleryImage->album_title = $request->album_title;
             if ($newGalleryImage->save()) {
-                // return $request->images;
                 foreach ($request->image as $image) {
                     $newImage = new Image();
                     $newImage->image = $image;
@@ -435,8 +434,6 @@ class ApiController extends Controller
                         array_push($postImage, ['gallery_id' => $newGalleryImage->id, 'image_id' => $newImage->id]);
                     }
                 }
-                $postCats = ['category_id' => $request->category, 'post_id' => $newGalleryImage->id];
-                $userPost = ['user_id' => Auth::user()->id, 'post_id' => $newGalleryImage->id];
                 GalMage::insert($postImage);
                 DB::commit();
 

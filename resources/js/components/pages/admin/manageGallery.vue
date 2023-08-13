@@ -329,6 +329,11 @@ export default {
                     console.log("image was not deleted in the server");
                 }
             }
+            // Ensure that this.image.image is an array
+            if (!Array.isArray(this.image.image)) {
+                this.image.image = []; // Initialize it as an empty array if not already an array
+            }
+
             // this.image.image = response;
             this.image.image.push(response);
             console.log(this.image.image)
