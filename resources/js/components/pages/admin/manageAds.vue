@@ -36,6 +36,35 @@
                     <div class="main-content">
                         <div class="row">
                             <div class="col-lg-12">
+                                <template>
+                                    <Form>
+                                        <Row>
+                                            <Col span="8" class="p-4 m-4">
+                                            <Select v-model="positionFilter" placeholder="Filter by Position" filterable>
+                                                <Option value="">All Position</Option>
+                                                <Option value="sidebar">Sidebar</Option>
+                                                <Option value="sidebar-home">Sidebar Home</Option>
+                                                <Option value="home-between">Home Between</Option>
+                                                <Option value="navbar">Navbar</Option>
+                                            </Select>
+                                            </Col>
+                                            <Col span="8" class="p-4 m-4">
+                                            <Select v-model="provinceFilter" placeholder="Filter by Province" filterable>
+                                                <Option value="">All Provinces</Option>
+                                                <Option v-for="(prov, i) in provinces" :key="i" :value="prov.province">{{
+                                                    prov.province }}</Option>
+                                            </Select>
+                                            </Col>
+                                            <Col span="8" class="p-4 m-4">
+                                            <Select v-model="statusFilter" placeholder="Filter by Status" filterable>
+                                                <Option value="">All Status</Option>
+                                                <Option value="active">Active</Option>
+                                                <Option value="inactive">Inactive</Option>
+                                            </Select>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </template>
                                 <div class="card alert">
                                     <div class="order-list-item">
                                         <table class="table item-center">
@@ -50,7 +79,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(ad, i) in ads" :key="i">
+                                                <tr v-for="(ad, i) in newDatas" :key="i">
                                                     <td>{{ ++i }}</td>
                                                     <td>
                                                         <template>
@@ -65,8 +94,7 @@
                                                     <td v-if="ad.prv.length > 0">{{ ad.prv[0].province }}</td>
                                                     <td v-else>No Province</td>
                                                     <td>
-                                                        <Button v-if="ad.status === 'Active'" type="success"
-                                                            size="small">
+                                                        <Button v-if="ad.status === 'Active'" type="success" size="small">
                                                             {{ ad.status }}
                                                         </Button>
                                                         <Button v-else type="error" size="small">
@@ -82,15 +110,15 @@
                                                             " v-model="ad.status" true-value="Active"
                                                             false-value="Inactive" true-color="#13ce66"
                                                             false-color="#ff4949" size="small" />
-                                                        <Button  size="small"
+                                                        <Button size="small"
                                                             @click="viewAdModal(i, ad.id, ad.position, ad.image, ad.prv, ad.link)">
                                                             <Icon type="ios-eye-outline" color="blue" size="25" />
                                                         </Button>
-                                                        <Button  size="small"
+                                                        <Button size="small"
                                                             @click=" editAdModal(i, ad.id, ad.position, ad.image, ad.prv, ad.link)">
                                                             <Icon type="ios-create-outline" color="green" size="25" />
                                                         </Button>
-                                                        <Button  size="small" v-if="$store.state.userInfos.level == 1"
+                                                        <Button size="small" v-if="$store.state.userInfos.level == 1"
                                                             @click="deleteAd(ad.id)">
                                                             <Icon type="ios-trash-outline" color="red" size="25" />
                                                         </Button>
@@ -305,6 +333,10 @@ export default {
             isSaving: false,
             deleteImageDetail: "",
             ads: [],
+            filteredAds: [],
+            positionFilter: "",
+            provinceFilter: "",
+            statusFilter: "",
             provinces: [],
             province_name: '',
             tableLoading: true,
@@ -358,6 +390,48 @@ export default {
         this.token = window.Laravel.csrfToken;
         await this.getAds();
         await this.getProvinces();
+    },
+    computed: {
+        // Apply filters to the Ads
+        newDatas() {
+            let filteredAds = this.ads;
+
+            // Apply Position filter
+            if (this.positionFilter) {
+                filteredAds = filteredAds.filter(ads => {
+                    return (
+                        (this.positionFilter === "sidebar" && ads.position === "sidebar") ||
+                        (this.positionFilter === "navbar" && ads.position === "navbar") ||
+                        (this.positionFilter === "sidebar-home" && ads.position === "sidebar-home") ||
+                        (this.positionFilter === "home-between" && ads.position === "home-between")
+                    );
+                });
+            }
+
+            // Apply province filter
+            if (this.provinceFilter) {
+                filteredAds = filteredAds.filter(ads => {
+                    if (ads.prv && ads.prv.length > 0) {
+                        return ads.prv[0].province.toLowerCase().includes(this.provinceFilter.toLowerCase());
+                    } else {
+                        return false; // Exclude adss without valid province information
+                    }
+                });
+            }
+
+            // Apply status filter
+            if (this.statusFilter) {
+                filteredAds = filteredAds.filter(ads => {
+                    const status = ads.status.toLowerCase();
+                    // console.log(status);
+                    return (
+                        (this.statusFilter === "active" && status === "active") ||
+                        (this.statusFilter === "inactive" && status === "inactive")
+                    );
+                });
+            }
+            return filteredAds;
+        }
     },
 
     methods: {
@@ -471,7 +545,7 @@ export default {
             if (province.length > 0) {
                 this.ad.province = province[0].id;
                 this.province_name = province[0].province;
-               
+
             } else {
                 this.ad.province = '';
             }

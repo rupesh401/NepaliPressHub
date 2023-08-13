@@ -69,10 +69,6 @@
                                         </Col>
                                     </Row>
                                     </Form>
-                                    <div>
-                                        <!-- Input fields for title and category filters -->
-                                        <!-- <Input v-model="titleFilter" placeholder="Search by Title" /> -->
-                                    </div>
                                 </template>
                                 <div class="card alert">
                                     <div class="order-list-item">
@@ -383,7 +379,6 @@ export default {
             isSaving: false,
             clearType: false,
             posts: [],
-            // newDatas: [],
             filteredPosts: [],
             titleFilter: "",
             categoryFilter: "",
@@ -531,6 +526,7 @@ export default {
                     post.cat[0].category.toLowerCase().includes(this.categoryFilter.toLowerCase())
                 );
             }
+           
             // Apply province filter
             if (this.provinceFilter) {
                 filteredPosts = filteredPosts.filter(post => {
@@ -540,16 +536,8 @@ export default {
                         return false; // Exclude posts without valid province information
                     }
                 });
-            }// Apply province filter
-            if (this.provinceFilter) {
-                filteredPosts = filteredPosts.filter(post => {
-                    if (post.prov && post.prov.length > 0) {
-                        return post.prov[0].province.toLowerCase().includes(this.provinceFilter.toLowerCase());
-                    } else {
-                        return false; // Exclude posts without valid province information
-                    }
-                });
             }
+            
             // Apply language filter
             if (this.langFilter) {
                 filteredPosts = filteredPosts.filter(post =>
