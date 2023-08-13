@@ -2,28 +2,25 @@
     <div class="footer-top">
 
     </div>
-    <div class="bottom-widgets">
+    <div class="bottom-widgets pt-5">
         <div class="container">
             <div class="row">
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xm-4">
                     <div class="widget">
-                        @if ($lang == 'en')
-                            <h2>Category</h2>
-                        @else
-                            <h2>श्रेणी</h2>
-                        @endif
-                        <ul>
-                            <li><a href="#">Business</a></li>
-                            <li><a href="#">Politics</a></li>
-                            <li><a href="#">Sports</a></li>
-                            <li><a href="#">World</a></li>
-                            <li><a href="#">Technology</a></li>
-                        </ul>
-                        <ul>
-                            <li><a href="#">Environment</a></li>
-                            <li><a href="#">Health</a></li>
-                            <li><a href="#">Entertainment</a></li>
-                            <li><a href="#">Lifestyle</a></li>
+                        <h1 class="section- title">Follow Us</h1>
+                        <ul class="list-inline social-icons">
+                            @if (@$contact[0]->facebook)
+                                <li><a href="{{ @$contact[0]->facebook }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            @endif
+                            @if (@$contact[0]->twitter)
+                                <li><a href="{{ @$contact[0]->twitter }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            @endif
+                            @if (@$contact[0]->youtube)
+                                <li><a href="{{ @$contact[0]->youtube }}" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            @endif
+                            @if (@$contact[0]->instagram)
+                                <li><a href="{{ @$contact[0]->instagram }}" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
