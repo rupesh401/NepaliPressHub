@@ -43,8 +43,9 @@
                                                 <tr>
                                                     <th width="5%">ID</th>
                                                     <th width="15%">Picture</th>
-                                                    <th width="25%">Position</th>
-                                                    <th width="25%">Province</th>
+                                                    <th width="20%">Position</th>
+                                                    <th width="20%">Province</th>
+                                                    <th width="10%">Status</th>
                                                     <th width="30%">Action</th>
                                                 </tr>
                                             </thead>
@@ -64,15 +65,32 @@
                                                     <td v-if="ad.prv.length > 0">{{ ad.prv[0].province }}</td>
                                                     <td v-else>No Province</td>
                                                     <td>
-                                                        <Button
+                                                        <Button v-if="ad.status === 'Active'" type="success"
+                                                            size="small">
+                                                            {{ ad.status }}
+                                                        </Button>
+                                                        <Button v-else type="error" size="small">
+                                                            {{ ad.status }}
+                                                        </Button>
+                                                    </td>
+                                                    <td>
+                                                        <i-switch @on-change="
+                                                            updateStatus(
+                                                                ad.id,
+                                                                ad.status != 'Active' ? 'Inactive' : 'Active'
+                                                            )
+                                                            " v-model="ad.status" true-value="Active"
+                                                            false-value="Inactive" true-color="#13ce66"
+                                                            false-color="#ff4949" size="small" />
+                                                        <Button  size="small"
                                                             @click="viewAdModal(i, ad.id, ad.position, ad.image, ad.prv, ad.link)">
                                                             <Icon type="ios-eye-outline" color="blue" size="25" />
                                                         </Button>
-                                                        <Button
+                                                        <Button  size="small"
                                                             @click=" editAdModal(i, ad.id, ad.position, ad.image, ad.prv, ad.link)">
                                                             <Icon type="ios-create-outline" color="green" size="25" />
                                                         </Button>
-                                                        <Button v-if="$store.state.userInfos.level == 1"
+                                                        <Button  size="small" v-if="$store.state.userInfos.level == 1"
                                                             @click="deleteAd(ad.id)">
                                                             <Icon type="ios-trash-outline" color="red" size="25" />
                                                         </Button>
@@ -445,7 +463,6 @@ export default {
         },
 
         viewAdModal(i, id, position, image, province, link) {
-            console.log(province)
             this.viewingAdsModal = true;
             this.rowIndex = i;
             this.adsId = id;
@@ -525,7 +542,7 @@ export default {
             this.viewingAdsModal = false
             this.deleteAdModal = false
             this.ad.link = ""
-            this.ad.image = ""
+            // this.ad.image = ""
             this.ad.position = ""
             this.ad.province = ""
             this.adsId = ""

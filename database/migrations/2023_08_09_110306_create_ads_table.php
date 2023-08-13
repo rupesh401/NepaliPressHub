@@ -19,6 +19,7 @@ class CreateAdsTable extends Migration
             $table->string('image');
             $table->string('position');
             $table->string('link');
+            $table->string('status')->default('Active');
             $table->timestamps();
         });
     }

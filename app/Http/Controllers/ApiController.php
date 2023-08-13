@@ -48,22 +48,32 @@ class ApiController extends Controller
         DB::beginTransaction();
 
         try {
-
-            $updateAds =  Ads::find($request->id);
-            $updateAds->position = $request->position;
-            $updateAds->image = $request->image;
-            $updateAds->link = $request->link;
-
-            if ($updateAds->update()) {
-                ProvAds::where('ads_id', $request->id)->delete();
-                if ($request->province) {
-                    $adsProv = ['province_id' => $request->province, 'ads_id' => $updateAds->id];
-                    ProvAds::insert($adsProv);
+            if (empty($request->status)) {
+                $updateAds =  Ads::find($request->id);
+                $updateAds->position = $request->position;
+                $updateAds->image = $request->image;
+                $updateAds->link = $request->link;
+    
+                if ($updateAds->update()) {
+                    ProvAds::where('ads_id', $request->id)->delete();
+                    if ($request->province) {
+                        $adsProv = ['province_id' => $request->province, 'ads_id' => $updateAds->id];
+                        ProvAds::insert($adsProv);
+                    }
+                    DB::commit();
+                    return response()->json(['data' => $updateAds, 'status' => 'success', 'status_code' => 200]);
+                } else {
+                    return response()->json(['status' => 'failed', 'status_code' => 200]);
                 }
-                DB::commit();
-                return response()->json(['data' => $updateAds, 'status' => 'success', 'status_code' => 200]);
             } else {
-                return response()->json(['status' => 'failed', 'status_code' => 200]);
+                $updateAds =  Ads::find($request->id);
+                $updateAds->status = $request->status;
+                if ($updateAds->update()) {
+                    DB::commit();
+                    return response()->json(['data' => $updateAds, 'status' => 'success', 'status_code' => 200]);
+                } else {
+                    return response()->json(['status' => 'failed', 'status_code' => 200]);
+                }
             }
             } catch (\Throwable $th) {
                 DB::rollback();
@@ -84,6 +94,7 @@ class ApiController extends Controller
             $newAds->position = $request->position;
             $newAds->image = $request->image;
             $newAds->link = $request->link;
+            $newAds->status = 'Active';
 
             if ($newAds->save()) {
                 if ($request->province) {
