@@ -17,7 +17,7 @@ ul {
     background: 0 0;
 }
 a {
-    color: #aeaeae;
+    color: #000;
     text-decoration: none;
     -webkit-transition: 300ms;
     -moz-transition: 300ms;
@@ -2432,6 +2432,7 @@ ul.list-inline li:last-child {
 
 .nav-add > li > a:before {
 content: "";
+color: #000 !important;
 display: block;
 position: absolute;
 left: 0;
