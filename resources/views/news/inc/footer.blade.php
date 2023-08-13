@@ -3,32 +3,6 @@
     <div class="footer-top">
        
     </div>
-    <div class="footer-menu">
-        @if ($lang == 'en')
-        <div class="container">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ route('home') }}">Home</a></li>
-                <li><a href="{{ route('news') }}">International News</a></li>
-                <li><a href="{{ route('gallery') }}">Gallery</a></li>
-                <li><a href="{{ route('about-us') }}">About us</a></li>
-                <li><a href="{{ route('contact-us') }}">Contact Us</a></li>
-                <li><a href="{{ route('contact-us') }}">Advertisement</a></li>
-                {{-- <li><a href="#">Team</a></li> --}}
-            </ul>
-        </div>
-        @else
-        <div class="container">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ route('home') }}">घर</a></li>
-                <li><a href="{{ route('news') }}">अन्तर्राष्ट्रिय समाचार</a></li>
-                <li><a href="{{ route('gallery') }}">ग्यालेरी</a></li>
-                <li><a href="{{ route('about-us') }}">हाम्रोबारे</a></li>
-                <li><a href="{{ route('contact-us') }}">हामीलाई सम्पर्क गर्नुहोस</a></li>
-                <li><a href="{{ route('contact-us') }}">विज्ञापन</a></li>
-            </ul>
-        </div>
-        @endif
-    </div>
     <div class="bottom-widgets">
         <div class="container">
             <div class="row">
@@ -76,21 +50,12 @@
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xm-4">
                     <div class="widget">
-                        @if ($lang == 'en') <h2>Products</h2> @else <h2>उत्पादनहरू</h2> @endif
-                        <ul>
-                            <li><a href="#">Ebook</a></li>
-                            <li><a href="#">Baby Product</a></li>
-                            <li><a href="#">Magazine</a></li>
-                            <li><a href="#">Sports Elements</a></li>
-                            <li><a href="#">Technology</a></li>
-                        </ul>
-                        <ul>
-                            <li><a href="#">Ebook</a></li>
-                            <li><a href="#">Baby Product</a></li>
-                            <li><a href="#">Magazine</a></li>
-                            <li><a href="#">Sports Elements</a></li>
-                            <li><a href="#">Technology</a></li>
-                        </ul>
+                        @if ($sideAds != '')
+                            <div>
+                                <img style="width: 300px; height: 250px; object-fit:cover;"
+                                    src="{{ "$pF/storage/uploads/ads/" . $sideAds->image }}" alt="">
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

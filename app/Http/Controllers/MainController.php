@@ -69,10 +69,11 @@ class MainController extends Controller
     $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
     $breakingNews = BreakingNews::where('lang', $lang)->orderBy('created_at', 'desc')->take(6)->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.single.search', [
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         'lang' => $lang,
         'posts' => $posts,
@@ -401,10 +402,11 @@ public function singlePost(Request $request, $slug)
     $recaptchaKey = config('services.recaptcha.key');
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.single.post', [
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         'tags' => $tags,
         'provinces' => $provinces,
@@ -500,10 +502,11 @@ public function singleVideo(Request $request, $slug)
     // $recaptchaKey = config('services.recaptcha.key');
     // $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.single.video', [
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         // 'tags' => $tags,
         // 'provinces' => $provinces,
@@ -544,7 +547,7 @@ public function videos(Request $request)
 
     $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
 
     return view('news.pages.videos', [
@@ -587,11 +590,12 @@ public function category(Request $request, $category)
     $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.category', [
 
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         'posts' => $posts,
         'provinces' => $provinces,
@@ -635,10 +639,11 @@ public function province(Request $request)
     $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.province', [
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         'lang' => $lang,
         'posts' => $posts,
@@ -685,10 +690,11 @@ public function gallery(Request $request)
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
     $images = Image::with(['gal'])->orderBy('created_at', 'asc')->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.gallery', [
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         'lang' => $lang,
         'posts' => $posts,
@@ -737,10 +743,11 @@ public function contactUs(Request $request)
     $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.contactUs', [
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         'lang' => $lang,
         'posts' => $posts,
@@ -787,10 +794,11 @@ public function aboutUs(Request $request)
     $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.aboutUs', [
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         'lang' => $lang,
         'posts' => $posts,
@@ -840,10 +848,11 @@ public function news(Request $request)
     $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.news', [
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         'lang' => $lang,
         'intNews' => $intNews,
@@ -899,12 +908,13 @@ public function singleProvince(Request $request, $province)
     $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::with('prv')->whereHas('prv', function ($query) use ($province) { $query->where('province', $province); })->orderBy('created_at', 'DESC')->get()->first();
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::with('prv')->whereHas('prv', function ($query) use ($province) { $query->where('province', $province); })->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
 
     return view('news.pages.single.province', [
         'sideAds' => $sideAds,
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         'lang' => $lang,
         'provincesPosts' => $provincesPosts,
@@ -968,10 +978,11 @@ public function home(Request $request)
     $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
     $breakingNews = BreakingNews::where('lang', $lang)->orderBy('created_at', 'desc')->take(6)->get();
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
-    $navAds = Ads::where('position', 'navbar')->orderBy('created_at', 'DESC')->get()->first();
-
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
     return view('news.pages.home', [
         'navAds' => $navAds,
+        'sideAds' => $sideAds,
         'logo' => $logo,
         'lang' => $lang,
         'posts' => $posts,

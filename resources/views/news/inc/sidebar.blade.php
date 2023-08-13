@@ -15,7 +15,7 @@
             </ul>
         </div>
         <div class="widget">
-            @if (Route::currentRouteName() == 'single-provinces' && $sideAds)
+            @if ($sideAds != '')
                 <div>
                     <img class="mb-2" style="width: 377px; height: 334px; object-fit:cover;"
                         src="{{ "$pF/storage/uploads/ads/" . $sideAds->image }}" alt="">
