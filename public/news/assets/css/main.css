@@ -17,6 +17,7 @@ ul {
     background: 0 0;
 }
 a {
+    /* changed color for link  */
     color: #000;
     text-decoration: none;
     -webkit-transition: 300ms;
