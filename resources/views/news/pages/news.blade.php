@@ -1,5 +1,6 @@
 @extends('news.layouts.app')
 
+@if ($lang == 'en') @section('title') International News @endsection @else @section('title') अन्तर्राष्ट्रिय समाचार @endsection @endif
 
 @section('content')
     <div class="container">

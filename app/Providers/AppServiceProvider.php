@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
        //Share to All View
        View::share([
-        'appTitle' => 'Tech Viewed',
+        'appTitle' => 'News',
         'company' => 'FJMlabs',
         'pF' => pF(),
     ]);

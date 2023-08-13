@@ -1,6 +1,6 @@
 @extends('news.layouts.app')
 
-
+@if ($lang == 'en') @section('title') Home @endsection @else @section('title') घर @endsection @endif
 @section('content')
 <div class="container">
     

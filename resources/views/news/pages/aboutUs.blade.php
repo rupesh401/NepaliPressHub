@@ -1,5 +1,6 @@
 @extends('news.layouts.app')
 
+@if ($lang == 'en') @section('title') About Us @endsection @else @section('title') हाम्रोबारे @endsection @endif
 
 @section('content')
 <div class="container">

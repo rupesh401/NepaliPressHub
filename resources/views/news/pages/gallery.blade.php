@@ -1,5 +1,6 @@
 @extends('news.layouts.app')
 
+@if ($lang == 'en') @section('title') Gallery @endsection @else @section('title') ग्यालेरी @endsection @endif
 
 @section('content')
     <div class="container">
@@ -18,7 +19,7 @@
                             <div class="col-sm-12">
                                 <div class="section">
                                     <div class="row">
-                                        @foreach ($intNews as $post)
+                                        @foreach ($posts as $post)
                                             <div class="col-md-6 col-lg-4">
                                                 <div class="post medium-post">
                                                     <div class="entry-header">
@@ -71,28 +72,28 @@
                         @if ($lang == 'en')
                         <div class="pagination-wrapper text-center">
                             <ul class="pagination">
-                                @if ($intNews->onFirstPage())
+                                @if ($posts->onFirstPage())
                                     <li class="disabled">
                                         <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous Page</span>
                                     </li>
                                 @else
                                     <li>
-                                        <a href="{{ $intNews->previousPageUrl() }}" aria-label="Previous">
+                                        <a href="{{ $posts->previousPageUrl() }}" aria-label="Previous">
                                             <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous
                                                 Page</span>
                                         </a>
                                     </li>
                                 @endif
 
-                                @for ($i = 1; $i <= $intNews->lastPage(); $i++)
-                                    <li class="{{ $intNews->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="text-center" href="{{ $intNews->url($i) }}">{{ $i }}</a>
+                                @for ($i = 1; $i <= $posts->lastPage(); $i++)
+                                    <li class="{{ $posts->currentPage() == $i ? 'active' : '' }}">
+                                        <a class="text-center" href="{{ $posts->url($i) }}">{{ $i }}</a>
                                     </li>
                                 @endfor
 
-                                @if ($intNews->hasMorePages())
+                                @if ($posts->hasMorePages())
                                     <li>
-                                        <a href="{{ $intNews->nextPageUrl() }}" aria-label="Next">
+                                        <a href="{{ $posts->nextPageUrl() }}" aria-label="Next">
                                             <span aria-hidden="true">Next Page <i class="fa fa-long-arrow-right"></i></span>
                                         </a>
                                     </li>
@@ -106,27 +107,27 @@
                         @else
                         <div class="pagination-wrapper text-center">
                             <ul class="pagination">
-                                @if ($intNews->onFirstPage())
+                                @if ($posts->onFirstPage())
                                     <li class="disabled">
                                         <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो पृष्ठ</span>
                                     </li>
                                 @else
                                     <li>
-                                        <a href="{{ $intNews->previousPageUrl() }}" aria-label="Previous">
+                                        <a href="{{ $posts->previousPageUrl() }}" aria-label="Previous">
                                             <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो पृष्ठ</span>
                                         </a>
                                     </li>
                                 @endif
 
-                                @for ($i = 1; $i <= $intNews->lastPage(); $i++)
-                                    <li class="{{ $intNews->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="text-center" href="{{ $intNews->url($i) }}">{{ $i }}</a>
+                                @for ($i = 1; $i <= $posts->lastPage(); $i++)
+                                    <li class="{{ $posts->currentPage() == $i ? 'active' : '' }}">
+                                        <a class="text-center" href="{{ $posts->url($i) }}">{{ $i }}</a>
                                     </li>
                                 @endfor
 
-                                @if ($intNews->hasMorePages())
+                                @if ($posts->hasMorePages())
                                     <li>
-                                        <a href="{{ $intNews->nextPageUrl() }}" aria-label="Next">
+                                        <a href="{{ $posts->nextPageUrl() }}" aria-label="Next">
                                             <span aria-hidden="true">अर्को पाना <i class="fa fa-long-arrow-right"></i></span>
                                         </a>
                                     </li>

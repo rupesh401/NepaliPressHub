@@ -7,7 +7,7 @@
     <meta name="description" content>
     <meta name="author" content>
 
-    <title>News Press | News & Blog Template</title>
+    <title> {{ $appTitle }} | @yield('title')</title>
 
     <link href='{{ "$pF/news/assets/css/bootstrap.min.css" }}' rel="stylesheet">
     <link href='{{ "$pF/news/assets/css/font-awesome.min.css" }}' rel="stylesheet">

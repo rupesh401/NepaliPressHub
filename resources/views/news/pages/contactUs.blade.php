@@ -1,12 +1,7 @@
 @extends('news.layouts.app')
 
-@section('title')
-   @if ($lang == 'en')
-   Contact us
-   @else
-   हामीलाई सम्पर्क गर्नुहोस
-   @endif
-@endsection 
+@section('title')  @if ($lang == 'en')  Contact us  @else हामीलाई सम्पर्क गर्नुहोस  @endif @endsection 
+
 @section('content')
 <div class="container">
     <div class="page-breadcrumbs">

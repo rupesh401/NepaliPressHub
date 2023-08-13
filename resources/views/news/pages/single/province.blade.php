@@ -1,5 +1,6 @@
 @extends('news.layouts.app')
 
+@section('title') {{ $province }} @endsection
 
 @section('content')
     <div class="container">
