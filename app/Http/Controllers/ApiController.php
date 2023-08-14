@@ -69,7 +69,7 @@ class ApiController extends Controller
                 $updateAds->position = $request->position;
                 $updateAds->image = $request->image;
                 $updateAds->link = $request->link;
-    
+
                 if ($updateAds->update()) {
                     ProvAds::where('ads_id', $request->id)->delete();
                     if ($request->province) {
@@ -91,13 +91,13 @@ class ApiController extends Controller
                     return response()->json(['status' => 'failed', 'status_code' => 200]);
                 }
             }
-            } catch (\Throwable $th) {
-                DB::rollback();
-                throw $th;
-            } catch (\Exception $th) {
-                DB::rollback();
-                throw $th;
-            }
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
+        } catch (\Exception $th) {
+            DB::rollback();
+            throw $th;
+        }
     }
 
     public function addNewAds(Request $request)
@@ -122,13 +122,13 @@ class ApiController extends Controller
             } else {
                 return response()->json(['status' => 'failed', 'status_code' => 200]);
             }
-            } catch (\Throwable $th) {
-                DB::rollback();
-                throw $th;
-            } catch (\Exception $th) {
-                DB::rollback();
-                throw $th;
-            }
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
+        } catch (\Exception $th) {
+            DB::rollback();
+            throw $th;
+        }
     }
 
     public function changePassword(Request $request)
@@ -318,7 +318,7 @@ class ApiController extends Controller
 
         return $picture;
     }
-    
+
     public function uploadVideoImage(Request $request)
     {
         $picture = time() . '.' . $request->file->extension();
@@ -333,7 +333,7 @@ class ApiController extends Controller
         $uniqueFilename = time() . '_' . rand(1000, 9999) . '.' . $request->file->extension();
         $path = 'uploads/gallery/images';
         $filePath = $request->file->storeAs($path, $uniqueFilename, 'storage');
-    
+
         return $uniqueFilename;
     }
 
@@ -632,6 +632,25 @@ class ApiController extends Controller
                 $deleteTag->delete();
             }
             $tag->delete();
+            return response()->json(['status' => 'success', 'status_code' => 200]);
+        }
+    }
+
+    public function deleteAlbum(Request $request)
+    {
+        $album = Gallery::find($request->id);
+
+        if (!$album) {
+            return response()->json(['status' => 'failed', 'status_code' => 404]);
+        } else {
+            $deleteGallery = GalMage::where('gallery_id', $request->id)->get(); // Retrieve the collection
+            foreach ($deleteGallery as $galleryItem) {
+                $imageId = $galleryItem->image_id;
+                Image::where('id', $imageId)->delete(); // Delete the associated image
+                $galleryItem->delete(); // Delete the GalMage record
+            }
+
+            $album->delete();
             return response()->json(['status' => 'success', 'status_code' => 200]);
         }
     }

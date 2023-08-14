@@ -58,7 +58,7 @@
                                                             <Icon type="ios-create-outline" color="green" size="25" />
                                                         </Button>
                                                         <Button v-if="$store.state.userInfos.level == 1"
-                                                            @click="deleteAlbum(img.id, img.album_title)">
+                                                            @click="deleteAlbum(img.id, img.album_title, img.img)">
                                                             <Icon type="ios-trash-outline" color="red" size="25" />
                                                         </Button>
                                                     </td>
@@ -83,7 +83,8 @@
             </template>
             <div style="text-align:center">
                 <p><strong>Are you sure you want to delete this <i>{{ image.album_title }}</i> album?</strong></p>
-                <p><strong>This action cannot be undone. Once deleted, the album will be permanently removed.</strong></p>
+                <p><strong>This action cannot be undone. Once deleted, the album and all images will be permanently
+                        removed.</strong></p>
             </div>
             <div slot="footer">
                 <Button @click="confirmDeleteAlbum()" type="error">
@@ -281,6 +282,7 @@ export default {
 
         async confirmDeleteAlbum() {
             this.isSaving = true;
+            await this.deleteMultipleImage();
             var data = { id: this.albumId };
             const res = await this.callApi("post", "/delete_album", data);
             if (res.data.status_code === 200) {
@@ -296,11 +298,28 @@ export default {
 
         },
 
-        deleteAlbum(id, album_title) {
+        deleteAlbum(id, album_title, images) {
             this.deleteAlbumModal = true;
             this.image.album_title = album_title;
             this.albumId = id;
+            this.images = images
         },
+        async deleteMultipleImage() {
+            this.images.forEach(async (imageToDelete) => {
+                const path = this.url_api + "uploads/gallery/images/" + imageToDelete.image;
+                const res = await this.callApi("post", "/delete_images", { path: path });
+
+                if (res.data.success === 1) {
+                    this.images = this.images.filter(img => img.image !== imageToDelete.image);
+                    console.log(`Image '${imageToDelete.image}' removed`);
+                } else {
+                    console.log(`Image '${imageToDelete.image}' was not deleted on the server`);
+                }
+            });
+
+            this.getImages();
+        },
+
         async deleteSingleImage(id, image) {
             var path = this.url_api + "uploads/gallery/images/" + image;
             const res = await this.callApi("post", "/delete_images", { path: path });
@@ -375,6 +394,7 @@ export default {
                         this.addingImageModal = false;
                         this.isSaving = false;
                         this.image.image = "";
+                        this.image.album_title = "";
                         this.$refs[name].resetFields();
                         return this.s("New images was added successfully");
                     } else {
@@ -444,6 +464,7 @@ export default {
                 (this.viewingImageModal = false),
                 (this.deleteAlbumModal = false),
                 (this.image.image = "");
+                (this.image.album_title = "");
             this.$refs[name].resetFields();
         },
     },
