@@ -5,7 +5,17 @@
     <div class="bottom-widgets pt-5">
         <div class="container">
             <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xm-4">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xm-12">
+                    <div class="widget">
+                        <div class="navbar-header float-left">
+                            <a class="navbar-brand" href="{{ route('home') }}">
+                                <img class="main-logo img-fluid" src='{{ "$pF/storage/site/" . $logo->logo }}'
+                                    alt="logo">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xm-12">
                     <div class="widget">
                         @if ($lang == 'en')
                         <h1 class="section- title">Follow Us</h1>
@@ -28,31 +38,13 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xm-4">
-                    <div class="widget">
-                        <h2>Provinces</h2>
-                        @php
-                            $provincesChunks = $provinces->chunk(4);
-                        @endphp
-
-                        @foreach ($provincesChunks as $chunk)
-                            <ul>
-                                @foreach ($chunk as $province)
-                                    <li><a
-                                            href="{{ route('single-provinces', $province->province) }}">{{ $province->province }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endforeach
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xm-4">
+                <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xm-12">
                     <div class="widget">
                         @if ($sideAds != '')
                             <div>
-                                <a href="{{ $sideAds->link }}" target="_blank">
-                                <img style="width: 300px; height: 250px; object-fit:cover;"
-                                    src="{{ "$pF/storage/uploads/ads/" . $sideAds->image }}" alt="">
+                                <a href="{{ $footerAds->link }}" target="_blank">
+                                <img style="width: 680px; height: 90px; object-fit:cover;"
+                                    src="{{ "$pF/storage/uploads/ads/" . $footerAds->image }}" alt="">
                                 </a>
                             </div>
                         @endif

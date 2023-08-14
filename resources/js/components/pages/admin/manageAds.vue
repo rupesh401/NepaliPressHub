@@ -46,6 +46,7 @@
                                                 <Option value="sidebar-home">Sidebar Home</Option>
                                                 <Option value="home-between">Home Between</Option>
                                                 <Option value="navbar">Navbar</Option>
+                                                <Option value="footer">Footer</Option>
                                             </Select>
                                             </Col>
                                             <Col span="8" class="p-4 m-4">
@@ -190,6 +191,7 @@
                                 <Option value="sidebar-home">Sidebar Home</Option>
                                 <Option value="home-between">Home Between</Option>
                                 <Option value="navbar">Navbar</Option>
+                                <Option value="footer">Footer</Option>
                             </Select>
                         </FormItem>
                         </Col>
@@ -200,6 +202,7 @@
                                 <Option value="sidebar-home">Sidebar Home</Option>
                                 <Option value="home-between">Home Between</Option>
                                 <Option value="navbar">Navbar</Option>
+                                <Option value="footer">Footer</Option>
                             </Select>
                         </FormItem>
                         </Col>
@@ -259,6 +262,7 @@
                                 <Option value="sidebar-home">Sidebar Home</Option>
                                 <Option value="home-between">Home Between</Option>
                                 <Option value="navbar">Navbar</Option>
+                                <Option value="footer">Footer</Option>
                             </Select>
                         </FormItem>
                         </Col>
@@ -269,6 +273,7 @@
                                 <Option value="sidebar-home">Sidebar Home</Option>
                                 <Option value="home-between">Home Between</Option>
                                 <Option value="navbar">Navbar</Option>
+                                <Option value="footer">Footer</Option>
                             </Select>
                         </FormItem>
                         </Col>
