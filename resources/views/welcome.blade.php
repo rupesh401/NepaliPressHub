@@ -29,7 +29,7 @@
     <link href="{{ ("$pF/dash/assets/css/style.css") }}" rel="stylesheet">
 </head>
 
-<body class="@if (request()->getRequestUri() == '/login') bg-primary @else body @endif">
+<body class="{{ request()->getRequestUri() === '/login' ? 'bg-primary' : 'body' }} @yield('body-classes')">
     <div id="app">
         @if(Auth::check())
             <mainapps :user="{{ Auth::user() }}"></mainapps>
