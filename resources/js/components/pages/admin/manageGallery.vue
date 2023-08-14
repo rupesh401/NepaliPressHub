@@ -269,7 +269,6 @@ export default {
             var data = { id: id };
             const res = await this.callApi("post", "/delete_image_in_album", data);
             if (res.data.status_code === 200) {
-                this.getImages();
                 this.deleteSingleImage(id, image);
                 this.deleteAlbumModal = false;
                 this.isSaving = false;
@@ -303,10 +302,11 @@ export default {
             this.albumId = id;
         },
         async deleteSingleImage(id, image) {
-
             var path = this.url_api + "uploads/gallery/images/" + image;
             const res = await this.callApi("post", "/delete_images", { path: path });
             if (res.data.success == 1) {
+                this.getImages();
+                this.image.image = this.image.image.filter(img => img.id !== id);
                 console.log("image removed");
             } else {
                 console.log("image was not deleted in the server");

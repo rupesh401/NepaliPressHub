@@ -1,14 +1,20 @@
 @extends('news.layouts.app')
 
-@if ($lang == 'en') @section('title') International News @endsection @else @section('title') अन्तर्राष्ट्रिय समाचार @endsection @endif
+@if ($lang == 'en') @section('title')
+    International News
+@endsection
+@else
+@section('title')
+    अन्तर्राष्ट्रिय समाचार
+    @endsection @endif
 
 @section('content')
     <div class="container">
         <div class="page-breadcrumbs">
             @if ($lang == 'en')
-            <h1 class="section-title">International News</h1>
+                <h1 class="section-title">International News</h1>
             @else
-            <h1 class="section-title">अन्तर्राष्ट्रिय समाचार</h1>
+                <h1 class="section-title">अन्तर्राष्ट्रिय समाचार</h1>
             @endif
         </div>
         <div class="section">
@@ -20,124 +26,134 @@
                                 <div class="section">
                                     <div class="row">
                                         @foreach ($intNews as $post)
-                                            <div class="col-md-6 col-lg-4">
-                                                <div class="post medium-post">
-                                                    <div class="entry-header">
-                                                        <div class="entry-thumbnail">
-                                                            <img class="img-fluid"
-                                                                style="width: 255px; height: 146px; object-fit:cover;"
-                                                                src="{{ "$pF/storage/uploads/posts/".$post->image }}"
-                                                                alt="Image" />
+                                            @if ($post->image)
+                                                <div class="col-md-6 col-lg-4">
+                                                    <div class="post medium-post">
+                                                        <div class="entry-header">
+                                                            <div class="entry-thumbnail">
+                                                                <img class="img-fluid"
+                                                                    style="width: 255px; height: 146px; object-fit:cover;"
+                                                                    src="{{ "$pF/storage/uploads/posts/" . $post->image }}"
+                                                                    alt="Image" />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="post-content">
-                                                        <div class="entry-meta">
-                                                            <ul class="list-inline">
-                                                                <li class="publish-date">
-                                                                    <a><i class="fa fa-clock-o"></i>{{ $post->created_at->format('F d, Y') }}</a>
-                                                                </li>
-                                                                <li class="views">
-                                                                    <a><i class="fa fa-eye"></i>{{ $post->views }}</a>
-                                                                </li>
-                                                                <li class="loves">
-                                                                    <a><i class="fa fa-heart-o"></i>{{ $post->likes }}</a>
-                                                                </li>
-                                                            </ul>
+                                                        <div class="post-content">
+                                                            <div class="entry-meta">
+                                                                <ul class="list-inline">
+                                                                    <li class="publish-date">
+                                                                        <a><i
+                                                                                class="fa fa-clock-o"></i>{{ $post->created_at->format('F d, Y') }}</a>
+                                                                    </li>
+                                                                    <li class="views">
+                                                                        <a><i class="fa fa-eye"></i>{{ $post->views }}</a>
+                                                                    </li>
+                                                                    <li class="loves">
+                                                                        <a><i
+                                                                                class="fa fa-heart-o"></i>{{ $post->likes }}</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <h2 class="entry-title">
+                                                                <a href="{{ route('single-post', $post->slug) }}">
+                                                                    @php
+                                                                        $strippedContent = strip_tags($post->title);
+                                                                        $truncatedContent = mb_substr($strippedContent, 0, 25, 'UTF-8');
+                                                                        $remainingCharacters = mb_strlen($strippedContent, 'UTF-8') - mb_strlen($truncatedContent, 'UTF-8');
+                                                                        
+                                                                        // Display the truncated content
+                                                                        echo $truncatedContent;
+                                                                        
+                                                                        // If there are remaining characters, show an ellipsis
+                                                                        if ($remainingCharacters > 0) {
+                                                                            echo '...';
+                                                                        }
+                                                                    @endphp
+                                                                </a>
+                                                            </h2>
                                                         </div>
-                                                        <h2 class="entry-title">
-                                                            <a href="{{ route('single-post', $post->slug) }}">
-                                                                @php
-                                                                $strippedContent = strip_tags($post->title);
-                                                                $truncatedContent = mb_substr($strippedContent, 0, 25, 'UTF-8');
-                                                                $remainingCharacters = mb_strlen($strippedContent, 'UTF-8') - mb_strlen($truncatedContent, 'UTF-8');
-                                                                
-                                                                // Display the truncated content
-                                                                echo $truncatedContent;
-                                                                
-                                                                // If there are remaining characters, show an ellipsis
-                                                                if ($remainingCharacters > 0) {
-                                                                    echo '...';
-                                                                }
-                                                            @endphp
-                                                            </a>
-                                                        </h2>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
                         @if ($lang == 'en')
-                        <div class="pagination-wrapper text-center">
-                            <ul class="pagination">
-                                @if ($intNews->onFirstPage())
-                                    <li class="disabled">
-                                        <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous Page</span>
-                                    </li>
-                                @else
-                                    <li>
-                                        <a href="{{ $intNews->previousPageUrl() }}" aria-label="Previous">
+                            <div class="pagination-wrapper text-center">
+                                <ul class="pagination">
+                                    @if ($intNews->onFirstPage())
+                                        <li class="disabled">
                                             <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous
                                                 Page</span>
-                                        </a>
-                                    </li>
-                                @endif
+                                        </li>
+                                    @else
+                                        <li>
+                                            <a href="{{ $intNews->previousPageUrl() }}" aria-label="Previous">
+                                                <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous
+                                                    Page</span>
+                                            </a>
+                                        </li>
+                                    @endif
 
-                                @for ($i = 1; $i <= $intNews->lastPage(); $i++)
-                                    <li class="{{ $intNews->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="text-center" href="{{ $intNews->url($i) }}">{{ $i }}</a>
-                                    </li>
-                                @endfor
+                                    @for ($i = 1; $i <= $intNews->lastPage(); $i++)
+                                        <li class="{{ $intNews->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="text-center" href="{{ $intNews->url($i) }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
 
-                                @if ($intNews->hasMorePages())
-                                    <li>
-                                        <a href="{{ $intNews->nextPageUrl() }}" aria-label="Next">
+                                    @if ($intNews->hasMorePages())
+                                        <li>
+                                            <a href="{{ $intNews->nextPageUrl() }}" aria-label="Next">
+                                                <span aria-hidden="true">Next Page <i
+                                                        class="fa fa-long-arrow-right"></i></span>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li class="disabled">
                                             <span aria-hidden="true">Next Page <i class="fa fa-long-arrow-right"></i></span>
-                                        </a>
-                                    </li>
-                                @else
-                                    <li class="disabled">
-                                        <span aria-hidden="true">Next Page <i class="fa fa-long-arrow-right"></i></span>
-                                    </li>
-                                @endif
-                            </ul>
-                        </div>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
                         @else
-                        <div class="pagination-wrapper text-center">
-                            <ul class="pagination">
-                                @if ($intNews->onFirstPage())
-                                    <li class="disabled">
-                                        <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो पृष्ठ</span>
-                                    </li>
-                                @else
-                                    <li>
-                                        <a href="{{ $intNews->previousPageUrl() }}" aria-label="Previous">
-                                            <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो पृष्ठ</span>
-                                        </a>
-                                    </li>
-                                @endif
+                            <div class="pagination-wrapper text-center">
+                                <ul class="pagination">
+                                    @if ($intNews->onFirstPage())
+                                        <li class="disabled">
+                                            <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो
+                                                पृष्ठ</span>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <a href="{{ $intNews->previousPageUrl() }}" aria-label="Previous">
+                                                <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो
+                                                    पृष्ठ</span>
+                                            </a>
+                                        </li>
+                                    @endif
 
-                                @for ($i = 1; $i <= $intNews->lastPage(); $i++)
-                                    <li class="{{ $intNews->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="text-center" href="{{ $intNews->url($i) }}">{{ $i }}</a>
-                                    </li>
-                                @endfor
+                                    @for ($i = 1; $i <= $intNews->lastPage(); $i++)
+                                        <li class="{{ $intNews->currentPage() == $i ? 'active' : '' }}">
+                                            <a class="text-center" href="{{ $intNews->url($i) }}">{{ $i }}</a>
+                                        </li>
+                                    @endfor
 
-                                @if ($intNews->hasMorePages())
-                                    <li>
-                                        <a href="{{ $intNews->nextPageUrl() }}" aria-label="Next">
-                                            <span aria-hidden="true">अर्को पाना <i class="fa fa-long-arrow-right"></i></span>
-                                        </a>
-                                    </li>
-                                @else
-                                    <li class="disabled">
-                                        <span aria-hidden="true">अर्को पाना <i class="fa fa-long-arrow-right"></i></span>
-                                    </li>
-                                @endif
-                            </ul>
-                        </div>
+                                    @if ($intNews->hasMorePages())
+                                        <li>
+                                            <a href="{{ $intNews->nextPageUrl() }}" aria-label="Next">
+                                                <span aria-hidden="true">अर्को पाना <i
+                                                        class="fa fa-long-arrow-right"></i></span>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li class="disabled">
+                                            <span aria-hidden="true">अर्को पाना <i
+                                                    class="fa fa-long-arrow-right"></i></span>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
                         @endif
                     </div>
                 </div>
