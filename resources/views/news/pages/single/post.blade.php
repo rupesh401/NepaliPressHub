@@ -17,16 +17,18 @@
                             <div class="left-content">
                                 <div class="details-news">
                                     <div class="post">
-                                        <div class="entry-header">
-                                            <div class="entry-thumbnail">
-                                                <img
-                                                    class="img-fluid"
-                                                    style="width: 825px; height: 550px; object-fit: cover;"
-                                                    src="{{ ("$pF/storage/uploads/posts/".$singlePost->image) }}"
-                                                    alt="Image"
-                                                />
-                                            </div>
-                                        </div>
+                                        @if ($singlePost->image)
+                                            <div class="entry-header">
+                                                <div class="entry-thumbnail">
+                                                    <img
+                                                        class="img-fluid"
+                                                        style="width: 825px; height: 550px; object-fit: cover;"
+                                                        src="{{ ("$pF/storage/uploads/posts/".$singlePost->image) }}"
+                                                        alt="Image"
+                                                    />
+                                                </div>
+                                            </div> 
+                                        @endif
                                         <div class="post-content">
                                             <div class="entry-meta">
                                                 <ul class="list-inline">

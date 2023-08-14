@@ -18,7 +18,7 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xm-12">
                     <div class="widget">
                         @if ($lang == 'en')
-                        <h1 class="section- title">Follow Us</h1>
+                        <h1 style="color: white; font-size: 20px;" class="title">Follow Us</h1>
                         @else
                         <h1 class="section- title">हमीलाई पछ्याउनुहोस</h1>
                         @endif
