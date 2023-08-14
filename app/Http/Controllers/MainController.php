@@ -13,6 +13,7 @@ use App\Contact;
 use App\Email;
 use App\Gallery;
 use App\Image;
+use App\Mail\ContactMail;
 use App\MySite;
 use App\PostComment;
 use App\Province;
@@ -121,6 +122,16 @@ public function postMessage(Request $request)
     $postEmail->subject = $request->subject;
     $postEmail->message = $request->message;
     $postEmail->status = 'unread';
+
+
+    $data = [
+        'name' => $request->name,
+        'email' => $request->email,
+        'subject' => $request->subject,
+        'message' => $request->message,
+    ];
+
+    Mail::to('your@email.com')->send(new ContactMail($data));
 
     if ($postEmail->save()) {
         if ($request->cookie('language') == 'en') {
