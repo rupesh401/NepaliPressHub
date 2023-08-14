@@ -2428,39 +2428,39 @@ ul.list-inline li:last-child {
 }
 
 .nav-add > li > a {
-	padding-inline: 20px;
+    padding-inline: 20px;
 }
 
 .nav-add > li > a:before {
-content: "";
-color: #000 !important;
-display: block;
-position: absolute;
-left: 0;
-height: 4px;
-width: 100%;
-background-color: transparent;
-transition: background-color 0.3s ease;
-top: 0;
+    content: "";
+    color: #000 !important;
+    display: block;
+    position: absolute;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    top: 0;
 }
 .nav-add > li > a:hover {
-text-decoration: none;
+    text-decoration: none;
 }
 .nav-add > li > a:hover:before {
-background-color: #f26522;
+    background-color: #f26522;
 }
 .nav-add > li.active > a {
-text-decoration: none;
+    text-decoration: none;
 }
 .nav-add > li.active > a:before {
-background-color: #f26522;
+    background-color: #f26522;
 }
 .main-nav .header-search-form.header-search-form--right {
-	float: right;
+    float: right;
 }
-.main-nav .header-search-form{
-	padding: 11px;
-	background-color: transparent;
+.main-nav .header-search-form {
+    padding: 11px;
+    background-color: transparent;
 }
 .header-search-form {
     padding: 12px 0;
@@ -2510,18 +2510,18 @@ input.header-mobile__search-control {
 @media (min-width: 992px) {
     input.header-mobile__search-control {
         background-color: #fff;
-        border-color: #F2F3F5;
+        border-color: #f2f3f5;
     }
 }
 input.header-mobile__search-control:focus {
     color: black;
-    background-color: #F2F3F5;
-    border-color: #F2F3F5;
+    background-color: #f2f3f5;
+    border-color: #f2f3f5;
 }
 @media (min-width: 992px) {
     input.header-mobile__search-control:focus {
         background-color: #fff;
-        border-color: #F2F3F5;
+        border-color: #f2f3f5;
     }
 }
 .header-mobile__search-submit {
@@ -2552,7 +2552,11 @@ input.header-mobile__search-control:focus {
     vertical-align: top;
 }
 
-.ql-video  {
-		width: 100%;
-		height: 450px;
-	}
+.ql-video {
+    width: 100%;
+    height: 450px;
+}
+.entry-content iframe {
+    width: 100%;
+    height: 450px;
+}
