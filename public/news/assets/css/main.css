@@ -18,12 +18,24 @@ ul {
 }
 a {
     /* changed color for link */
-    color: #000;
+    color: #090808;
     text-decoration: none;
     -webkit-transition: 300ms;
     -moz-transition: 300ms;
     -o-transition: 300ms;
     transition: 300ms;
+}
+nav > ul > li > a {
+    /* changed color for link */
+    color: #090808;
+    text-decoration: none;
+    -webkit-transition: 300ms;
+    -moz-transition: 300ms;
+    -o-transition: 300ms;
+    transition: 300ms;
+}
+.top-bar {
+    color: #090808;
 }
 a:focus,
 a:hover {
@@ -374,7 +386,7 @@ img.mfp-img {
     display: block;
 }
 .dropdown-menu > li > a {
-    color: #aeaeae;
+    color: black;
 }
 #mainmenu .mega-menu {
     min-width: 100%;
@@ -424,7 +436,7 @@ img.mfp-img {
     margin-left: 20px;
     padding-left: 20px;
     line-height: 60px;
-    color: #525b6e;
+    color: #101010;
     font-size: 14px;
 }
 .language-dropdown .dropdown-menu {
@@ -439,7 +451,7 @@ img.mfp-img {
 }
 .language-dropdown .dropdown-menu > li > a:focus,
 .language-dropdown .dropdown-menu > li > a:hover {
-    color: #262626;
+    color: #e21818;
     text-decoration: none;
     background-color: #f5f5f5;
 }
@@ -992,7 +1004,7 @@ img.mfp-img {
     margin-top: 5px !important;
 }
 .entry-content {
-    color: #888;
+    color: #000;
     font-size: 14px;
     font-weight: 300;
 }
@@ -2328,7 +2340,10 @@ img.mfp-img {
     overflow: hidden;
 }
 .ragister-account label {
-    color: #999;
+    color: #000;
+}
+label {
+    color: #000;
 }
 .ragister-account .btn-primary {
     margin-top: 25px;
@@ -2485,6 +2500,12 @@ ul.list-inline li:last-child {
     .header-search-form {
         width: 200px;
     }
+}
+p > a {
+    color: white;
+}
+.change-text {
+    color: black;
 }
 .header-search-form .search-form {
     position: relative;
