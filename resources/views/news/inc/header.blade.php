@@ -89,8 +89,8 @@
                                         <a href="{{ route('gallery') }}">Gallery</a></li>
                                     <li
                                         class="sports mr-4
-                                @if (Route::currentRouteName() == 'about-us') active @endif">
-                                        <a href="{{ route('about-us') }}">About Us</a></li>
+                                @if (Route::currentRouteName() == 'our-story') active @endif">
+                                        <a href="{{ route('our-story') }}">Our Story</a></li>
                                     <li
                                         class="sports mr-4
                                 @if (Route::currentRouteName() == 'contact-us') active @endif">
@@ -190,7 +190,7 @@
                                         </ul>
                                     </li>
                                     <li class="sports mr-5"><a href="{{ route('gallery') }}">ग्यालेरी</a></li>
-                                    <li class="sports mr-5"><a href="{{ route('about-us') }}">हाम्रोबारे</a></li>
+                                    <li class="sports mr-5"><a href="{{ route('our-story') }}">हाम्रो कथा</a></li>
                                     <li class="sports mr-5"><a href="{{ route('contact-us') }}">सम्पर्क गर्नुहोस</a>
                                     </li>
                                     <!-- Header Search Form -->

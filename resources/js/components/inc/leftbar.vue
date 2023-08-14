@@ -80,9 +80,9 @@
                             <i class="ti-email"></i> Contacts
                         </router-link>
                     </li>
-                    <li  :class="$route.path === '/manage_about_us' ? 'active' : ''">
-                        <router-link to="manage_about_us">
-                            <i class="ti-info-alt"></i> About Info
+                    <li  :class="$route.path === '/manage_our_story' ? 'active' : ''">
+                        <router-link to="manage_our_story">
+                            <i class="ti-info-alt"></i> Our Story
                         </router-link>
                     </li>
                     <li class="label">Control</li>

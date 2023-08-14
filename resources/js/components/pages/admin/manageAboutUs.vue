@@ -21,7 +21,7 @@
                                         <li>
                                             <router-link to="dashboard">Dashboard</router-link>
                                         </li>
-                                        <li class="active">About us</li>
+                                        <li class="active">Our Story</li>
                                     </ol>
                                 </div>
                             </div>
@@ -35,19 +35,27 @@
                                     <div class="order-list-item">
                                         <template>
                                             <div class="row">
-                                                <div :class="{ 'col-lg-8 col-md-8 col-sm-12 col-xs-12 offset-lg-2 offset-md-2': hideAbout, 'col-lg-6 col-md-6 col-sm-12 col-xm-12': !hideAbout }">
+                                                <div
+                                                    :class="{ 'col-lg-8 col-md-8 col-sm-12 col-xs-12 offset-lg-2 offset-md-2': hideAbout, 'col-lg-6 col-md-6 col-sm-12 col-xm-12': !hideAbout }">
                                                     <template>
                                                         <Form ref="addFormValidation" :model="about" :rules="ruleValidate">
                                                             <Row>
-                                                                <Col span="23">
-                                                                <FormItem label="About Us Detail"
-                                                                    prop="about_us">
-                                                                    <Input :readonly="inputDisable"
-                                                                        v-model="about.about_us" type="textarea"
+                                                                <Col span="24">
+                                                                <template>
+                                                                <FormItem label="Our Story" prop="about_us">
+                                                                    <vue-editor useCustomImageHandler
+                                                                        @image-added="handleImageAdded"
+                                                                        @image-removed="handleImageRemoved" ref="editors"
+                                                                        v-model="about.about_us" />
+                                                                </FormItem>
+                                                                </template>
+                                                                </Col>
+                                                                <!-- <Col span="23">
+                                                                    <Input :readonly="inputDisable" v-model="about.about_us"
+                                                                        type="textarea"
                                                                         :autosize="{ minRows: 6, maxRows: 14 }"
                                                                         placeholder="Write the details about the website etc"></Input>
-                                                                </FormItem>
-                                                                </Col>
+                                                                </Col> -->
                                                                 <Col class="mt-4" span="23">
                                                                 <Button @click="addAbout('addFormValidation')"
                                                                     type="primary" :disabled="inputDisable"
@@ -65,15 +73,17 @@
                                                         <div v-if="hideAbout == false"
                                                             class="table-responsive social_media_table">
                                                             <div v-if="about.about_us">
-                                                                <h1 v-if="about.about_us">Detail About Us</h1> 
+                                                                <h1 v-if="about.about_us">Our Story</h1>
                                                                 <hr v-if="about.about_us" /><br><br>
-                                                                <p>{{ about.about_us }}</p><br><br>
+                                                                <p v-html="about.about_us"></p><br><br>
+                                                                <!-- <p>{{ about.about_us }}</p><br><br> -->
 
                                                                 <Col span="22" offset="1" class="mb-4">
                                                                 <Button @click="
                                                                     (inputDisable = false),
                                                                     (hideAbout = true)
-                                                                    " type="primary" :loading="isSaving" long ghost size="large">
+                                                                    " type="primary" :loading="isSaving" long ghost
+                                                                    size="large">
                                                                     <Icon size="18" />
                                                                     Edit
                                                                 </Button>
@@ -100,8 +110,9 @@
 import Navbar from "../../inc/navbar";
 import Leftbar from "../../inc/leftbar";
 import Footer from "../../inc/footer";
+import { VueEditor } from "vue2-editor";
 export default {
-    components: { Navbar, Leftbar, Footer },
+    components: { Navbar, Leftbar, Footer, VueEditor },
     data() {
         return {
             inputDisable: false,
@@ -139,6 +150,36 @@ export default {
     },
 
     methods: {
+        async handleImageRemoved(image) {
+            if (this.clearType == false) {
+                const url = image;
+                const path = url.split("://")[1];
+                const subPath = path.split("/").slice(1).join("/");
+                const datas = { path: subPath };
+                const res = await this.callApi("post", "/delete_images", datas);
+                if (res.data.success == 1) {
+                    console.log("image removed");
+                } else {
+                    console.log("image was not deleted in the server");
+                }
+            } else {
+                console.log("Image should be available in server");
+            }
+        },
+        async handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+            var formData = new FormData();
+            formData.append("image", file);
+            formData.append("path", "uploads/posts");
+            const res = await this.callApi("post", "/uploads_images", formData);
+            if (res.data.success == 1) {
+                const url = res.data.file.url; // Get  from response
+                Editor.insertEmbed(cursorLocation, "image", url);
+                resetUploader();
+            } else {
+                console.log(res);
+            }
+        },
+
         async handleSuccess2(res, file) {
             console.log("succes twoo man");
             if (this.deleteImageTwo) {

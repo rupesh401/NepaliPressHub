@@ -30,7 +30,7 @@ const routes = [
     { path: '/my_profile', component: profile },
     { path: '/manage_posts', component: managePost },
     { path: '/manage_contacts', component: contact },
-    { path: '/manage_about_us', component: aboutUs },
+    { path: '/manage_our_story', component: aboutUs },
     { path: '/manage_tags', component: manageTags },
     { path: '/manage_videos', component: manageVideo },
     { path: '/manage_categories', component: manageCategory },

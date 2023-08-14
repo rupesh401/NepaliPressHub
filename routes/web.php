@@ -60,7 +60,7 @@ Route::get('/posts/{link}', 'MainController@singlePost')->name('single-post');
  * It Redirect to controller and returns about us page
  */
 
-Route::get('/about_us', 'MainController@aboutUs')->name('about-us');
+Route::get('/our-story', 'MainController@aboutUs')->name('our-story');
 
 /**
  * It Redirect to controller and returns Recent Posts page
@@ -106,7 +106,7 @@ Route::get('/gallery', 'MainController@gallery')->name('gallery');
 /**
  * It Redirect to controller and return About us page
  */
- Route::get('/about-us', 'MainController@aboutUs')->name('about-us');
+//  Route::get('/about-us', 'MainController@aboutUs')->name('our-story');
 
  /**
  * It Redirect to controller and return Contact us page
