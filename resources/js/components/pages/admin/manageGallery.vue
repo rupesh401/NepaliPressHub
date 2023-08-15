@@ -54,7 +54,7 @@
                                                         <Button @click="viewImages(img.id, img.album_title, img.img)">
                                                             <Icon type="ios-eye-outline" color="blue" size="25" />
                                                         </Button>
-                                                        <Button @click="editTagModal(i, img.id)">
+                                                        <Button @click="editImageModal(img.id, img.album_title, img.img)">
                                                             <Icon type="ios-create-outline" color="green" size="25" />
                                                         </Button>
                                                         <Button v-if="$store.state.userInfos.level == 1"
@@ -109,8 +109,8 @@
                                     style="width: 12px; height: 12px; font-size: 8px;" type="error" ghost shape="circle"
                                     size="small" icon="md-close" class="close-icon">
                                 </Button>
-                                <img :src="`${url_api}uploads/gallery/images/${img.image}`" fit="cover" width="100%"
-                                    height="100%" />
+                                <img :src="`${url_api}uploads/gallery/images/${img.image}`" width="100%" height="100px"
+                                    fit="cover" />
                             </Card>
                             </Col>
                         </Row>
@@ -125,13 +125,13 @@
             </div>
         </Modal>
 
-        <Modal v-model="addingImageModal" title="Add Image" width="40%">
+        <Modal v-model="addingImageModal" title="Add Image" width="60%">
             <template>
                 <Form ref="addFormValidation" :model="image" :rules="ruleValidate">
                     <Row>
                         <Col span="24">
                         <FormItem label="Album name" prop="title">
-                            <Input v-model="image.album_title" type="text" placeholder="Sports News 2023"></Input>
+                            <Input v-model="image.album_title" type="text" placeholder="New Album"></Input>
                         </FormItem>
                         </Col>
                         <Col span="24">
@@ -146,9 +146,12 @@
                             </Upload>
                         </template>
                         </Col>
-                        <!-- <Col span="24" v-if="image.image">
-                        <img :src="`${url_api}uploads/gallery/images/${image.image}`" class="img-fluid" />
-                        </Col> -->
+                        <Col v-for="(img, i) in image.image" :key="i" span="6">
+                        <Card class="image-card">
+                            <img :src="`${url_api}uploads/gallery/images/${img}`"
+                                style="width: 100%; height: 100px; object-fit: cover;" />
+                        </Card>
+                        </Col>
                     </Row>
                 </Form>
             </template>
@@ -164,13 +167,13 @@
             </div>
         </Modal>
 
-        <Modal v-model="editingImageModal" title="Edit Image Info" width="40%">
+        <Modal v-model="editingImageModal" title="Edit Image Info" width="60%">
             <template>
                 <Form ref="editFormValidation" :model="image" :rules="ruleValidate">
                     <Row>
                         <Col span="24">
                         <FormItem label="Album name" prop="title">
-                            <Input v-model="image.album_title" type="text" placeholder="Sports News 2023"></Input>
+                            <Input v-model="image.album_title" type="text" placeholder="New Album"></Input>
                         </FormItem>
                         </Col>
                         <Col span="24">
@@ -185,9 +188,12 @@
                             </Upload>
                         </template>
                         </Col>
-                        <!-- <Col span="24" v-if="image.image">
-                        <img :src="`${url_api}uploads/gallery/images/${image.image}`" class="img-fluid" />
-                        </Col> -->
+                        <Col v-for="(img, i) in image.image" :key="i" span="6">
+                        <Card class="image-card">
+                            <img :src="`${url_api}uploads/gallery/images/${img}`"
+                                style="width: 100%; height: 100px; object-fit: cover;" />
+                        </Card>
+                        </Col>
                     </Row>
                 </Form>
             </template>
@@ -338,15 +344,15 @@ export default {
             }
         },
         async handleSuccess(response, file) {
-            if (this.deleteImageDetail) {
-                var path = this.url_api + "uploads/gallery/images/" + this.deleteImageDetail;
-                const res = await this.callApi("post", "/delete_images", { path: path });
-                if (res.data.success == 1) {
-                    // console.log("image removed");
-                } else {
-                    // console.log("image was not deleted in the server");
-                }
-            }
+            // if (this.deleteImageDetail) {
+            //     var path = this.url_api + "uploads/gallery/images/" + this.deleteImageDetail;
+            //     const res = await this.callApi("post", "/delete_images", { path: path });
+            //     if (res.data.success == 1) {
+            //         // console.log("image removed");
+            //     } else {
+            //         // console.log("image was not deleted in the server");
+            //     }
+            // }
             // Ensure that this.image.image is an array
             if (!Array.isArray(this.image.image)) {
                 this.image.image = []; // Initialize it as an empty array if not already an array
@@ -413,13 +419,18 @@ export default {
                 this.image.image = "";
             }
         },
-        editImageModal(index, id, title, image) {
+        editImageModal(id, title, images) {
             this.editingImageModal = true;
             this.imageId = id;
             this.image.album_title = title;
-            if (image) {
-                this.image.image = image;
-                this.deleteImageDetail = image;
+            if (!Array.isArray(this.image.image)) {
+                this.image.image = []; 
+            }
+            if (images) {
+                for (let img of images) {
+                    this.image.image.push(img.image);
+                }
+                this.deleteImageDetail = images;
             } else {
                 this.image.image = "";
             }
@@ -435,6 +446,7 @@ export default {
                         await this.getImages();
                         this.editingImageModal = false;
                         this.isEditing = false;
+                        this.image.album_title = "";
                         this.image.image = "";
                         this.$refs[name].resetFields();
                         return this.s("Images infos wa updated successfully");
@@ -461,7 +473,7 @@ export default {
                 (this.viewingImageModal = false),
                 (this.deleteAlbumModal = false),
                 (this.image.image = "");
-                (this.image.album_title = "");
+            (this.image.album_title = "");
             this.$refs[name].resetFields();
         },
     },

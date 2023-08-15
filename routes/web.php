@@ -209,6 +209,9 @@ Route::post('/upload_video_image', 'ApiController@uploadVideoImage');
 //  Upload Gallery image
 Route::post('/upload_gallery_image', 'ApiController@uploadGalleryImage');
 
+//  Update Gallery images
+Route::post('/edit_images', 'ApiController@editImages');
+
 //  Upload Logo image
 Route::post('/upload_logo', 'ApiController@uploadLogo');
 

@@ -655,6 +655,48 @@ class ApiController extends Controller
         }
     }
 
+    public function editImages(Request $request)
+    {
+        $postImage = [];
+
+        DB::beginTransaction();
+        try {
+            $updateGalleryImage = Gallery::find($request->id);
+            if (!$updateGalleryImage) {
+                return response()->json(['status' => 'failed', 'status_code' => 404]);
+            } else {
+                $updateGalleryImage->album_title = $request->album_title;
+
+                $deleteGallery = GalMage::where('gallery_id', $request->id)->get(); // Retrieve the collection
+                foreach ($deleteGallery as $galleryItem) {
+                    $imageId = $galleryItem->image_id;
+                    Image::where('id', $imageId)->delete(); // Delete the associated image
+                    $galleryItem->delete(); // Delete the GalMage record
+                }
+                if ($updateGalleryImage->update()) {
+                    foreach ($request->image as $image) {
+                        $newImage = new Image();
+                        $newImage->image = $image;
+                        if ($newImage->save()) {
+                            array_push($postImage, ['gallery_id' => $updateGalleryImage->id, 'image_id' => $newImage->id]);
+                        }
+                    }
+                    GalMage::insert($postImage);
+                    DB::commit();
+                    return response()->json(['data' => $updateGalleryImage, 'status' => 'success', 'status_code' => 200]);
+                } else {
+                    return response()->json(['status' => 'failed', 'status_code' => 200]);
+                }
+            }
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
+        } catch (\Exception $th) {
+            DB::rollback();
+            throw $th;
+        }
+    }
+
     public function editPost(Request $request)
     {
         $postTags = [];
