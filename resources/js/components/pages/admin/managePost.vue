@@ -41,33 +41,35 @@
                                 <template>
                                     <Form>
                                         <Row>
-                                        <Col span="6" class="p-4 m-4">
+                                            <Col span="6" class="p-4 m-4">
                                             <Select v-model="categoryFilter" placeholder="Filter by Category" filterable>
                                                 <Option value="">All Categories</Option>
-                                                <Option v-for="(cat, i) in categories" :key="i" :value="cat.category" >{{ cat.category }}</Option>
+                                                <Option v-for="(cat, i) in categories" :key="i" :value="cat.category">{{
+                                                    cat.category }}</Option>
                                             </Select>
-                                        </Col>
-                                        <Col span="6" class="p-4 m-4">
+                                            </Col>
+                                            <Col span="6" class="p-4 m-4">
                                             <Select v-model="provinceFilter" placeholder="Filter by Province" filterable>
                                                 <Option value="">All Provinces</Option>
-                                                <Option v-for="(prov, i) in provinces" :key="i" :value="prov.province">{{ prov.province }}</Option>
+                                                <Option v-for="(prov, i) in provinces" :key="i" :value="prov.province">{{
+                                                    prov.province }}</Option>
                                             </Select>
-                                        </Col>
-                                        <Col span="6" class="p-4 m-4">
+                                            </Col>
+                                            <Col span="6" class="p-4 m-4">
                                             <Select v-model="langFilter" placeholder="Filter by Language" filterable>
                                                 <Option value="">All Language</Option>
                                                 <Option value="en">English</Option>
                                                 <Option value="np">Nepali</Option>
                                             </Select>
-                                        </Col>
-                                        <Col span="6" class="p-4 m-4">
+                                            </Col>
+                                            <Col span="6" class="p-4 m-4">
                                             <Select v-model="statusFilter" placeholder="Filter by Status" filterable>
                                                 <Option value="">All Status</Option>
                                                 <Option value="published">Published</Option>
                                                 <Option value="un published">Un Published</Option>
                                             </Select>
-                                        </Col>
-                                    </Row>
+                                            </Col>
+                                        </Row>
                                     </Form>
                                 </template>
                                 <div class="card alert">
@@ -76,66 +78,79 @@
                                             <thead>
                                                 <tr>
                                                     <th>ID</th>
-                                                    <!-- <th>Author</th> -->
                                                     <th>Image</th>
                                                     <th>Title</th>
                                                     <th>Description</th>
                                                     <th>Category</th>
+                                                    <th>Province</th>
                                                     <th>Tags</th>
                                                     <th>Status</th>
                                                     <th width="25%">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(post, i) in newDatas" :key="i">
-                                                    <td>{{ ++i }}</td>
-                                                    <!-- <td>Ferdinand</td> -->
-                                                    <td><img v-if="post.image" class="img-fluid" width="60"
-                                                            style="border-radius: 10%"
-                                                            :src="`${url_api}uploads/posts/${post.image}`"
-                                                            alt="Post Image" /></td>
-                                                    <td>{{ post.title }}</td>
-                                                    <td>
-                                                        <p>{{ truncatedText(post.content) }}</p>
-                                                    </td>
-                                                    <td>{{ post.cat[0].category }}</td>
-                                                    <td>
-                                                        <span v-for="(t, i) in post.tag" :key="i">
-                                                            <Tag :color="tagColor(i)" type="border">{{ t.tag }}</Tag>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <Button v-if="post.status == 'Published'" type="success"
-                                                            size="small">
-                                                            {{ post.status }}
-                                                        </Button>
-                                                        <Button v-else type="error" size="small">
-                                                            {{ post.status }}
-                                                        </Button>
-                                                    </td>
-                                                    <td>
-                                                        <i-switch @on-change="
-                                                            updateStatus(
-                                                                post.id,
-                                                                post.status != 'Published' ? 'Un published' : 'Published'
-                                                            )
-                                                            " v-model="post.status" true-value="Published"
-                                                            false-value="Un published" true-color="#13ce66"
-                                                            false-color="#ff4949" size="small" />
-                                                        <Button
-                                                            @click="viewPostModal(i, post.id, post.title, post.content, post.cat, post.tag, post.image, post.slug)">
-                                                            <Icon type="ios-eye-outline" color="blue" size="15" />
-                                                        </Button>
-                                                        <Button
-                                                            @click="editPostModal(i, post.id, post.title, post.content, post.cat, post.prov, post.tag, post.image, post.lang, post.flash_news)">
-                                                            <Icon type="ios-create-outline" color="green" size="15" />
-                                                        </Button>
-                                                        <Button v-if="$store.state.userInfos.level == 1"
-                                                            @click="deletePost(post.id, post.title)">
-                                                            <Icon type="ios-trash-outline" color="red" size="15" />
-                                                        </Button>
-                                                    </td>
-                                                </tr>
+                                                <template v-if="newDatas.length >= 1">
+                                                    <tr v-for="(post, i) in newDatas" :key="i">
+                                                        <td>{{ ++i }}</td>
+                                                        <!-- <td>Ferdinand</td> -->
+                                                        <td><img v-if="post.image" class="img-fluid" width="60"
+                                                                style="border-radius: 10%"
+                                                                :src="`${url_api}uploads/posts/${post.image}`"
+                                                                alt="Post Image" /></td>
+                                                        <td>{{ post.title }}</td>
+                                                        <td>
+                                                            <p>{{ truncatedText(post.content) }}</p>
+                                                        </td>
+                                                        <td>{{ post.cat[0].category }}</td>
+                                                        <td v-if="post.prov != ''">{{ post.prov[0].province }}</td>
+                                                        <td v-else>No Province</td>
+                                                        <td>
+                                                            <span v-for="(t, i) in post.tag" :key="i">
+                                                                <Tag :color="tagColor(i)" type="border">{{ t.tag }}</Tag>
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <Button v-if="post.status == 'Published'" type="success"
+                                                                size="small">
+                                                                {{ post.status }}
+                                                            </Button>
+                                                            <Button v-else type="error" size="small">
+                                                                {{ post.status }}
+                                                            </Button>
+                                                        </td>
+                                                        <td>
+                                                            <i-switch @on-change="
+                                                                updateStatus(
+                                                                    post.id,
+                                                                    post.status != 'Published' ? 'Un published' : 'Published'
+                                                                )
+                                                                " v-model="post.status" true-value="Published"
+                                                                false-value="Un published" true-color="#13ce66"
+                                                                false-color="#ff4949" size="small" />
+                                                            <Button
+                                                                @click="viewPostModal(i, post.id, post.title, post.content, post.cat, post.tag, post.image, post.slug)">
+                                                                <Icon type="ios-eye-outline" color="blue" size="15" />
+                                                            </Button>
+                                                            <Button
+                                                                @click="editPostModal(i, post.id, post.title, post.content, post.cat, post.prov, post.tag, post.image, post.lang, post.flash_news)">
+                                                                <Icon type="ios-create-outline" color="green" size="15" />
+                                                            </Button>
+                                                            <Button v-if="$store.state.userInfos.level == 1"
+                                                                @click="deletePost(post.id, post.title)">
+                                                                <Icon type="ios-trash-outline" color="red" size="15" />
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+
+                                                <template v-else>
+                                                    <tr>
+                                                        <td colspan="10" style="text-align: center;">
+                                                            <br>
+                                                            <h3>No data found</h3>
+                                                        </td>
+                                                    </tr>
+                                                </template>
                                             </tbody>
                                         </table>
                                     </div>
@@ -526,7 +541,7 @@ export default {
                     post.cat[0].category.toLowerCase().includes(this.categoryFilter.toLowerCase())
                 );
             }
-           
+
             // Apply province filter
             if (this.provinceFilter) {
                 filteredPosts = filteredPosts.filter(post => {
@@ -537,7 +552,7 @@ export default {
                     }
                 });
             }
-            
+
             // Apply language filter
             if (this.langFilter) {
                 filteredPosts = filteredPosts.filter(post =>
