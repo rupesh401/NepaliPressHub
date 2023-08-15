@@ -72,7 +72,7 @@ class MainController extends Controller
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.single.search', [
         'navAds' => $navAds,
         'footerAds' => $footerAds,
@@ -418,7 +418,7 @@ public function singlePost(Request $request, $slug)
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.single.post', [
         'navAds' => $navAds,
         'footerAds' => $footerAds,
@@ -520,7 +520,7 @@ public function singleVideo(Request $request, $slug)
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-        $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+        $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.single.video', [
         'navAds' => $navAds,
         'footerAds' => $footerAds,
@@ -612,7 +612,7 @@ public function category(Request $request, $category)
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.category', [
 
         'navAds' => $navAds,
@@ -663,7 +663,7 @@ public function province(Request $request)
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.province', [
         'navAds' => $navAds,
         'footerAds' => $footerAds,
@@ -724,9 +724,11 @@ public function province(Request $request)
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $videos = Video::where('status', 'Published')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.single.gallery', [
         'navAds' => $navAds,
+        'videos' => $videos,
         'footerAds' => $footerAds,
         'sideAds' => $sideAds,
         'logo' => $logo,
@@ -781,7 +783,7 @@ public function gallery(Request $request)
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.gallery', [
         'navAds' => $navAds,
         'footerAds' => $footerAds,
@@ -836,7 +838,7 @@ public function contactUs(Request $request)
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.contactUs', [
         'navAds' => $navAds,
         'footerAds' => $footerAds,
@@ -889,7 +891,7 @@ public function aboutUs(Request $request)
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.aboutUs', [
         'navAds' => $navAds,
         'footerAds' => $footerAds,
@@ -945,7 +947,7 @@ public function news(Request $request)
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.news', [
         'navAds' => $navAds,
         'footerAds' => $footerAds,
@@ -1080,7 +1082,7 @@ public function home(Request $request)
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $homeBtn = Ads::where('position', 'home-between')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.home', [
         'navAds' => $navAds,
         'footerAds' => $footerAds,
