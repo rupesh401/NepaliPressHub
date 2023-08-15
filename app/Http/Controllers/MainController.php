@@ -725,10 +725,8 @@ public function province(Request $request)
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-    $videos = Video::where('status', 'Published')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.single.gallery', [
         'navAds' => $navAds,
-        'videos' => $videos,
         'footerAds' => $footerAds,
         'sideAds' => $sideAds,
         'logo' => $logo,
@@ -784,8 +782,10 @@ public function gallery(Request $request)
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $videos = Video::where('status', 'Published')->orderBy('created_at', 'DESC')->paginate('10');
     return view('news.pages.gallery', [
         'navAds' => $navAds,
+        'videos' => $videos,
         'footerAds' => $footerAds,
         'sideAds' => $sideAds,
         'logo' => $logo,
