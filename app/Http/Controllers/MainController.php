@@ -116,6 +116,7 @@ public function updateLikes(Request $request, Post $post)
  */
 public function postMessage(Request $request)
 {
+    // dd($request->name);
     $postEmail = new Email();
     $postEmail->name = $request->name;
     $postEmail->email = $request->email;
@@ -131,7 +132,7 @@ public function postMessage(Request $request)
         'message' => $request->message,
     ];
 
-    Mail::to('your@email.com')->send(new ContactMail($data));
+    Mail::to('ferdnandmwitumba@gmail.com')->send(new ContactMail($data));
 
     if ($postEmail->save()) {
         if ($request->cookie('language') == 'en') {
@@ -687,6 +688,71 @@ public function province(Request $request)
  * @package sportsNews
  * @return gallery  view
  */
+  public function galleryAlbum(Request $request, $slug) {
+
+    if ($request->cookie('language')) {
+        $lang = $request->cookie('language');
+    } else {
+        $lang = 'en';
+    }
+    $about = About::where('id', 1)->get();
+    $tags = Tag::orderBy('id', 'ASC')->get();
+    $contact = Contact::where('id', 1)->get();
+    $singleAlbum = Gallery::with(['img'])->where('slug', $slug)->get()->first();
+
+    // $recommendedPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->whereNotIn('id', [$singleAlbum->id])->where('status', 'Published')->orderByRaw('RAND()')->take(2)->get();
+    // $latestPost = Post::with(['tag', 'cat', 'prov', 'usr'])->latest('created_at')->where('status', 'Published')->take(3)->get();
+
+    // Get the next post or the first post if there is no next post
+    // $nextPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->where('id', '>', $singleAlbum->id)->orderBy('id', 'asc')->first();
+    // if (!$nextPost) {
+    //     $nextPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('id', 'asc')->first();
+    // }
+
+    // Get the previous post or the last post if there is no previous post
+    // $previousPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->where('id', '<', $singleAlbum->id)->orderBy('id', 'desc')->first();
+    // if (!$previousPost) {
+    //     $previousPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('id', 'desc')->first();
+    // }
+
+    $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
+    $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
+
+    $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
+    $recaptchaKey = config('services.recaptcha.key');
+    $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
+    $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+    return view('news.pages.single.gallery', [
+        'navAds' => $navAds,
+        'footerAds' => $footerAds,
+        'sideAds' => $sideAds,
+        'logo' => $logo,
+        'tags' => $tags,
+        'provinces' => $provinces,
+        'lang' => $lang,
+        'singleAlbum' => $singleAlbum,
+        'about' => $about,
+        'contact' => $contact,
+        // 'nextPost' => $nextPost,
+        // 'latestPost' => $latestPost,
+        'trendVideos' => $trendVideos,
+        // 'previousPost' => $previousPost,
+        'latestPosts' => $latestPosts,
+        'trendPosts' => $trendPosts,
+        // 'recommendedPosts' => $recommendedPosts,
+        'recaptchaKey' => $recaptchaKey
+    ]);
+  }
+
+
+/**
+ * This function return gallery  page view
+ * @package sportsNews
+ * @return gallery  view
+ */
 public function gallery(Request $request)
 {
     if ($request->cookie('language')) {
@@ -711,7 +777,7 @@ public function gallery(Request $request)
     $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
     $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
-    $images = Image::with(['gal'])->orderBy('created_at', 'asc')->get();
+    $gallery = Gallery::with(['img'])->orderBy('created_at', 'desc')->paginate(15);
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -724,7 +790,7 @@ public function gallery(Request $request)
         'lang' => $lang,
         'posts' => $posts,
         'about' => $about,
-        'images' => $images,
+        'gallery' => $gallery,
         'contact' => $contact,
         'onePost' => $onePost,
         'provinces' => $provinces,

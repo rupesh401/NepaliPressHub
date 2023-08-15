@@ -104,6 +104,11 @@ Route::get('/provinces', 'MainController@province')->name('provinces');
 Route::get('/gallery', 'MainController@gallery')->name('gallery');
 
 /**
+ * It Redirect to controller and return gallery page
+ */
+Route::get('/gallery/album/{slug}', 'MainController@galleryAlbum')->name('gallery-album');
+
+/**
  * It Redirect to controller and return About us page
  */
 //  Route::get('/about-us', 'MainController@aboutUs')->name('our-story');

@@ -17,6 +17,7 @@ class CreateGalleriesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('album_title')->nullable();
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

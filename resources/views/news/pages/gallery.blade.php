@@ -19,35 +19,37 @@
                             <div class="col-sm-12">
                                 <div class="section">
                                     <div class="row">
-                                        @foreach ($posts as $post)
+                                        @foreach ($gallery as $gal)
                                             <div class="col-md-6 col-lg-4">
                                                 <div class="post medium-post">
                                                     <div class="entry-header">
                                                         <div class="entry-thumbnail">
-                                                            <img class="img-fluid"
+                                                            <a href="{{ route('gallery-album', $gal->slug) }}">
+                                                                <img class="img-fluid"
                                                                 style="width: 255px; height: 146px; object-fit:cover;"
-                                                                src="{{ "$pF/storage/uploads/posts/".$post->image }}"
+                                                                src="{{ "$pF/storage/uploads/gallery/images/".$gal->img[0]->image }}"
                                                                 alt="Image" />
+                                                            </a>
                                                         </div>
                                                     </div>
                                                     <div class="post-content">
                                                         <div class="entry-meta">
                                                             <ul class="list-inline">
                                                                 <li class="publish-date">
-                                                                    <a><i class="fa fa-clock-o"></i>{{ $post->created_at->format('F d, Y') }}</a>
+                                                                    <a><i class="fa fa-clock-o"></i>{{ $gal->created_at->format('F d, Y') }}</a>
                                                                 </li>
-                                                                <li class="views">
-                                                                    <a><i class="fa fa-eye"></i>{{ $post->views }}</a>
+                                                                {{-- <li class="views">
+                                                                    <a><i class="fa fa-eye"></i>{{ $gal->views }}</a>
                                                                 </li>
                                                                 <li class="loves">
-                                                                    <a><i class="fa fa-heart-o"></i>{{ $post->likes }}</a>
-                                                                </li>
+                                                                    <a><i class="fa fa-heart-o"></i>{{ $gal->likes }}</a>
+                                                                </li> --}}
                                                             </ul>
                                                         </div>
                                                         <h2 class="entry-title">
-                                                            <a href="{{ route('single-post', $post->slug) }}">
+                                                            <a href="{{ route('gallery-album', $gal->slug) }}">
                                                                 @php
-                                                                $strippedContent = strip_tags($post->title);
+                                                                $strippedContent = strip_tags($gal->album_title);
                                                                 $truncatedContent = mb_substr($strippedContent, 0, 25, 'UTF-8');
                                                                 $remainingCharacters = mb_strlen($strippedContent, 'UTF-8') - mb_strlen($truncatedContent, 'UTF-8');
                                                                 
@@ -72,28 +74,28 @@
                         @if ($lang == 'en')
                         <div class="pagination-wrapper text-center">
                             <ul class="pagination">
-                                @if ($posts->onFirstPage())
+                                @if ($gallery->onFirstPage())
                                     <li class="disabled">
                                         <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous Page</span>
                                     </li>
                                 @else
                                     <li>
-                                        <a href="{{ $posts->previousPageUrl() }}" aria-label="Previous">
+                                        <a href="{{ $gallery->previousPageUrl() }}" aria-label="Previous">
                                             <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous
                                                 Page</span>
                                         </a>
                                     </li>
                                 @endif
 
-                                @for ($i = 1; $i <= $posts->lastPage(); $i++)
-                                    <li class="{{ $posts->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="text-center" href="{{ $posts->url($i) }}">{{ $i }}</a>
+                                @for ($i = 1; $i <= $gallery->lastPage(); $i++)
+                                    <li class="{{ $gallery->currentPage() == $i ? 'active' : '' }}">
+                                        <a class="text-center" href="{{ $gallery->url($i) }}">{{ $i }}</a>
                                     </li>
                                 @endfor
 
-                                @if ($posts->hasMorePages())
+                                @if ($gallery->hasMorePages())
                                     <li>
-                                        <a href="{{ $posts->nextPageUrl() }}" aria-label="Next">
+                                        <a href="{{ $gallery->nextPageUrl() }}" aria-label="Next">
                                             <span aria-hidden="true">Next Page <i class="fa fa-long-arrow-right"></i></span>
                                         </a>
                                     </li>
@@ -107,27 +109,27 @@
                         @else
                         <div class="pagination-wrapper text-center">
                             <ul class="pagination">
-                                @if ($posts->onFirstPage())
+                                @if ($gallery->onFirstPage())
                                     <li class="disabled">
                                         <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो पृष्ठ</span>
                                     </li>
                                 @else
                                     <li>
-                                        <a href="{{ $posts->previousPageUrl() }}" aria-label="Previous">
+                                        <a href="{{ $gallery->previousPageUrl() }}" aria-label="Previous">
                                             <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो पृष्ठ</span>
                                         </a>
                                     </li>
                                 @endif
 
-                                @for ($i = 1; $i <= $posts->lastPage(); $i++)
-                                    <li class="{{ $posts->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="text-center" href="{{ $posts->url($i) }}">{{ $i }}</a>
+                                @for ($i = 1; $i <= $gallery->lastPage(); $i++)
+                                    <li class="{{ $gallery->currentPage() == $i ? 'active' : '' }}">
+                                        <a class="text-center" href="{{ $gals->url($i) }}">{{ $i }}</a>
                                     </li>
                                 @endfor
 
-                                @if ($posts->hasMorePages())
+                                @if ($gals->hasMorePages())
                                     <li>
-                                        <a href="{{ $posts->nextPageUrl() }}" aria-label="Next">
+                                        <a href="{{ $gals->nextPageUrl() }}" aria-label="Next">
                                             <span aria-hidden="true">अर्को पाना <i class="fa fa-long-arrow-right"></i></span>
                                         </a>
                                     </li>

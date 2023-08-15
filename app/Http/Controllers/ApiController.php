@@ -426,6 +426,12 @@ class ApiController extends Controller
             $newGalleryImage = new Gallery();
             $newGalleryImage->user_id = Auth::user()->id;
             $newGalleryImage->album_title = $request->album_title;
+            $slug = Str::slug($request->album_title);
+            $count = Gallery::where('slug', $slug)->count();
+            if ($count > 0) {
+                $slug = $slug . '-' . ($count + 1);
+            }
+            $newGalleryImage->slug = $slug;
             if ($newGalleryImage->save()) {
                 foreach ($request->image as $image) {
                     $newImage = new Image();
@@ -666,7 +672,12 @@ class ApiController extends Controller
                 return response()->json(['status' => 'failed', 'status_code' => 404]);
             } else {
                 $updateGalleryImage->album_title = $request->album_title;
-
+                $slug = Str::slug($request->album_title);
+                $count = Gallery::where('slug', $slug)->count();
+                if ($count > 0) {
+                    $slug = $slug . '-' . ($count + 1);
+                }
+                $updateGalleryImage->slug = $slug;
                 $deleteGallery = GalMage::where('gallery_id', $request->id)->get(); // Retrieve the collection
                 foreach ($deleteGallery as $galleryItem) {
                     $imageId = $galleryItem->image_id;
