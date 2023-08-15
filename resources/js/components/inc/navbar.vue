@@ -14,8 +14,8 @@
                     <li class="header-icon dib">
                         <img class="avatar-img" :src="`${url_api}uploads/admins/${$store.state.userInfos.profile_image}`" alt="" />
                         <span class="user-avatar">{{ $store.state.userInfos.full_name }} <i
-                                class="ti-angle-down f-s-10"></i></span>
-                        <div class="drop-down dropdown-profile">
+                                class="ti-angle-dowx f-s-10"></i></span>
+                        <!-- <div class="drop-down dropdown-profile">
                             <div class="dropdown-content-body">
                                 <ul>
                                     <li>
@@ -27,7 +27,7 @@
                                     <li><a href="/logout"><i class="ti-power-off"></i> <span>Logout</span></a></li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </li>
                 </template>
             </ul>
