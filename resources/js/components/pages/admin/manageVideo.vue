@@ -44,7 +44,7 @@
                                                     <th width="5%">ID</th>
                                                     <th width="15%">Picture</th>
                                                     <th width="25%">Title</th>
-                                                    <th width="25%">Video</th>
+                                                    <th width="25%">Link</th>
                                                     <th width="30%">Action</th>
                                                 </tr>
                                             </thead>
