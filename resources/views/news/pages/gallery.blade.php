@@ -6,9 +6,9 @@
     <div class="container">
         <div class="page-breadcrumbs">
             @if ($lang == 'en')
-            <h1 class="section-title">International News</h1>
+            <h1 class="section-title">Gallery</h1>
             @else
-            <h1 class="section-title">अन्तर्राष्ट्रिय समाचार</h1>
+            <h1 class="section-title">ग्यालेरी</h1>
             @endif
         </div>
         <div class="section">
@@ -123,13 +123,13 @@
 
                                 @for ($i = 1; $i <= $gallery->lastPage(); $i++)
                                     <li class="{{ $gallery->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="text-center" href="{{ $gals->url($i) }}">{{ $i }}</a>
+                                        <a class="text-center" href="{{ $gallery->url($i) }}">{{ $i }}</a>
                                     </li>
                                 @endfor
 
-                                @if ($gals->hasMorePages())
+                                @if ($gallery->hasMorePages())
                                     <li>
-                                        <a href="{{ $gals->nextPageUrl() }}" aria-label="Next">
+                                        <a href="{{ $gallery->nextPageUrl() }}" aria-label="Next">
                                             <span aria-hidden="true">अर्को पाना <i class="fa fa-long-arrow-right"></i></span>
                                         </a>
                                     </li>
