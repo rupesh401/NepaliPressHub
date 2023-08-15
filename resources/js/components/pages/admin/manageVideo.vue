@@ -36,6 +36,22 @@
                     <div class="main-content">
                         <div class="row">
                             <div class="col-lg-12">
+                                <template>
+                                    <Form>
+                                        <Row>
+                                            <Col span="10" offset="1" class="p-4 m-4">
+                                                <Input v-model="titleFilter" type="text" placeholder="Filter by title"></Input>
+                                            </Col>
+                                            <Col span="10" offset="1" class="p-4 m-4">
+                                            <Select v-model="statusFilter" placeholder="Filter by Status" filterable>
+                                                <Option value="">All Status</Option>
+                                                <Option value="published">Published</Option>
+                                                <Option value="un published">Un Published</Option>
+                                            </Select>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </template>
                                 <div class="card alert">
                                     <div class="order-list-item">
                                         <table class="table item-center">
@@ -49,7 +65,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(video, i) in videos" :key="i">
+                                                <tr v-for="(video, i) in newDatas" :key="i">
                                                     <td>{{ ++i }}</td>
                                                     <td>
                                                         <template>
@@ -243,6 +259,9 @@ export default {
             isSaving: false,
             deleteImageDetail: "",
             videos: [],
+            filteredVideos: [],
+            titleFilter: "",
+            statusFilter: "",
             tableLoading: true,
             keyword: "",
             editingModal: false,
@@ -293,6 +312,31 @@ export default {
     async created() {
         this.token = window.Laravel.csrfToken;
         await this.getVideos();
+    },
+    computed: {
+        // Apply filters to the Ads
+        newDatas() {
+            let filteredVideos = this.videos;
+
+            // Apply title filter
+            if (this.titleFilter) {
+                filteredVideos = filteredVideos.filter(video =>
+                    video.title.toLowerCase().includes(this.titleFilter.toLowerCase())
+                );
+            }
+            // Apply status filter
+            if (this.statusFilter) {
+                filteredVideos = filteredVideos.filter(video => {
+                    const status = video.status.toLowerCase();
+                    return (
+                        (this.statusFilter.toLowerCase() === "published" && status === "published") ||
+                        (this.statusFilter.toLowerCase() === "un published" && status.includes("un published"))
+                    );
+                });
+            }
+
+            return filteredVideos;
+        }
     },
 
     methods: {
