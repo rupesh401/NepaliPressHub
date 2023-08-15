@@ -36,6 +36,15 @@
                     <div class="main-content">
                         <div class="row">
                             <div class="col-lg-12">
+                                <template>
+                                    <Form>
+                                        <Row>
+                                            <Col span="16" offset="4" class="p-4 m-4">
+                                                <Input v-model="titleFilter" type="text" placeholder="Filter by title"></Input>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </template>
                                 <div class="card alert">
                                     <div class="order-list-item">
                                         <table class="table item-center">
@@ -47,7 +56,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(img, i) in images" :key="i">
+                                                <tr v-for="(img, i) in newDatas" :key="i">
                                                     <td>{{ ++i }}</td>
                                                     <td>{{ img.album_title }}</td>
                                                     <td>
@@ -226,6 +235,8 @@ export default {
             isSaving: false,
             deleteImageDetail: "",
             images: [],
+            filteredAlbum: [],
+            titleFilter: "",
             tableLoading: true,
             keyword: "",
             isEditing: false,
@@ -269,6 +280,22 @@ export default {
         this.token = window.Laravel.csrfToken;
         await this.getImages();
     },
+    computed: {
+        // Apply filters to the Ads
+        newDatas() {
+            let filteredAlbum = this.images;
+
+            // Apply title filter
+            if (this.titleFilter) {
+                filteredAlbum = filteredAlbum.filter(album =>
+                    album.album_title.toLowerCase().includes(this.titleFilter.toLowerCase())
+                );
+            }
+
+            return filteredAlbum;
+        }
+    },
+
 
     methods: {
         async deleteImageInAlbum(id, image) {
