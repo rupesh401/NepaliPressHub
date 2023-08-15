@@ -87,9 +87,9 @@
                         removed.</strong></p>
             </div>
             <div slot="footer">
-                <Button @click="confirmDeleteAlbum()" type="error">
+                <Button @click="confirmDeleteAlbum()" type="error" :disabled="isSaving" :loading="isSaving">
                     <Icon type="ios-trash" size="18" />
-                    Delete
+                    {{ isSaving ? "Deleting..." : "Delete" }}
                 </Button>
                 <Button @click="closeModal('validateTagForm')" type="warning">
                     <Icon type="md-close-circle" size="18" />
@@ -302,21 +302,20 @@ export default {
             this.deleteAlbumModal = true;
             this.image.album_title = album_title;
             this.albumId = id;
-            this.images = images
+            this.image.image = images
         },
         async deleteMultipleImage() {
-            this.images.forEach(async (imageToDelete) => {
+            this.image.image.forEach(async (imageToDelete) => {
                 const path = this.url_api + "uploads/gallery/images/" + imageToDelete.image;
                 const res = await this.callApi("post", "/delete_images", { path: path });
 
                 if (res.data.success === 1) {
-                    this.images = this.images.filter(img => img.image !== imageToDelete.image);
-                    console.log(`Image '${imageToDelete.image}' removed`);
+                    // this.images = this.images.filter(img => img.image !== imageToDelete.image);
+                    // console.log(`Image '${imageToDelete.image}' removed`);
                 } else {
-                    console.log(`Image '${imageToDelete.image}' was not deleted on the server`);
+                    // console.log(`Image '${imageToDelete.image}' was not deleted on the server`);
                 }
             });
-
             this.getImages();
         },
 
@@ -326,9 +325,9 @@ export default {
             if (res.data.success == 1) {
                 this.getImages();
                 this.image.image = this.image.image.filter(img => img.id !== id);
-                console.log("image removed");
+                // console.log("image removed");
             } else {
-                console.log("image was not deleted in the server");
+                // console.log("image was not deleted in the server");
             }
         },
         truncate(text, length) {
@@ -343,9 +342,9 @@ export default {
                 var path = this.url_api + "uploads/gallery/images/" + this.deleteImageDetail;
                 const res = await this.callApi("post", "/delete_images", { path: path });
                 if (res.data.success == 1) {
-                    console.log("image removed");
+                    // console.log("image removed");
                 } else {
-                    console.log("image was not deleted in the server");
+                    // console.log("image was not deleted in the server");
                 }
             }
             // Ensure that this.image.image is an array
@@ -355,7 +354,6 @@ export default {
 
             // this.image.image = response;
             this.image.image.push(response);
-            console.log(this.image.image)
         },
 
         handleFormatError(file) {
@@ -376,7 +374,6 @@ export default {
             const res = await this.callApi("get", "/get_images");
             if (res.data.status === "success") {
                 this.images = res.data.data;
-                console.log(this.images)
                 this.tableLoading = false;
             } else {
                 this.images = [];
