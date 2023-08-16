@@ -22,7 +22,7 @@
             @if ($sideAds != '')
                 <div>
                     <a href="{{ $sideAds->link }}" target="_blank">
-                    <img class="mb-2" style="width: 377px; height: 334px; object-fit:cover;"
+                    <img class="mb-2" style="width: 255px; height: 283px; object-fit:cover;"
                         src="{{ "$pF/storage/uploads/ads/" . $sideAds->image }}" alt="">
                     </a>
                 </div>
