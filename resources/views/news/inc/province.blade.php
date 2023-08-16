@@ -2,9 +2,19 @@
     <div id="site-content">
         <div class="section technology-news">
             @if ($lang == 'en')
-            <h1 class="section-title">International News</h1>
+                <h1 class="section-title">International News</h1>
+                <div class="world-nav cat-menu">
+                    <ul class="list-inline">
+                        <li class="active"><a href="{{ route('news') }}">See All</a></li>
+                    </ul>
+                </div>
             @else
-            <h1 class="section-title">अन्तर्राष्ट्रिय समाचार</h1>
+                <h1 class="section-title">अन्तर्राष्ट्रिय समाचार</h1>
+                <div class="world-nav cat-menu">
+                    <ul class="list-inline">
+                        <li class="active"><a href="{{ route('news') }}">सबै हेर्नुहोस्</a></li>
+                    </ul>
+                </div>
             @endif
             <div class="row">
                 @foreach ($sixIntNews as $key => $news)
@@ -58,6 +68,22 @@
                 <div id="site-content">
                     <div class="section technology-news">
                         <h1 class="section-title">{{ @$province->province }}</h1>
+                        @if ($lang == 'en')
+                            <div class="world-nav cat-menu">
+                                <ul class="list-inline">
+                                    <li class="active"><a
+                                            href="{{ route('single-provinces', $province->province) }}">See All</a></li>
+                                </ul>
+                            </div>
+                        @else
+                            <div class="world-nav cat-menu">
+                                <ul class="list-inline">
+                                    <li class="active"><a
+                                            href="{{ route('single-provinces', $province->province) }}">सबै
+                                            हेर्नुहोस्</a></li>
+                                </ul>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xm-12">
                                 <div class="post">
@@ -211,6 +237,23 @@
                 <div id="site-content">
                     <div class="section technology-news">
                         <h1 class="section-title">{{ $province->province }}</h1>
+                        @if ($lang == 'en')
+                            <div class="world-nav cat-menu">
+                                <ul class="list-inline">
+                                    <li class="active"><a
+                                            href="{{ route('single-provinces', $province->province) }}">See All</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        @else
+                            <div class="world-nav cat-menu">
+                                <ul class="list-inline">
+                                    <li class="active"><a
+                                            href="{{ route('single-provinces', $province->province) }}">सबै
+                                            हेर्नुहोस्</a></li>
+                                </ul>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="post">
@@ -357,6 +400,23 @@
                 <div id="site-content m-0 p-0">
                     <div class="section technology-news">
                         <h1 class="section-title">{{ $province->province }}</h1>
+                        @if ($lang == 'en')
+                            <div class="world-nav cat-menu">
+                                <ul class="list-inline">
+                                    <li class="active"><a
+                                            href="{{ route('single-provinces', $province->province) }}">See All</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        @else
+                            <div class="world-nav cat-menu">
+                                <ul class="list-inline">
+                                    <li class="active"><a
+                                            href="{{ route('single-provinces', $province->province) }}">सबै
+                                            हेर्नुहोस्</a></li>
+                                </ul>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xm-12">
                                 <div class="post">

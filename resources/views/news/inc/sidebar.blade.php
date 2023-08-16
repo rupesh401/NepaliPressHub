@@ -1,7 +1,11 @@
 <div class="col-md-12 col-lg-12 col-sm-12 col-xm-12 col-xl-12 tr-sticky">
     <div id="sitebar" class="theiaStickySidebar">
         <div class="widget follow-us">
+            @if ($lang == 'en')
             <h1 class="section-title title">Follow Us</h1>
+            @else
+            <h1 class="section-title title">हामीलाई पछ्याउनुहोस्</h1>
+            @endif
             <ul class="list-inline social-icons">
                 @if (@$contact[0]->facebook)
                     <li><a href="{{ @$contact[0]->facebook }}" target="_blank"><i class="fa fa-facebook"></i></a></li>

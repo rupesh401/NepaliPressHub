@@ -966,7 +966,7 @@ img.mfp-img {
     right: 0;
 }
 .section > .cat-menu {
-    visibility: hidden;
+    visibility: visible;
 }
 .section:hover > .cat-menu {
     visibility: visible;
