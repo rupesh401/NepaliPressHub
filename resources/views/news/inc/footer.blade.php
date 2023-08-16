@@ -20,7 +20,7 @@
                         @if ($lang == 'en')
                         <h1 style="color: white; font-size: 20px;" class="title">Follow Us</h1>
                         @else
-                        <h1 class="section- title">हमीलाई पछ्याउनुहोस</h1>
+                        <h1 style="color: white; font-size: 20px;" class="title">हमीलाई पछ्याउनुहोस</h1>
                         @endif
                         <ul class="list-inline social-icons">
                             @if (@$contact[0]->facebook)
@@ -60,19 +60,6 @@
     </div>
 </footer>
 </div>
-{{-- <div class="subscribe-me text-center">
-<h1>Don’t Miss The Hottest News</h1>
-<h2>Subscribe our Newsletter</h2>
-<a href="#close" class="sb-close-btn"><img class="img-fluid" src='{{ ("$pF/news/assets/images/others/close-button.png") }}'
-        alt="Image" /></a>
-<form action="#" method="post" id="popup-subscribe-form" name="subscribe-form">
-    <div class="input-group">
-        <span class="input-group-addon"><img src='{{ ("$pF/news/assets/images/others/icon-message.png") }}' alt="Image" /></span>
-        <input type="text" placeholder="Enter your email" name="email">
-        <button type="submit" name="subscribe">Go</button>
-    </div>
-</form>
-</div> --}}
 
 <script src='{{ "$pF/news/assets/js/jquery.js" }}'></script>
 <script src='{{ "$pF/news/assets/js/jquery.magnific-popup.min.js" }}'></script>
