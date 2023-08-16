@@ -177,11 +177,11 @@
                             </a>
                             <nav id="mainmenu" class="navbar-left collapse navbar-collapse">
                                 <ul class="nav navbar-nav nav-add">
-                                    <li class="sports mr-5"><a href="{{ route('home') }}">घर</a></li>
-                                    <li class="sports mr-5"><a href="{{ route('news') }}">अन्तर्राष्ट्रिय समाचार</a>
+                                    <li class="sports mr-4"><a href="{{ route('home') }}">घर</a></li>
+                                    <li class="sports mr-4"><a href="{{ route('news') }}">अन्तर्राष्ट्रिय समाचार</a>
                                     </li>
 
-                                    <li class="home mr-5 dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
+                                    <li class="home mr-4 dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
                                             data-toggle="dropdown">प्रान्तहरू</a>
                                         <ul class="dropdown-menu">
                                             @foreach ($provinces as $province)
@@ -192,12 +192,12 @@
 
                                         </ul>
                                     </li>
-                                    <li class="sports mr-5"><a href="{{ route('gallery') }}">ग्यालेरी</a></li>
-                                    <li class="sports mr-5"><a href="{{ route('our-story') }}">हाम्रो कथा</a></li>
-                                    <li class="sports mr-5"><a href="{{ route('contact-us') }}">सम्पर्क गर्नुहोस</a>
+                                    <li class="sports mr-4"><a href="{{ route('gallery') }}">ग्यालेरी</a></li>
+                                    <li class="sports mr-4"><a href="{{ route('our-story') }}">हाम्रो कथा</a></li>
+                                    <li class="sports mr-4"><a href="{{ route('contact-us') }}">सम्पर्क गर्नुहोस</a>
                                     </li>
                                     <!-- Header Search Form -->
-                                    <div class="header-search-form header-search-form--right ml-5">
+                                    <div class="header-search-form header-search-form--right ml-4">
                                         <form action="{{ route('search') }}" method="post" id="mobile-search-form"
                                             class="search-form">
                                             @csrf
