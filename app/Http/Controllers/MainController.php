@@ -321,8 +321,14 @@ public function postComment(Request $request)
  * @return singleVideo view
  */
 
-// public function singleVideo($slug)
+// public function singleVideo(Request $request, $slug)
 // {
+//     if ($request->cookie('language')) {
+//         $lang = $request->cookie('language');
+//     } else {
+//         $lang = 'en';
+//     }
+
 //     $about = About::where('id', 1)->get();
 //     $contact = Contact::where('id', 1)->get();
 
@@ -333,43 +339,17 @@ public function postComment(Request $request)
 //     $singleVideo = Video::where('slug', $slug)->get()->first();
 //     $singleVideo->increment('views');
 
-//      // Get the next post or the first post if there is no next post
-//      $nextPost = Video::where('id', '>', $singleVideo->id)->where('status', 'Published')->orderBy('id', 'asc')->first();
-//      if (!$nextPost) {
-//          $nextPost = Video::where('status', 'Published')->orderBy('id', 'asc')->first();
-//      }
-
-//      // Get the previous post or the last post if there is no previous post
-//      $previousPost = Video::where('id', '<', $singleVideo->id)->where('status', 'Published')->orderBy('id', 'desc')->first();
-//      if (!$previousPost) {
-//          $previousPost = Video::where('status', 'Published')->orderBy('id', 'desc')->first();
-//      }
-
 //      $recommendedVideos =Video::whereNotIn('id', [$singleVideo->id])->where('status', 'Published')->orderByRaw('RAND()')->take(2)->get();
-
-//     $science = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function($query) {$query->where('category', 'Science');})->orderBy('created_at', 'desc')->take(4)->get();
-//     $tech = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function($query) {$query->where('category', 'Tech');})->orderBy('created_at', 'desc')->take(4)->get();
-//     $socialMedia = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function($query) {$query->where('category', 'Social Media');})->orderBy('created_at', 'desc')->take(4)->get();
-//     $entertainment = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function($query) {$query->where('category', 'Entertainment');})->orderBy('created_at', 'desc')->take(4)->get();
-//     $gaming = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function($query) {$query->where('category', 'Gaming');})->orderBy('created_at', 'desc')->take(4)->get();
-
-
-//     $aiCount = Post::with(['cat'])->where('status', 'Published')->whereHas('cat', function($query) {$query->where('category', 'AI');})->count();
-//     $techCount = Post::with(['cat'])->where('status', 'Published')->whereHas('cat', function($query) {$query->where('category', 'Tech');})->count();
-//     $reviewCount = Post::with(['cat'])->where('status', 'Published')->whereHas('cat', function($query) {$query->where('category', 'Review');})->count();
-//     $gamingCount = Post::with(['cat'])->where('status', 'Published')->whereHas('cat', function($query) {$query->where('category', 'Gaming');})->count();
-//     $enterCount = Post::with(['cat'])->where('status', 'Published')->whereHas('cat', function($query) {$query->where('category', 'Entertainment');})->count();
+//      $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
 
 //     return view('tech.pages.single.video', [
-//         
+        
 //         'about' => $about,
 //         'singleVideo' => $singleVideo,
 //         'contact' => $contact,
 //         'trendVideos' => $trendVideos,
 //         'latestPosts' => $latestPosts,
 //         'trendPosts' => $trendPosts,
-//         'nextPost' => $nextPost,
-//         'previousPost' => $previousPost,
 //         'recommendedVideos' => $recommendedVideos,
 //     ]);
 // }
@@ -489,57 +469,28 @@ public function singleVideo(Request $request, $slug)
     } else {
         $lang = 'en';
     }
-    // $about = About::where('id', 1)->get();
-    // $tags = Tag::orderBy('id', 'ASC')->get();
-    // $contact = Contact::where('id', 1)->get();
+    $contact = Contact::where('id', 1)->get();
     $singleVideo = Video::where('slug', $slug)->get()->first();
-    dd($singleVideo);
-    // $singlePost = Post::with(['com', 'tag', 'cat', 'prov', 'usr'])->where('slug', $slug)->get()->first();
-    // $singlePost->increment('views');
-    // $recommendedPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->whereNotIn('id', [$singleVideo->id])->where('status', 'Published')->orderByRaw('RAND()')->take(2)->get();
-    // $latestPost = Post::with(['tag', 'cat', 'prov', 'usr'])->latest('created_at')->where('status', 'Published')->take(3)->get();
-
-    // Get the next post or the first post if there is no next post
-    // $nextPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->where('id', '>', $singleVideo->id)->orderBy('id', 'asc')->first();
-    // if (!$nextPost) {
-    //     $nextPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('id', 'asc')->first();
-    // }
-
-    // Get the previous post or the last post if there is no previous post
-    // $previousPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->where('id', '<', $singleVideo->id)->orderBy('id', 'desc')->first();
-    // if (!$previousPost) {
-    //     $previousPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('id', 'desc')->first();
-    // }
-
-    // $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
-    // $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
-
-    // $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
-    // $recaptchaKey = config('services.recaptcha.key');
-    // $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
+    $singleVideo->increment('views');
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-        $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('views', 'DESC')->take(6)->get();
+    $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
+    $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
+    
     return view('news.pages.single.video', [
-        'navAds' => $navAds,
-        'footerAds' => $footerAds,
-        'sideAds' => $sideAds,
         'logo' => $logo,
-        // 'tags' => $tags,
-        // 'provinces' => $provinces,
         'lang' => $lang,
+        'navAds' => $navAds,
+        'sideAds' => $sideAds,
+        'contact' => $contact,
+        'footerAds' => $footerAds,
+        'provinces' => $provinces,
+        'trendPosts' => $trendPosts,
+        'latestPosts' => $latestPosts,
         'singleVideo' => $singleVideo,
-        // 'about' => $about,
-        // 'contact' => $contact,
-        // 'nextPost' => $nextPost,
-        // 'latestPost' => $latestPost,
-        // 'trendVideos' => $trendVideos,
-        // 'previousPost' => $previousPost,
-        // 'latestPosts' => $latestPosts,
-        // 'trendPosts' => $trendPosts,
-        // 'recommendedPosts' => $recommendedPosts,
-        // 'recaptchaKey' => $recaptchaKey
     ]);
 }
 
@@ -567,7 +518,9 @@ public function videos(Request $request)
     $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
     $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
+    $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
 
     return view('news.pages.videos', [
         
@@ -576,10 +529,12 @@ public function videos(Request $request)
         'about' => $about,
         'navAds' => $navAds,
         'footerAds' => $footerAds,
+        'sideAds' => $sideAds,
         'videos' => $videos,
         'provinces' => $provinces,
         'contact' => $contact,
         'trendVideos' => $trendVideos,
+        'trendPosts' => $trendPosts,
         'latestPosts' => $latestPosts,
     ]);
 }

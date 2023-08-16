@@ -40,9 +40,9 @@
                         </div>
                         <div class="navbar-right float-right">
                             @if ($navAds)
-                            <a href="{{ $navAds->link }}" target="_blank">
-                                <img style="width: 730px; height: 90px; object-fit:cover;" class="img-fluid"
-                                    src='{{ "$pF/storage/uploads/ads/" . $navAds->image }}' alt="Image" /></a>
+                                <a href="{{ $navAds->link }}" target="_blank">
+                                    <img style="width: 730px; height: 90px; object-fit:cover;" class="img-fluid"
+                                        src='{{ "$pF/storage/uploads/ads/" . $navAds->image }}' alt="Image" /></a>
                             @endif
                         </div>
                     </div>
@@ -61,17 +61,16 @@
                             <nav id="mainmenu" class="navbar-left collapse navbar-collapse">
                                 <ul class="nav navbar-nav nav-add">
                                     <li
-                                        class="sports mr-4 
-                                @if (Route::currentRouteName() == 'home') active @endif">
-                                        <a href="{{ route('home') }}">Home</a></li>
+                                        class="sports mr-2">
+                                        <a href="{{ route('home') }}">Home</a>
+                                    </li>
                                     <li
-                                        class="sports mr-4 
-                                @if (Route::currentRouteName() == 'news') active @endif">
-                                        <a href="{{ route('news') }}">International News</a></li>
+                                        class="sports mr-2">
+                                        <a href="{{ route('news') }}">International News</a>
+                                    </li>
 
                                     <li
-                                        class="sports mr-4 dropdown
-                                @if (Route::currentRouteName() == 'single-provinces') active @endif">
+                                        class="sports mr-2 dropdown">
                                         <a href="javascript:void(0);" class="dropdown-toggle"
                                             data-toggle="dropdown">Province</a>
                                         <ul class="dropdown-menu">
@@ -84,17 +83,21 @@
                                         </ul>
                                     </li>
                                     <li
-                                        class="sports mr-4
-                                @if (Route::currentRouteName() == 'gallery') active @endif">
-                                        <a href="{{ route('gallery') }}">Gallery</a></li>
+                                        class="sports mr-2">
+                                        <a href="{{ route('gallery') }}">Gallery</a>
+                                    </li>
                                     <li
-                                        class="sports mr-4
-                                @if (Route::currentRouteName() == 'our-story') active @endif">
-                                        <a href="{{ route('our-story') }}">Our Story</a></li>
+                                        class="sports mr-2">
+                                        <a href="{{ route('videos') }}">Videos</a>
+                                    </li>
                                     <li
-                                        class="sports mr-4
-                                @if (Route::currentRouteName() == 'contact-us') active @endif">
-                                        <a href="{{ route('contact-us') }}">Contact Us</a></li>
+                                        class="sports mr-2">
+                                        <a href="{{ route('our-story') }}">Our Story</a>
+                                    </li>
+                                    <li
+                                        class="sports mr-2">
+                                        <a href="{{ route('contact-us') }}">Contact Us</a>
+                                    </li>
                                     <!-- Header Search Form -->
                                     <div class="header-search-form header-search-form--right ml-5">
                                         <form action="{{ route('search') }}" method="post" id="mobile-search-form"
@@ -156,9 +159,9 @@
                         </div>
                         <div class="navbar-right float-right">
                             @if ($navAds)
-                            <a href="{{ $navAds->link }}" target="_blank">
-                                <img style="width: 730px; height: 90px; object-fit:cover;" class="img-fluid"
-                                    src='{{ "$pF/storage/uploads/ads/" . $navAds->image }}' alt="Image" /></a>
+                                <a href="{{ $navAds->link }}" target="_blank">
+                                    <img style="width: 730px; height: 90px; object-fit:cover;" class="img-fluid"
+                                        src='{{ "$pF/storage/uploads/ads/" . $navAds->image }}' alt="Image" /></a>
                             @endif
                         </div>
                     </div>
@@ -177,12 +180,12 @@
                             </a>
                             <nav id="mainmenu" class="navbar-left collapse navbar-collapse">
                                 <ul class="nav navbar-nav nav-add">
-                                    <li class="sports mr-4"><a href="{{ route('home') }}">घर</a></li>
-                                    <li class="sports mr-4"><a href="{{ route('news') }}">अन्तर्राष्ट्रिय समाचार</a>
+                                    <li class="sports mr-2"><a href="{{ route('home') }}">घर</a></li>
+                                    <li class="sports mr-2"><a href="{{ route('news') }}">अन्तर्राष्ट्रिय समाचार</a>
                                     </li>
 
-                                    <li class="home mr-4 dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
-                                            data-toggle="dropdown">प्रान्तहरू</a>
+                                    <li class="home mr-2 dropdown"><a href="javascript:void(0);"
+                                            class="dropdown-toggle" data-toggle="dropdown">प्रान्तहरू</a>
                                         <ul class="dropdown-menu">
                                             @foreach ($provinces as $province)
                                                 <li><a
@@ -192,9 +195,13 @@
 
                                         </ul>
                                     </li>
-                                    <li class="sports mr-4"><a href="{{ route('gallery') }}">ग्यालेरी</a></li>
-                                    <li class="sports mr-4"><a href="{{ route('our-story') }}">हाम्रो कथा</a></li>
-                                    <li class="sports mr-4"><a href="{{ route('contact-us') }}">सम्पर्क गर्नुहोस</a>
+                                    <li class="sports mr-2"><a href="{{ route('gallery') }}">ग्यालेरी</a></li>
+                                    <li
+                                    class="sports mr-2">
+                                    <a href="{{ route('videos') }}">Videos</a>
+                                </li>
+                                    <li class="sports mr-2"><a href="{{ route('our-story') }}">हाम्रो कथा</a></li>
+                                    <li class="sports mr-2"><a href="{{ route('contact-us') }}">सम्पर्क गर्नुहोस</a>
                                     </li>
                                     <!-- Header Search Form -->
                                     <div class="header-search-form header-search-form--right ml-4">

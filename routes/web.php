@@ -131,7 +131,7 @@ Route::get('/videos', 'MainController@videos')->name('videos');
 /**
  * It Redirect to controller and return Single-Video page
  */
-Route::get('/videos/{slug}', 'MainController@singleVideos')->name('single-video');
+Route::get('/videos/{slug}', 'MainController@singleVideo')->name('single-video');
 
 /**
  * It Redirect to controller and return Single-Provinces page
