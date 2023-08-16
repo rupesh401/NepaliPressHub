@@ -249,6 +249,8 @@ Route::get('/get_ads', 'ApiController@getAds');
 
 //  Editing or Update Ads
 Route::post('/edit_ads', 'ApiController@editAds');
+//  Editing or Update Ads
+Route::post('/edit_ads', 'ApiController@editAds');
 
 //  Add Ads
 Route::post('/add_new_ads', 'ApiController@addNewAds');

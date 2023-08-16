@@ -932,12 +932,7 @@ public function news(Request $request)
     $secondPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'desc')->skip(1)->take(2)->get();
 
     $intNews = Post::with(['com' => function ($query) {
-        $query->where('status', 'Approved');
-    }, 'tag', 'cat', 'prov', 'usr'])
-        ->whereDoesntHave('prov') // Add this condition to exclude posts with provs
-        ->where('status', 'Published')
-        ->orderBy('created_at', 'DESC')
-        ->paginate(15);
+        $query->where('status', 'Approved');}, 'tag', 'cat', 'prov', 'usr'])->whereDoesntHave('prov')->where('status', 'Published')->orderBy('created_at', 'DESC')->paginate(15);
     $randPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->inRandomOrder()->take(3)->get();
     $onePost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->latest('created_at')->take(1)->get();
     $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
@@ -1055,10 +1050,6 @@ public function home(Request $request)
 
     $contact = Contact::where('id', 1)->get();
 
-    $firstPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->orderBy('created_at', 'desc')->first();
-
-    $secondPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->orderBy('created_at', 'desc')->skip(1)->take(2)->get();
-
     $posts = Post::with(['com' => function ($query) {
         $query->where('status', 'Approved');
     }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->orderBy('created_at', 'DESC')->paginate(10);
@@ -1071,8 +1062,6 @@ public function home(Request $request)
         $query->where('status', 'Approved');
     }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->where('flash_news', 1)->orderBy('created_at', 'DESC')->skip(4)->take(3)->get();
 
-    $randPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->inRandomOrder()->take(3)->get();
-    $onePost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->latest('created_at')->take(1)->get();
     $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
     $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->orderBy('created_at', 'DESC')->take(10)->get();
     $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->orderBy('views', 'DESC')->take(10)->get();
@@ -1083,8 +1072,11 @@ public function home(Request $request)
     $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $homeBtn = Ads::where('position', 'home-between')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sixIntNews = Post::with(['com' => function ($query) {
+        $query->where('status', 'Approved');}, 'tag', 'cat', 'prov', 'usr'])->whereDoesntHave('prov')->where('status', 'Published')->orderBy('created_at', 'DESC')->paginate(6);
     return view('news.pages.home', [
         'navAds' => $navAds,
+        'sixIntNews' => $sixIntNews,
         'footerAds' => $footerAds,
         'sideAds' => $sideAds,
         'homeBtn' => $homeBtn,
@@ -1092,13 +1084,9 @@ public function home(Request $request)
         'lang' => $lang,
         'posts' => $posts,
         'about' => $about,
-        'onePost' => $onePost,
         'contact' => $contact,
         'provinces' => $provinces,
-        'firstPost' => $firstPost,
-        'randPosts' => $randPosts,
         'postSlides' => $postSlides,
-        'secondPosts' => $secondPosts,
         'trendVideos' => $trendVideos,
         'latestPosts' => $latestPosts,
         'trendPosts' => $trendPosts,

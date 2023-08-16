@@ -1,19 +1,70 @@
-{{-- @php
-    dd($provinces)
-@endphp --}}
+<div>
+    <div id="site-content">
+        <div class="section technology-news">
+            @if ($lang == 'en')
+            <h1 class="section-title">International News</h1>
+            @else
+            <h1 class="section-title">अन्तर्राष्ट्रिय समाचार</h1>
+            @endif
+            <div class="row">
+                @foreach ($sixIntNews as $key => $news)
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xm-12">
+                        <div class="post small-post">
+                            <div class="entry-header">
+                                <div class="entry-thumbnail">
+                                    <img class="img-fluid" src='{{ "$pF/storage/uploads/posts/" . $news->image }}'
+                                        alt="Image" />
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                <div class="entry-meta">
+                                    <ul class="list-inline">
+                                        <li class="publish-date"><a href="#"><i class="fa fa-clock-o"></i>
+                                                {{ @$news->created_at->format('F d, Y') }}</a></li>
+                                    </ul>
+                                </div>
+                                <h2 class="entry-title">
+                                    <a href="{{ route('single-post', $news->slug) }}">
+                                        @php
+                                            $strippedContent = strip_tags($news->title);
+                                            $truncatedContent = mb_substr($strippedContent, 0, 35, 'UTF-8');
+                                            $remainingCharacters = mb_strlen($strippedContent, 'UTF-8') - mb_strlen($truncatedContent, 'UTF-8');
+                                            
+                                            // Display the truncated content
+                                            echo $truncatedContent;
+                                            
+                                            // If there are remaining characters, show an ellipsis
+                                            if ($remainingCharacters > 0) {
+                                                echo '...';
+                                            }
+                                        @endphp
+                                    </a>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @foreach ($provinces as $key => $province)
     @if ($province->post->count() != 0)
         @if ($province->post->count() >= 3)
             <div>
                 <div id="site-content">
                     <div class="section technology-news">
-                        <h1 class="section-title">{{ $province->province }}</h1>
+                        <h1 class="section-title">{{ @$province->province }}</h1>
                         <div class="row">
                             <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xm-12">
                                 <div class="post">
                                     <div class="entry-header">
                                         <div class="entry-thumbnail">
-                                            <img style="height: 360px; width:540px; object-fit: cover;" class="img-fluid"
+                                            <img style="height: 360px; width:540px; object-fit: cover;"
+                                                class="img-fluid"
                                                 src='{{ "$pF/storage/uploads/posts/" . $province->post[0]->image }}'
                                                 alt="Image" />
                                         </div>
@@ -22,7 +73,8 @@
                                         <div class="entry-meta">
                                             <ul class="list-inline">
                                                 <li class="publish-date"><a><i class="fa fa-clock-o"></i>
-                                                        {{ $province->post[0]->created_at->format('F d, Y') }} </a></li>
+                                                        {{ $province->post[0]->created_at->format('F d, Y') }} </a>
+                                                </li>
                                                 <li class="views"><a><i
                                                             class="fa fa-eye"></i>{{ $province->post[0]->views }}</a>
                                                 </li>
