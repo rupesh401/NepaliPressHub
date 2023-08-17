@@ -157,6 +157,9 @@ Route::post('/delete_comment', 'ApiController@deleteComment');
 //  Delete video
 Route::post('/delete_video', 'ApiController@deleteVideo');
 
+//  Delete Ads
+Route::post('/delete_ads', 'ApiController@deleteAds');
+
 //  Update Comment Status
 Route::post('/update_comment_status', 'ApiController@updateCommentStatus');
 

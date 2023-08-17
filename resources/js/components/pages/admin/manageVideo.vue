@@ -40,7 +40,7 @@
                                     <Form>
                                         <Row>
                                             <Col span="10" offset="1" class="p-4 m-4">
-                                                <Input v-model="titleFilter" type="text" placeholder="Filter by title"></Input>
+                                            <Input v-model="titleFilter" type="text" placeholder="Filter by title"></Input>
                                             </Col>
                                             <Col span="10" offset="1" class="p-4 m-4">
                                             <Select v-model="statusFilter" placeholder="Filter by Status" filterable>
@@ -94,7 +94,7 @@
                                                             <Icon type="ios-create-outline" color="green" size="25" />
                                                         </Button>
                                                         <Button v-if="$store.state.userInfos.level == 1"
-                                                            @click="deleteVideo(video.id, video.title)">
+                                                            @click="deleteVideo(video.id, video.title, video.image)">
                                                             <Icon type="ios-trash-outline" color="red" size="25" />
                                                         </Button>
                                                     </td>
@@ -346,6 +346,9 @@ export default {
             var data = { id: this.videoId };
             const res = await this.callApi("post", "/delete_video", data);
             if (res.data.status_code === 200) {
+                if (this.deleteImageDetail) {
+                   this.handleSuccess()
+                }
                 this.getVideos();
                 this.deleteVideoModal = false;
                 this.isSaving = false;
@@ -358,10 +361,15 @@ export default {
 
         },
 
-        deleteVideo(id, video) {
+        deleteVideo(id, video, image) {
             this.deleteVideoModal = true;
             this.videoName = video;
             this.videoId = id;
+            if(image) {
+                this.deleteImageDetail = image
+            } else {
+                this.deleteImageDetail = ""
+            }
         },
 
         truncate(text, length) {

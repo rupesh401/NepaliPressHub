@@ -198,7 +198,7 @@
                                     <li class="sports mr-2"><a href="{{ route('gallery') }}">ग्यालेरी</a></li>
                                     <li
                                     class="sports mr-2">
-                                    <a href="{{ route('videos') }}">Videos</a>
+                                    <a href="{{ route('videos') }}">भिडियोहरू</a>
                                 </li>
                                     <li class="sports mr-2"><a href="{{ route('our-story') }}">हाम्रो कथा</a></li>
                                     <li class="sports mr-2"><a href="{{ route('contact-us') }}">सम्पर्क गर्नुहोस</a>

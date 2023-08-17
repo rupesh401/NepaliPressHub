@@ -844,6 +844,21 @@ class ApiController extends Controller
         }
     }
 
+    public function deleteAds(Request $request)
+    {
+        $ads = Ads::find($request->id);
+        if (!$ads) {
+            return response()->json(['status' => 'failed', 'status_code' => 404]);
+        } else {
+            $provAds = ProvAds::where('ads_id', $request->id);
+            if ($provAds->count() >= 1) {
+                $provAds->delete();
+            }
+            $ads->delete();
+            return response()->json(['status' => 'success', 'status_code' => 200]);
+        }
+    }
+
     public function deleteVideo(Request $request)
     {
         $video = Video::find($request->id);

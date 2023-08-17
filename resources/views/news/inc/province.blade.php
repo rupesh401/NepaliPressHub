@@ -59,7 +59,12 @@
         </div>
     </div>
 </div>
-
+<div class="section add inner-add">
+    <a href="{{ $homeBtn->link }}" target="_blank">
+        <img style="width: 825px; height:100px; object-fit:cover;" class="img-fluid"
+            src="{{ "$pF/storage/uploads/ads/" . $homeBtn->image }}" alt="Image" />
+    </a>
+</div>
 
 @foreach ($provinces as $key => $province)
     @if ($province->post->count() != 0)

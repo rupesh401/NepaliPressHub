@@ -56,8 +56,8 @@
                                                {{ $singleVideo->title }}
                                             </h2>
                                             <div class="entry-content">
-                                                <iframe
-                                                style="width: 100%; height: 450px; object-fit:cover;"
+                                                <iframe class="img-fluid"
+                                                style="height: 450px;"
                                                 frameborder="0" allowfullscreen="true"
                                                 src="{{ 'https://www.youtube.com/embed/' . $singleVideo->link . '?showinfo=0' }}">
                                             </iframe>

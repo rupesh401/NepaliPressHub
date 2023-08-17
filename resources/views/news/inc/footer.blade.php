@@ -40,11 +40,11 @@
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xm-12">
                     <div class="widget">
-                        @if ($sideAds != '')
+                        @if ($footerAds != '')
                             <div>
-                                <a href="{{ $footerAds->link }}" target="_blank">
+                                <a href="{{ @$footerAds->link }}" target="_blank">
                                 <img style="width: 680px; height: 90px; object-fit:cover;"
-                                    src="{{ "$pF/storage/uploads/ads/" . $footerAds->image }}" alt="">
+                                    src="{{ "$pF/storage/uploads/ads/" . @$footerAds->image }}" alt="">
                                 </a>
                             </div>
                         @endif

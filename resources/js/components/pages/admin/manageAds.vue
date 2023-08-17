@@ -120,7 +120,7 @@
                                                             <Icon type="ios-create-outline" color="green" size="25" />
                                                         </Button>
                                                         <Button size="small" v-if="$store.state.userInfos.level == 1"
-                                                            @click="deleteAd(ad.id)">
+                                                            @click="deleteAd(ad.id, ad.image)">
                                                             <Icon type="ios-trash-outline" color="red" size="25" />
                                                         </Button>
                                                     </td>
@@ -453,8 +453,11 @@ export default {
         async confirmDeleteAd() {
             this.isSaving = true;
             var data = { id: this.adsId };
-            const res = await this.callApi("post", "/delete_ad", data);
+            const res = await this.callApi("post", "/delete_ads", data);
             if (res.data.status_code === 200) {
+                if (this.deleteImageDetail) {
+                   this.handleSuccess()
+                }
                 this.getAds();
                 this.deleteAdModal = false;
                 this.isSaving = false;
@@ -467,9 +470,14 @@ export default {
 
         },
 
-        deleteAd(id) {
+        deleteAd(id, image) {
             this.deleteAdModal = true;
             this.adsId = id;
+            if(image) {
+                this.deleteImageDetail = image
+            } else {
+                this.deleteImageDetail = ""
+            }
         },
 
         truncate(text, length) {
