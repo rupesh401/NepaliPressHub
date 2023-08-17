@@ -85,6 +85,11 @@
                             <i class="ti-info-alt"></i> Our Story
                         </router-link>
                     </li>
+                    <li  :class="$route.path === '/manage_advertise' ? 'active' : ''">
+                        <router-link to="manage_advertise">
+                            <i class="ti-info-alt"></i> Advertise
+                        </router-link>
+                    </li>
                     <li class="label">Control</li>
                     <li><a href="/logout"><i class="ti-close"></i> Logout</a></li>
                 </ul>

@@ -6,6 +6,7 @@ use App\Tag;
 use App\Post;
 use App\About;
 use App\Ads;
+use App\Advertise;
 use App\BreakingNews;
 use App\Video;
 use App\Comment;
@@ -796,6 +797,61 @@ public function contactUs(Request $request)
     $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
     return view('news.pages.contactUs', [
         'navAds' => $navAds,
+        'footerAds' => $footerAds,
+        'sideAds' => $sideAds,
+        'logo' => $logo,
+        'lang' => $lang,
+        'posts' => $posts,
+        'provinces' => $provinces,
+        'about' => $about,
+        'contact' => $contact,
+        'onePost' => $onePost,
+        'firstPost' => $firstPost,
+        'randPosts' => $randPosts,
+        'secondPosts' => $secondPosts,
+        'trendVideos' => $trendVideos,
+        'latestPosts' => $latestPosts,
+        'trendPosts' => $trendPosts,
+    ]);
+}
+
+/**
+ * This function return Advertise with us  page view
+ * @package sportsNews
+ * @return Advertise with us  view
+ */
+public function advertise(Request $request)
+{
+    if ($request->cookie('language')) {
+        $lang = $request->cookie('language');
+    } else {
+        $lang = 'en';
+    }
+    $about = About::where('id', 1)->get();
+
+    $contact = Contact::where('id', 1)->get();
+
+    $firstPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'desc')->first();
+
+    $secondPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'desc')->skip(1)->take(2)->get();
+
+    $posts = Post::with(['com' => function ($query) {
+        $query->where('status', 'Approved');
+    }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'DESC')->paginate(10);
+    $randPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->inRandomOrder()->take(3)->get();
+    $onePost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->latest('created_at')->take(1)->get();
+    $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
+    $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
+    $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
+    $provinces = Province::with(['post' => function ($query) use ($lang) { $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');}])->orderBy('created_at', 'asc')->get();
+    $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
+    $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+    $content = Advertise::where('lang', $lang)->orderBy('created_at', 'DESC')->get()->first();
+    return view('news.pages.advertise', [
+        'navAds' => $navAds,
+        'content' => $content,
         'footerAds' => $footerAds,
         'sideAds' => $sideAds,
         'logo' => $logo,

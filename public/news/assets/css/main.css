@@ -2589,3 +2589,7 @@ input.header-mobile__search-control:focus {
 .about-us-content > p > img {
     width: 800px;
 }
+
+#comment-form > p > img {
+    width: 100%;
+}

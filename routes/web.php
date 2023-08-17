@@ -116,6 +116,11 @@ Route::get('/gallery/album/{slug}', 'MainController@galleryAlbum')->name('galler
  /**
  * It Redirect to controller and return Contact us page
  */
+ Route::get('/advertise-with-us', 'MainController@advertise')->name('advertise');
+ 
+ /**
+ * It Redirect to controller and return Contact us page
+ */
  Route::get('/contact-us', 'MainController@contactUs')->name('contact-us');
 
 /**
@@ -299,6 +304,18 @@ Route::get('/get_videos', 'ApiController@getVideos');
 
 //  Getting all images
 Route::get('/get_images', 'ApiController@getAllImages');
+
+//  Getting Advertise Info
+Route::get('/get_advertise_info', 'ApiController@getAdvertiseInfo');
+
+//  Delete Advertise Info
+Route::post('/delete_advertise_info', 'ApiController@deleteAdvertiseInfo');
+
+//  Editing or Update Advertise Info
+Route::post('/edit_advertise_info', 'ApiController@editAdvertiseInfo');
+
+//  Adding New Advertise Info
+Route::post('/add_new_advertise_info', 'ApiController@addNewAdvertiseInfo');
 
 //  Adding New Video
 Route::post('/add_new_video', 'ApiController@addNewVideo');

@@ -6,7 +6,7 @@
                     <div id="date-time"></div>
                     <div id="topbar-right">
                         <div id="weather" style="border: none;" class="m-0 p-1">
-                            <a href="{{ route('contact-us') }}"> <span class="change-text"> Advertise </span></a>
+                            <a href="{{ route('advertise') }}"> <span class="change-text"> Advertise </span></a>
                         </div>
                         <div id="weather" style="border: none;" class="m-0 p-1">
                             <a href="{{ route('contact-us') }}"> <span class="change-text"> Contacts </span></a>

@@ -18,6 +18,7 @@ import breakingNews from './components/pages/admin/breakingNews'
 import manageEmails from './components/pages/admin/manageEmails'
 import manageGallery from './components/pages/admin/manageGallery'
 import manageAds from './components/pages/admin/manageAds'
+import manageAdvertise from './components/pages/admin/manageAdvertise'
 
 Vue.use(Router)
 
@@ -40,6 +41,7 @@ const routes = [
     { path: '/manage_emails', component: manageEmails },
     { path: '/manage_gallery', component: manageGallery },
     { path: '/manage_ads', component: manageAds },
+    { path: '/manage_advertise', component: manageAdvertise },
 ]
 
 export default new Router({

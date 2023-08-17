@@ -164,7 +164,7 @@ export default {
         async handleImageAdded(file, Editor, cursorLocation, resetUploader) {
             var formData = new FormData();
             formData.append("image", file);
-            formData.append("path", "uploads/posts");
+            formData.append("path", "uploads/abouts");
             const res = await this.callApi("post", "/uploads_images", formData);
             if (res.data.success == 1) {
                 const url = res.data.file.url; // Get  from response

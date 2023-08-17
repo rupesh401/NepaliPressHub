@@ -7,6 +7,7 @@ use App\Post;
 use App\User;
 use App\About;
 use App\Ads;
+use App\Advertise;
 use App\BreakingNews;
 use App\Video;
 use App\Comment;
@@ -412,6 +413,56 @@ class ApiController extends Controller
 
         if ($video->save()) {
             return response()->json(['data' => $video, 'status' => 'success', 'status_code' => 201]);
+        } else {
+            return response()->json(['status' => 'failed', 'status_code' => 200]);
+        }
+    }
+    public function deleteAdvertiseInfo(Request $request)
+    {
+        $delAdvertiseInfo = Advertise::find($request->id);
+        if (!$delAdvertiseInfo) {
+            return response()->json(['status' => 'failed', 'status_code' => 404]);
+        } else {
+            $delAdvertiseInfo->delete();
+            return response()->json(['status' => 'success', 'status_code' => 200]);
+        }
+    }
+    
+    public function editAdvertiseInfo(Request $request)
+    {
+        // For advertisement page or contacts
+        $updateAdvertise = Advertise::find($request->id);
+        $updateAdvertise->lang = $request->lang;
+        $updateAdvertise->content = $request->content;
+
+        if ($updateAdvertise->update()) {
+            return response()->json(['data' => $updateAdvertise, 'status' => 'success', 'status_code' => 200]);
+        } else {
+            return response()->json(['status' => 'failed', 'status_code' => 200]);
+        }
+    }
+    
+    public function getAdvertiseInfo()
+    {
+        $advertise = Advertise::orderBy('created_at', 'desc')->get();
+
+        if ($advertise) {
+            return response()->json(['data' => $advertise, 'status' => 'success', 'status_code' => 200]);
+        } else {
+            return response()->json(['status' => 'failed', 'status_code' => 200]);
+        }
+    }
+
+    public function addNewAdvertiseInfo(Request $request)
+    {
+        // For advertisement page or contacts
+        $advertise = new Advertise();
+        $advertise->user_id = Auth::user()->id;
+        $advertise->lang = $request->lang;
+        $advertise->content = $request->content;
+
+        if ($advertise->save()) {
+            return response()->json(['data' => $advertise, 'status' => 'success', 'status_code' => 201]);
         } else {
             return response()->json(['status' => 'failed', 'status_code' => 200]);
         }
