@@ -1635,12 +1635,6 @@ img.mfp-img {
 .pagination li:last-child a {
     padding: 12px 25px;
 }
-.pagination li:nth-child(2) a {
-    padding-left: 55px;
-}
-.pagination li:nth-child(11) a {
-    padding-right: 55px;
-}
 .pagination li a {
     color: #fff;
     background-color: #27292a;

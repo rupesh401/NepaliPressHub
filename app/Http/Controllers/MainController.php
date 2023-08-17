@@ -656,21 +656,6 @@ public function province(Request $request)
     $contact = Contact::where('id', 1)->get();
     $singleAlbum = Gallery::with(['img'])->where('slug', $slug)->get()->first();
 
-    // $recommendedPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->whereNotIn('id', [$singleAlbum->id])->where('status', 'Published')->orderByRaw('RAND()')->take(2)->get();
-    // $latestPost = Post::with(['tag', 'cat', 'prov', 'usr'])->latest('created_at')->where('status', 'Published')->take(3)->get();
-
-    // Get the next post or the first post if there is no next post
-    // $nextPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->where('id', '>', $singleAlbum->id)->orderBy('id', 'asc')->first();
-    // if (!$nextPost) {
-    //     $nextPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('id', 'asc')->first();
-    // }
-
-    // Get the previous post or the last post if there is no previous post
-    // $previousPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->where('id', '<', $singleAlbum->id)->orderBy('id', 'desc')->first();
-    // if (!$previousPost) {
-    //     $previousPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('id', 'desc')->first();
-    // }
-
     $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
     $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
 
@@ -692,13 +677,9 @@ public function province(Request $request)
         'singleAlbum' => $singleAlbum,
         'about' => $about,
         'contact' => $contact,
-        // 'nextPost' => $nextPost,
-        // 'latestPost' => $latestPost,
         'trendVideos' => $trendVideos,
-        // 'previousPost' => $previousPost,
         'latestPosts' => $latestPosts,
         'trendPosts' => $trendPosts,
-        // 'recommendedPosts' => $recommendedPosts,
         'recaptchaKey' => $recaptchaKey
     ]);
   }
@@ -973,6 +954,7 @@ public function news(Request $request)
         'trendPosts' => $trendPosts,
     ]);
 }
+
 /**
  * This function return Single Province page view
  * @package sportsNews
