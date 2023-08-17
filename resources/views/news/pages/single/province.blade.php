@@ -77,72 +77,39 @@
                         </div>
                         @if ($lang == 'en')
                         <div class="pagination-wrapper text-center">
+                            @if($provincesPosts->lastPage() > 1)
                             <ul class="pagination">
-                                @if ($provincesPosts->onFirstPage())
-                                    <li class="disabled">
-                                        <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous Page</span>
-                                    </li>
-                                @else
-                                    <li>
-                                        <a href="{{ $provincesPosts->previousPageUrl() }}" aria-label="Previous">
-                                            <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous
-                                                Page</span>
-                                        </a>
-                                    </li>
+                                @if($provincesPosts->currentPage() != 1)
+                                <li><a href="{{ $provincesPosts->previousPageUrl() }}" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous</span></a></li>
                                 @endif
-
-                                @for ($i = 1; $i <= $provincesPosts->lastPage(); $i++)
-                                    <li class="{{ $provincesPosts->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="text-center" href="{{ $provincesPosts->url($i) }}">{{ $i }}</a>
-                                    </li>
+                        
+                                @for($i = 1; $i <= $provincesPosts->lastPage(); $i++)
+                                    <li class="{{ ($provincesPosts->currentPage() == $i) ? 'active' : '' }}"><a href="{{ $provincesPosts->url($i) }}">{{ $i }}</a></li>
                                 @endfor
-
-                                @if ($provincesPosts->hasMorePages())
-                                    <li>
-                                        <a href="{{ $provincesPosts->nextPageUrl() }}" aria-label="Next">
-                                            <span aria-hidden="true">Next Page <i class="fa fa-long-arrow-right"></i></span>
-                                        </a>
-                                    </li>
-                                @else
-                                    <li class="disabled">
-                                        <span aria-hidden="true">Next Page <i class="fa fa-long-arrow-right"></i></span>
-                                    </li>
+                        
+                                @if($provincesPosts->currentPage() != $provincesPosts->lastPage())
+                                <li><a href="{{ $provincesPosts->nextPageUrl() }}" aria-label="Next"><span aria-hidden="true">Next <i class="fa fa-long-arrow-right"></i></span></a></li>
                                 @endif
                             </ul>
+                            @endif
                         </div>
                         @else
                         <div class="pagination-wrapper text-center">
+                            @if($provincesPosts->lastPage() > 1)
                             <ul class="pagination">
-                                @if ($provincesPosts->onFirstPage())
-                                    <li class="disabled">
-                                        <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो पृष्ठ</span>
-                                    </li>
-                                @else
-                                    <li>
-                                        <a href="{{ $provincesPosts->previousPageUrl() }}" aria-label="Previous">
-                                            <span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो पृष्ठ</span>
-                                        </a>
-                                    </li>
+                                @if($provincesPosts->currentPage() != 1)
+                                <li><a href="{{ $provincesPosts->previousPageUrl() }}" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो</span></a></li>
                                 @endif
-
-                                @for ($i = 1; $i <= $provincesPosts->lastPage(); $i++)
-                                    <li class="{{ $provincesPosts->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="text-center" href="{{ $provincesPosts->url($i) }}">{{ $i }}</a>
-                                    </li>
+                        
+                                @for($i = 1; $i <= $provincesPosts->lastPage(); $i++)
+                                    <li class="{{ ($provincesPosts->currentPage() == $i) ? 'active' : '' }}"><a href="{{ $provincesPosts->url($i) }}">{{ $i }}</a></li>
                                 @endfor
-
-                                @if ($provincesPosts->hasMorePages())
-                                    <li>
-                                        <a href="{{ $provincesPosts->nextPageUrl() }}" aria-label="Next">
-                                            <span aria-hidden="true">अर्को पाना <i class="fa fa-long-arrow-right"></i></span>
-                                        </a>
-                                    </li>
-                                @else
-                                    <li class="disabled">
-                                        <span aria-hidden="true">अर्को पाना <i class="fa fa-long-arrow-right"></i></span>
-                                    </li>
+                        
+                                @if($provincesPosts->currentPage() != $provincesPosts->lastPage())
+                                <li><a href="{{ $provincesPosts->nextPageUrl() }}" aria-label="Next"><span aria-hidden="true">अर्को <i class="fa fa-long-arrow-right"></i></span></a></li>
                                 @endif
                             </ul>
+                            @endif
                         </div>
                         @endif
                     </div>
