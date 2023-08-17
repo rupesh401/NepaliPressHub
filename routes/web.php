@@ -51,6 +51,12 @@ Route::post('/post-message', 'MainController@postMessage')->name('post-message')
 Route::post('/post-comment', 'MainController@postComment')->name('post-comment');
 
 /**
+ * Reply a comment
+ */
+
+Route::post('/reply-comment', 'MainController@replyComment')->name('reply-comment');
+
+/**
  * It Redirect to controller and returns single blog post page
  */
 

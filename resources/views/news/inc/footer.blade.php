@@ -18,22 +18,26 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xm-12">
                     <div class="widget">
                         @if ($lang == 'en')
-                        <h1 style="font-size: 20px;" class="title">Follow Us</h1>
+                            <h1 style="font-size: 20px;" class="title">Follow Us</h1>
                         @else
-                        <h1 style="font-size: 20px;" class="title">हमीलाई पछ्याउनुहोस</h1>
+                            <h1 style="font-size: 20px;" class="title">हमीलाई पछ्याउनुहोस</h1>
                         @endif
                         <ul class="list-inline social-icons">
                             @if (@$contact[0]->facebook)
-                                <li><a href="{{ @$contact[0]->facebook }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="{{ @$contact[0]->facebook }}" target="_blank"><i
+                                            class="fa fa-facebook"></i></a></li>
                             @endif
                             @if (@$contact[0]->twitter)
-                                <li><a href="{{ @$contact[0]->twitter }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="{{ @$contact[0]->twitter }}" target="_blank"><i
+                                            class="fa fa-twitter"></i></a></li>
                             @endif
                             @if (@$contact[0]->youtube)
-                                <li><a href="{{ @$contact[0]->youtube }}" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                                <li><a href="{{ @$contact[0]->youtube }}" target="_blank"><i
+                                            class="fa fa-youtube"></i></a></li>
                             @endif
                             @if (@$contact[0]->instagram)
-                                <li><a href="{{ @$contact[0]->instagram }}" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                                <li><a href="{{ @$contact[0]->instagram }}" target="_blank"><i
+                                            class="fa fa-instagram"></i></a></li>
                             @endif
                         </ul>
                     </div>
@@ -43,8 +47,8 @@
                         @if ($footerAds != '')
                             <div>
                                 <a href="{{ @$footerAds->link }}" target="_blank">
-                                <img style="width: 680px; height: 90px; object-fit:cover;"
-                                    src="{{ "$pF/storage/uploads/ads/" . @$footerAds->image }}" alt="">
+                                    <img style="width: 680px; height: 90px; object-fit:cover;"
+                                        src="{{ "$pF/storage/uploads/ads/" . @$footerAds->image }}" alt="">
                                 </a>
                             </div>
                         @endif
@@ -76,14 +80,6 @@
 
 @if (Route::currentRouteName() == 'single-post')
     <script>
-        function replayComment(id) {
-            // alert(id)
-            $("#comment_id").innerText.value = id;
-            $("#replay-form").show()
-            $("#comment-form").hide()
-        }
-        $("#replay-form").hide();
-
         // Set the CSRF token for every AJAX request
         $.ajaxSetup({
             headers: {
@@ -92,6 +88,32 @@
         });
 
         $(document).ready(function() {
+            // Hide the reply form initially
+            $("#reply-form").hide();
+
+            // Handle click event on the "Replay" links
+            $(".replay").click(function() {
+                // Get the comment ID from the data attribute
+                var commentId = $(this).data("comment-id");
+
+                // Set the comment ID in the hidden input field of the form
+                $("#comment_id").val(commentId);
+
+                // Show the reply form and hide the comment form
+                $("#reply-form").show();
+                $("#comment-form").hide();
+
+                // Set focus on the name input field in the reply form
+                $("#reply-form input[name='name']").focus();
+            });
+
+            // Handle click event on the "Leave a Comment" link
+            $(".leave-comment").click(function() {
+                // Hide the reply form and show the comment form
+                $("#reply-form").hide();
+                $("#comment-form").show();
+            });
+
             $(".meta-like").on("click", function() {
                 var likesCount = parseInt($(this).siblings("a").text()); // Get the current likes count
                 var updatedLikesCount = likesCount + 1; // Increment the likes count

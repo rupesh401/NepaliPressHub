@@ -35,25 +35,27 @@
                     <p>
                         {{ $comment->comment }}
                     </p>
-                    <a onclick="replayComment({{ $comment->id }})" class="replay">Replay</a>
+                    <a href="javascript:void(0);" class="replay" data-comment-id="{{ $comment->id }}">Replay</a>
                 </div>
             </li>
             @foreach($comment->reply as $reply)
             <li class="media media-child">
                 <div class="media-left">
                     <a href="#"
-                        ><img class="media-object" src="images/others/author3.png" alt="Image"
+                        ><img
+                        class="media-object"
+                        src="{{ ("$pF/profile.png") }}"
+                        alt="Image"
                     /></a>
                 </div>
                 <div class="media-body">
-                    <h2><a href="#">Axel Bouaziz</a></h2>
-                    <h3 class="date"><a href="#">15 December 2018</a></h3>
+                    <h2><a>{{ $reply->name }}</a></h2>
+                    <h3 class="date"><a>{{ $reply->created_at->diffForHumans() }}</a></h3>
+                    <h3 class="date">Reply <strong>{{ $comment->name }}</strong> Comment</h3>
                     <p>
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
-                        inventore.
+                       {{ $reply->message }}
                     </p>
-                    <a class="replay" href="#">Replay</a>
+                    {{-- <a class="replay" href="#">Replay</a> --}}
                 </div>
             </li>
             @endforeach
@@ -116,7 +118,7 @@
     </div>
     <div class="comments-box" id="reply-form">
         <h1 class="section-title title">Replay a Comment</h1>
-        <form action="{{ route('post-comment') }}" method="post">
+        <form action="{{ route('reply-comment') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-md-10 offset-1">
@@ -134,7 +136,7 @@
                     <div class="form-group">
                         <label>Your Text</label>
                         <textarea
-                            name="comment"
+                            name="message"
                             id="comment"
                             required="required"
                             class="form-control"
@@ -147,8 +149,8 @@
                             </div>
                         @endif
                     </div>
-                    <input type="text" name="comment_id" id="comment_id" class="form-control" />
-                    <div class="text-center">
+                    <input type="hidden" name="comment_id" id="comment_id" class="form-control" />
+                    <div class="text-right">
                         <button type="submit" class="btn btn-primary">
                             Reply
                         </button>

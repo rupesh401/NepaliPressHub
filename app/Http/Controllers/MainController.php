@@ -10,6 +10,7 @@ use App\Advertise;
 use App\BreakingNews;
 use App\Video;
 use App\Comment;
+use App\ComReply;
 use App\Contact;
 use App\Email;
 use App\Gallery;
@@ -18,6 +19,7 @@ use App\Mail\ContactMail;
 use App\MySite;
 use App\PostComment;
 use App\Province;
+use App\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -191,6 +193,59 @@ public function postComment(Request $request)
                 return redirect()->back()->with('success', 'Comment was submitted successfully!');
             } else {
                 return redirect()->back()->with('success', 'टिप्पणी सफलतापूर्वक पेश गरियो!');
+            }
+            
+        } else {
+            if ($request->cookie('language') == 'en') {
+                return redirect()->back()->with('failed', 'Something went wrong! Please try again.');
+            } else {
+                return redirect()->back()->with('failed', 'केहि गलत भयो! फेरि प्रयास गर्नुहोस।');
+            }
+           
+        }
+    } catch (\Throwable $th) {
+        DB::rollback();
+        throw $th;
+    }
+}
+
+/**
+ * This function reply a comment from post view
+ * @package sportsNews
+ * @return replyComment view
+ */
+public function replyComment(Request $request)
+{
+
+    DB::beginTransaction();
+    try {
+        $request->validate([
+            'name' => 'required|max:255',
+            'message' => 'required',
+            // 'g-recaptcha-response' => 'required|recaptcha',
+        ], [
+            'name.required' => 'User name is required',
+            'message.required' => 'Reply Message field cannot be empty',
+            // 'g-recaptcha-response.recaptcha' => 'Captcha verification failed',
+            // 'g-recaptcha-response.required' => 'Please complete the captcha',
+        ]);
+
+        $replyComment = new Reply([
+            'name' => $request->name,
+            'message' => $request->message,
+        ]);
+
+        if ($replyComment->save()) {
+            $comReply = [
+                'reply_id' => $replyComment->id,
+                'comment_id' => $request->comment_id,
+            ];
+            ComReply::insert($comReply);
+            DB::commit();
+            if ($request->cookie('language') == 'en') {
+                return redirect()->back()->with('success', 'Reply was submitted successfully!');
+            } else {
+                return redirect()->back()->with('success', 'जवाफ सफलतापूर्वक पेस गरियो!');
             }
             
         } else {
