@@ -51,6 +51,7 @@
                                             <Col span="6" class="p-4 m-4">
                                             <Select v-model="provinceFilter" placeholder="Filter by Province" filterable>
                                                 <Option value="">All Provinces</Option>
+                                                <Option value="international-news">International News</Option>
                                                 <Option v-for="(prov, i) in provinces" :key="i" :value="prov.province">{{
                                                     prov.province }}</Option>
                                             </Select>
@@ -103,7 +104,7 @@
                                                         </td>
                                                         <td>{{ post.cat[0].category }}</td>
                                                         <td v-if="post.prov != ''">{{ post.prov[0].province }}</td>
-                                                        <td v-else>No Province</td>
+                                                        <td v-else>International</td>
                                                         <td>
                                                             <span v-for="(t, i) in post.tag" :key="i">
                                                                 <Tag :color="tagColor(i)" type="border">{{ t.tag }}</Tag>
@@ -545,11 +546,16 @@ export default {
             // Apply province filter
             if (this.provinceFilter) {
                 filteredPosts = filteredPosts.filter(post => {
-                    if (post.prov && post.prov.length > 0) {
-                        return post.prov[0].province.toLowerCase().includes(this.provinceFilter.toLowerCase());
+                    if (this.provinceFilter === 'international-news') {
+                        return (post.prov.length === 0)
                     } else {
-                        return false; // Exclude posts without valid province information
+                        if (post.prov && post.prov.length > 0) {
+                            return post.prov[0].province.toLowerCase().includes(this.provinceFilter.toLowerCase());
+                        } else {
+                            return false; // Exclude posts without valid province information
+                        }
                     }
+
                 });
             }
 
