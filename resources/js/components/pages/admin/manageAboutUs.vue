@@ -50,12 +50,7 @@
                                                                 </FormItem>
                                                                 </template>
                                                                 </Col>
-                                                                <!-- <Col span="23">
-                                                                    <Input :readonly="inputDisable" v-model="about.about_us"
-                                                                        type="textarea"
-                                                                        :autosize="{ minRows: 6, maxRows: 14 }"
-                                                                        placeholder="Write the details about the website etc"></Input>
-                                                                </Col> -->
+                                                               
                                                                 <Col class="mt-4" span="23">
                                                                 <Button @click="addAbout('addFormValidation')"
                                                                     type="primary" :disabled="inputDisable"

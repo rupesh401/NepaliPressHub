@@ -4268,3 +4268,6 @@ html {
     right: 0px;
     z-index: 1;
 }
+p > img {
+    width: 400px;
+}
