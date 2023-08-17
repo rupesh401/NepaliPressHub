@@ -1590,8 +1590,8 @@ img.mfp-img {
     display: block;
 }
 .bottom-widgets {
-    background-color: #27292a;
-    color: #fff;
+    background-color: #fff;
+    color: #000;
 }
 .bottom-widgets .widget h2 {
     margin-bottom: 25px;
@@ -1614,8 +1614,8 @@ img.mfp-img {
     color: #fff;
 }
 .footer-bottom {
-    background-color: #1f2021;
-    color: #fff;
+    background-color: #f2f3f5;
+    color: #000;
     padding-top: 20px;
     padding-bottom: 10px;
 }

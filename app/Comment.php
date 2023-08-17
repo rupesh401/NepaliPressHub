@@ -11,15 +11,11 @@ class Comment extends Model
     {
         return $this->hasMany(Post::class);
     }
-    // public function post()
-    // {
-    //     return $this->belongsTo(Post::class);
-    // }
-
-    // public function post()
-    // {
-    //     return $this->belongsTo(Post::class, 'post_comments');
-    // }
+    // Define the hasMany relationship with Post
+    public function reply()
+    {
+        return $this->belongsToMany('App\Reply', 'com_replies');
+    }
 
     protected $fillable = ['name', 'email', 'comment', 'status'];
 }

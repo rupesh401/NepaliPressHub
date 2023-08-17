@@ -370,7 +370,7 @@ public function singlePost(Request $request, $slug)
     $tags = Tag::orderBy('id', 'ASC')->get();
     $contact = Contact::where('id', 1)->get();
     $singlePost = Post::with(['com' => function ($query) {
-        $query->where('status', 'Approved');
+        $query->where('status', 'Approved')->with('reply');
     }, 'tag', 'cat', 'prov', 'usr'])->where('slug', $slug)->get()->first();
     // $singlePost = Post::with(['com', 'tag', 'cat', 'prov', 'usr'])->where('slug', $slug)->get()->first();
     $singlePost->increment('views');

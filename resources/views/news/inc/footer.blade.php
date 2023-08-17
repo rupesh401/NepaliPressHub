@@ -18,9 +18,9 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xm-12">
                     <div class="widget">
                         @if ($lang == 'en')
-                        <h1 style="color: white; font-size: 20px;" class="title">Follow Us</h1>
+                        <h1 style="font-size: 20px;" class="title">Follow Us</h1>
                         @else
-                        <h1 style="color: white; font-size: 20px;" class="title">हमीलाई पछ्याउनुहोस</h1>
+                        <h1 style="font-size: 20px;" class="title">हमीलाई पछ्याउनुहोस</h1>
                         @endif
                         <ul class="list-inline social-icons">
                             @if (@$contact[0]->facebook)
@@ -55,7 +55,7 @@
     </div>
     <div class="footer-bottom">
         <div class="container text-center">
-            <p><a href="{{ route('home') }}"> News </a>&copy; {{ date('Y') }} </p>
+            <p><a style="color: black;" href="{{ route('home') }}"> News </a>&copy; {{ date('Y') }} </p>
         </div>
     </div>
 </footer>
@@ -76,6 +76,14 @@
 
 @if (Route::currentRouteName() == 'single-post')
     <script>
+        function replayComment(id) {
+            // alert(id)
+            $("#comment_id").innerText.value = id;
+            $("#replay-form").show()
+            $("#comment-form").hide()
+        }
+        $("#replay-form").hide();
+
         // Set the CSRF token for every AJAX request
         $.ajaxSetup({
             headers: {
