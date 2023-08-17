@@ -511,7 +511,7 @@ public function videos(Request $request)
 
     $about = About::where('id', 1)->get();
     $contact = Contact::where('id', 1)->get();
-    $videos = Video::where('status', 'Published')->orderBy('created_at', 'DESC')->paginate(10);
+    $videos = Video::where('status', 'Published')->orderBy('created_at', 'DESC')->paginate(15);
 
     $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('views', 'DESC')->take(6)->get();
 
