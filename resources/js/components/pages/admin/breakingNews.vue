@@ -122,7 +122,7 @@
                         <FormItem label="Language" prop="lang">
                             <Select v-model="news.lang" filterable>
                                 <Option value="en">English</Option>
-                                <Option value="np">Nepali</Option>
+                                <Option value="ne">Nepali</Option>
                             </Select>
                         </FormItem>
                         </Col>
@@ -154,7 +154,7 @@
                         <FormItem label="Language" prop="lang">
                             <Select v-model="news.lang" filterable>
                                 <Option value="en">English</Option>
-                                <Option value="np">Nepali</Option>
+                                <Option value="ne">Nepali</Option>
                             </Select>
                         </FormItem>
                         </Col>

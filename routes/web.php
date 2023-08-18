@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/get-decrypted-data', 'AuthController@getDecryptedData');
 /**
  * It Redirect to controller and returns nepal language view page
  */
@@ -21,6 +22,7 @@ Route::get('/change-language/{language}', function ($language, Request $request)
     // Your validation for $language here to ensure it's a supported language
 
     $minutes = 60 * 24 * 30; // 30 days expiration time for the cookie
+    // dd($language);
     return redirect()->back()->cookie('language', $language, $minutes);
 })->name('change-lang');
 

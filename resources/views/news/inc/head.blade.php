@@ -28,5 +28,4 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href='{{ ("$pF/news/assets/images/ico/apple-touch-icon-72-precomposed.png") }}'>
     <link rel="apple-touch-icon-precomposed" href='{{ ("$pF/news/assets/images/ico/apple-touch-icon-57-precomposed.png") }}'>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script async defer src="//assets.pinterest.com/js/pinit.js"></script>
 </head>

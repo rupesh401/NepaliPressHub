@@ -60,7 +60,7 @@
                                             <Select v-model="langFilter" placeholder="Filter by Language" filterable>
                                                 <Option value="">All Language</Option>
                                                 <Option value="en">English</Option>
-                                                <Option value="np">Nepali</Option>
+                                                <Option value="ne">Nepali</Option>
                                             </Select>
                                             </Col>
                                             <Col span="6" class="p-4 m-4">
@@ -212,7 +212,7 @@
                         <FormItem label="Language" prop="lang">
                             <Select v-model="post.lang" filterable>
                                 <Option value="en">English</Option>
-                                <Option value="np">Nepali</Option>
+                                <Option value="ne">Nepali</Option>
                             </Select>
                         </FormItem>
                         </Col>
@@ -301,7 +301,7 @@
                         <FormItem label="Language" prop="lang">
                             <Select v-model="post.lang" filterable>
                                 <Option value="en">English</Option>
-                                <Option value="np">Nepali</Option>
+                                <Option value="ne">Nepali</Option>
                             </Select>
                         </FormItem>
                         </Col>

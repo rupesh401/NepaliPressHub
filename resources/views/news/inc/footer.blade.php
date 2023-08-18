@@ -74,6 +74,7 @@
 <script src='{{ "$pF/news/assets/js/bootstrap.min.js" }}'></script>
 <script src='{{ "$pF/news/assets/js/owl.carousel.min.js" }}'></script>
 <script src='{{ "$pF/news/assets/js/moment.min.js" }}'></script>
+<script src='{{ "$pF/news/assets/js/moment-with-locale.min.js" }}'></script>
 <script src='{{ "$pF/news/assets/js/theia-sticky-sidebar.min.js" }}'></script>
 <script src='{{ "$pF/news/assets/js/main.js" }}'></script>
 <script src='{{ "$pF/news/assets/js/switcher.js" }}'></script>

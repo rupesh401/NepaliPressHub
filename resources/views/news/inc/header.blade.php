@@ -19,11 +19,11 @@
                             <a href="tel:{{ @$contact[0]->phone_number }}"> <span class="change-text"> Phone:
                                     {{ @$contact[0]->phone_number }} </span></a>
                         </div>
-                        <div class="dropdown language-dropdown">
+                        <div class="dropdown language-dropdown" id="change-language-button">
                             <a data-toggle="dropdown" href="#"><span class="change-text">EN</span> <i
                                     class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu language-change">
-                                <li><a href="{{ route('change-lang', 'np') }}">NP</a></li>
+                                <li><a href="{{ route('change-lang', 'ne') }}">NE</a></li>
                             </ul>
                         </div>
                     </div>
@@ -134,12 +134,12 @@
                             <a href="mailto:{{ @$contact[0]->email }}"> <span class="change-text"> इमेल:
                                     {{ @$contact[0]->email }} </span></a>
                         </div>
-                        <div id="weather" style="border: none;" class="m-0 p-1">
+                        <div id="weather" style="border: none;" class="m-0 p-1 ">
                             <a href="tel:{{ @$contact[0]->phone_number }}"> <span class="change-text"> फोन नम्बर:
                                     {{ @$contact[0]->phone_number }} </span></a>
                         </div>
                         <div class="dropdown language-dropdown">
-                            <a data-toggle="dropdown" href="#"><span class="change-text">NP</span> <i
+                            <a data-toggle="dropdown" href="#"><span class="change-text">NE</span> <i
                                     class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu language-change">
                                 <li><a href="{{ route('change-lang', 'en') }}">EN</a></li>
