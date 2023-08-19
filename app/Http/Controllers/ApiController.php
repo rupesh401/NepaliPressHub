@@ -839,8 +839,10 @@ class ApiController extends Controller
             $newPost->flash_news = $request->flash_news;
             $slug = Str::slug($request->title);
             $count = Post::where('slug', $slug)->count();
-            if ($count > 0) {
+            if ($count >= 1) {
+
                 $slug = $slug . '-' . ($count + 1);
+                
             }
             $newPost->slug = $slug;
 

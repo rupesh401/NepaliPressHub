@@ -22,7 +22,7 @@
                         <div class="post small-post">
                             <div class="entry-header">
                                 <div class="entry-thumbnail">
-                                    <img class="img-fluid" src='{{ "$pF/storage/uploads/posts/" . $news->image }}'
+                                    <img style="width: 255px; height: 170px" class="img-fluid" src='{{ "$pF/storage/uploads/posts/" . $news->image }}'
                                         alt="Image" />
                                 </div>
                             </div>

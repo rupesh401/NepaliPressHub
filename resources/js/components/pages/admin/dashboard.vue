@@ -74,11 +74,11 @@
                                     <div class="media">
                                         <div class="media-left meida media-middle">
                                             <span><i
-                                                    class="ti-email f-s-22 border-danger color-danger round-widget"></i></span>
+                                                    class="ti-image f-s-22 border-danger color-danger round-widget"></i></span>
                                         </div>
                                         <div class="media-body media-text-right">
                                             <h4>0</h4>
-                                            <h6>Emails</h6>
+                                            <h6>Total Ads</h6>
                                         </div>
                                     </div>
                                 </div>

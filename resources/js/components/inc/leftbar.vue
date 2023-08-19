@@ -87,7 +87,7 @@
                     </li>
                     <li  :class="$route.path === '/manage_advertise' ? 'active' : ''">
                         <router-link to="manage_advertise">
-                            <i class="ti-info-alt"></i> Advertise
+                            <i class="ti-image"></i> Advertise
                         </router-link>
                     </li>
                     <li class="label">Control</li>
