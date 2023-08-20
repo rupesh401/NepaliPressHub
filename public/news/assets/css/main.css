@@ -433,9 +433,9 @@ img.mfp-img {
 #date-time,
 #weather {
     display: inline-block;
-    margin-left: 20px;
-    padding-left: 20px;
-    line-height: 60px;
+    margin-left: none;
+    padding-left: none;
+    line-height: 35px;
     color: #101010;
     font-size: 14px;
 }
@@ -1650,7 +1650,7 @@ img.mfp-img {
 }
 .page-breadcrumbs {
     position: relative;
-    margin: 85px 0 15px;
+    margin: 45px 0 15px;
 }
 .listing-news .entry-header,
 .listing-news .post-content {
@@ -2546,7 +2546,7 @@ input.header-mobile__search-control:focus {
     top: 0;
     width: 51px;
     height: 38px;
-    line-height: 38px;
+    line-height: 43px;
     padding: 0;
     border: none;
     font-size: 16px;

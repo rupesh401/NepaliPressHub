@@ -5,17 +5,17 @@
                 <div class="container">
                     <div id="date-time"></div>
                     <div id="topbar-right">
-                        <div id="weather" style="border: none;" class="m-0 p-1">
+                        <div id="weather" style="border: none;">
                             <a href="{{ route('advertise') }}"> <span class="change-text"> Advertise </span></a>
                         </div>
-                        <div id="weather" style="border: none;" class="m-0 p-1">
+                        <div id="weather" style="border: none;">
                             <a href="{{ route('contact-us') }}"> <span class="change-text"> Contacts </span></a>
                         </div>
-                        <div id="weather" style="border: none;" class="m-0 p-1">
+                        <div id="weather" style="border: none;">
                             <a href="mailto:{{ @$contact[0]->email }}"> <span class="change-text"> Email:
                                     {{ @$contact[0]->email }} </span></a>
                         </div>
-                        <div id="weather" style="border: none;" class="m-0 p-1">
+                        <div id="weather" style="border: none;">
                             <a href="tel:{{ @$contact[0]->phone_number }}"> <span class="change-text"> Phone:
                                     {{ @$contact[0]->phone_number }} </span></a>
                         </div>
@@ -123,18 +123,18 @@
                 <div class="container">
                     <div id="date-time"></div>
                     <div id="topbar-right">
-                        <div id="weather" style="border: none;" class="m-0 p-1">
+                        <div id="weather" style="border: none;">
                             <a href="{{ route('contact-us') }}"> <span class="change-text"> विज्ञापन गर्नुहोस्
                                 </span></a>
                         </div>
-                        <div id="weather" style="border: none;" class="m-0 p-1">
+                        <div id="weather" style="border: none;">
                             <a href="{{ route('contact-us') }}"> <span class="change-text"> सम्पर्कहरू </span></a>
                         </div>
-                        <div id="weather" style="border: none;" class="m-0 p-1">
+                        <div id="weather" style="border: none;">
                             <a href="mailto:{{ @$contact[0]->email }}"> <span class="change-text"> इमेल:
                                     {{ @$contact[0]->email }} </span></a>
                         </div>
-                        <div id="weather" style="border: none;" class="m-0 p-1 ">
+                        <div id="weather" style="border: none;">
                             <a href="tel:{{ @$contact[0]->phone_number }}"> <span class="change-text"> फोन नम्बर:
                                     {{ @$contact[0]->phone_number }} </span></a>
                         </div>

@@ -12,7 +12,7 @@
         @endif
     </div>
     <div class="row">
-        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xm-12 tr-sticky">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xm-12">
            
             <div class="contact-us theiaStickySidebar">
                 <div class="message-box" id="comment-form">
@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xm-12 tr-sticky">
+        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-xm-12 offset-1">
             @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
