@@ -164,7 +164,19 @@ Route::get('/', 'MainController@home')->name('home');
  * @package Shadomby
  */
 
- //  Delete Comment
+ //  Deleting League
+Route::post('/delete_league', 'LeagueController@deleteLeague');
+
+//  Updates or Editing League
+Route::post('/edit_league', 'LeagueController@editLeague');
+
+//  Getting Leagues
+Route::get('/get_leagues', 'LeagueController@getLeagues');
+ 
+//  Add New League
+Route::post('/add_new_league', 'LeagueController@addNewLeague');
+
+//  Delete Comment
 Route::post('/delete_comment', 'ApiController@deleteComment');
 
 //  Delete video
@@ -263,8 +275,6 @@ Route::post('/upload_ads_image', 'ApiController@uploadAdsImage');
 //  Getting Ads
 Route::get('/get_ads', 'ApiController@getAds');
 
-//  Editing or Update Ads
-Route::post('/edit_ads', 'ApiController@editAds');
 //  Editing or Update Ads
 Route::post('/edit_ads', 'ApiController@editAds');
 

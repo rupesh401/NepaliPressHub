@@ -75,6 +75,11 @@
                         </router-link>
                     </li>
                     <li class="label">Settings</li>
+                    <li  :class="$route.path === '/manage_leagues' ? 'active' : ''">
+                        <router-link to="manage_leagues">
+                            <i class="ti-basketball"></i> Leagues
+                        </router-link>
+                    </li>
                     <li  :class="$route.path === '/manage_contacts' ? 'active' : ''">
                         <router-link to="manage_contacts">
                             <i class="ti-email"></i> Contacts
