@@ -86,7 +86,7 @@
             </template>
             <div style="text-align:center">
                 <p><strong>Are you sure you want to delete this <i>{{ leagueName }}</i> league?</strong></p>
-                <p>This action cannot be undone. Once deleted, the league will be permanently removed.</p>
+                <p>This action cannot be undone. Once deleted, the league will be permanently removed with their related teams.</p>
             </div>
             <div slot="footer">
                 <Button @click="confirmDeleteLeague()" type="error">
@@ -116,7 +116,7 @@
                 <Form ref="validateLeagueForm" :model="league" :rules="validateLeague">
                     <Row>
                         <Col span="24">
-                        <FormItem label="League" prop="league">
+                        <FormItem label="League Name" prop="league">
                             <Input v-model="league.league" type="text" placeholder="EPL"></Input>
                         </FormItem>
                         </Col>
@@ -141,7 +141,7 @@
                 <Form ref="validateEditLeagueForm" :model="league" :rules="validateLeague">
                     <Row>
                         <Col span="24">
-                        <FormItem label="Post Title" prop="title">
+                        <FormItem label="League Name" prop="title">
                             <Input v-model="league.league" type="text" placeholder="Tech"></Input>
                         </FormItem>
                         </Col>

@@ -20,6 +20,9 @@ import manageGallery from './components/pages/admin/manageGallery'
 import manageAds from './components/pages/admin/manageAds'
 import manageAdvertise from './components/pages/admin/manageAdvertise'
 import manageLeagues from './components/pages/admin/manageLeagues'
+import manageTeams from './components/pages/admin/manageTeams'
+import manageTables from './components/pages/admin/manageTables'
+import manageLiveMatchs from './components/pages/admin/manageLiveMatchs'
 
 Vue.use(Router)
 
@@ -44,6 +47,9 @@ const routes = [
     { path: '/manage_ads', component: manageAds },
     { path: '/manage_advertise', component: manageAdvertise },
     { path: '/manage_leagues', component: manageLeagues },
+    { path: '/manage_teams', component: manageTeams },
+    { path: '/manage_league_tables', component: manageTables },
+    { path: '/manage_live_matchs', component: manageLiveMatchs },
 ]
 
 export default new Router({

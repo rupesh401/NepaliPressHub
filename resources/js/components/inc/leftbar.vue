@@ -75,9 +75,24 @@
                         </router-link>
                     </li>
                     <li class="label">Settings</li>
+                    <li  :class="$route.path === '/manage_live_matchs' ? 'active' : ''">
+                        <router-link to="manage_live_matchs">
+                            <i class="ti-basketball"></i> Live Matchs
+                        </router-link>
+                    </li>
                     <li  :class="$route.path === '/manage_leagues' ? 'active' : ''">
                         <router-link to="manage_leagues">
                             <i class="ti-basketball"></i> Leagues
+                        </router-link>
+                    </li>
+                    <li  :class="$route.path === '/manage_teams' ? 'active' : ''">
+                        <router-link to="manage_teams">
+                            <i class="ti-cup"></i> Teams
+                        </router-link>
+                    </li>
+                    <li  :class="$route.path === '/manage_league_tables' ? 'active' : ''">
+                        <router-link to="manage_league_tables">
+                            <i class="ti-layout-grid4-alt"></i> Table Leagues
                         </router-link>
                     </li>
                     <li  :class="$route.path === '/manage_contacts' ? 'active' : ''">
