@@ -91,8 +91,17 @@
                                         <a href="{{ route('videos') }}">Videos</a>
                                     </li>
                                     <li
-                                        class="sports mr-1">
-                                        <a href="{{ route('contact-us') }}">Football</a>
+                                        class="sports mr-1 dropdown">
+                                        <a href="javascript:void(0);" class="dropdown-toggle"
+                                            data-toggle="dropdown">Football</a>
+                                        <ul class="dropdown-menu">
+                                            @foreach ($leagues as $leg)
+                                                <li><a
+                                                        href="{{ route('single-provinces', $leg->league) }}">{{ $leg->league }}</a>
+                                                </li>
+                                            @endforeach
+
+                                        </ul>
                                     </li>
                                     <li
                                         class="sports mr-1">

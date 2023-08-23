@@ -164,7 +164,19 @@ Route::get('/', 'MainController@home')->name('home');
  * @package Shadomby
  */
 
- //  Update Table 
+ //  Delete Match
+Route::post('/delete_match', 'LeagueController@deleteMatch');
+
+//  Edit Match
+Route::post('/edit_match', 'LeagueController@editMatch');
+
+//  Getting Matches
+Route::get('/get_matches', 'LeagueController@getMatches');
+
+//  Add New Match  
+Route::post('/add_new_match', 'LeagueController@addNewMatch');
+
+//  Update Table 
 Route::post('/update_table', 'LeagueController@updateTable');
 
 //  Deleting Team

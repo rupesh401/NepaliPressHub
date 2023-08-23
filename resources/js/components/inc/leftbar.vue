@@ -75,9 +75,9 @@
                         </router-link>
                     </li>
                     <li class="label">Settings</li>
-                    <li  :class="$route.path === '/manage_live_matchs' ? 'active' : ''">
-                        <router-link to="manage_live_matchs">
-                            <i class="ti-basketball"></i> Live Matchs
+                    <li  :class="$route.path === '/manage_live_matches' ? 'active' : ''">
+                        <router-link to="manage_live_matches">
+                            <i class="ti-blackboard"></i> Live Matchs
                         </router-link>
                     </li>
                     <li  :class="$route.path === '/manage_leagues' ? 'active' : ''">
