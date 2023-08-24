@@ -21,7 +21,6 @@
                                             <div class="league-result">
                                                 <ul>
                                                     @foreach ($results as $result)
-                                                    {{-- {{ $result }} --}}
                                                         <li>
                                                             <div class="row">
                                                                 <div class="col-5 text-right">
@@ -63,7 +62,7 @@
                                                                             src="{{ "$pF/news/assets/images/gallery/team2.png" }}"
                                                                             alt="Image" />
                                                                         <span
-                                                                            class="team-name">{{ $result->match->away->team }}</span>
+                                                                            class="team-name">{{ @$result->match->away->team }}</span>
                                                                     </a>
                                                                 </div>
                                                             </div>

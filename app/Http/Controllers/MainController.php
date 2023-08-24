@@ -1093,19 +1093,9 @@ class MainController extends Controller
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $sideAds = Ads::with(['prv'])->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
-        $results = Result::with(['match' => function($query) use($football) {
-            $query->with(['home' => function($query) use($football) { $query->whereHas('league', function ($query) use ($football) {
-                $query->where('league', $football);
-            }); }, 'away']);
-        }])->orderBy('date', 'asc')->get();
-        // $results = Result::with(['match' => function ($query) use ($football) {
-        //     $query->whereHas('home', function ($query) use ($football) {
-        //         $query->whereHas('league', function ($query) use ($football) {
-        //             $query->where('league', $football);
-        //         });
-        //     })->with('away');
-        // }])->orderBy('date', 'asc')->get();
-        // dd($results);
+        $results = Result::with(['match.home.league', 'match.away'])
+        ->whereHas('match.home.league', function ($query) use ($football) {
+            $query->where('league', $football);})->orderBy('date', 'asc')->get();
         return view('news.pages.football', [
             'sideAds' => $sideAds,
             'navAds' => $navAds,
