@@ -32,8 +32,8 @@
                                 </span><br>
                                 <span>
                                     @php
-                                        $homeScores = explode(', ', $match->result->home_scorer);
-                                        echo implode('<br>', $homeScores);
+                                        $homeScores = explode('), ', $match->result->home_scorer);
+                                        echo implode(')<br>', $homeScores);
                                     @endphp
                                 </span>
                             </div>
@@ -65,8 +65,8 @@
                                 </span><br>
                                 <span>
                                     @php
-                                        $homeScores = explode(', ', $match->result->away_scorer);
-                                        echo implode('<br>', $homeScores);
+                                        $awayScores = explode('), ', $match->result->away_scorer);
+                                        echo implode(')<br>', $awayScores);
                                     @endphp
                                 </span>
                             </div>
