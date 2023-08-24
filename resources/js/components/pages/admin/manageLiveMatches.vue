@@ -63,14 +63,14 @@
                                                     <td>
                                                         <Button
                                                             @click="viewMatch(match.home.team, match.away.team, match.result.date,
-                                                                match.result.time, match.result.status, match.result.home_score, match.result.away_score)"
+                                                                match.result.time, match.result.status, match.result.home_score, match.result.away_score, match.result.home_scorer, match.result.away_scorer)"
                                                             size="small">
                                                             <Icon type="ios-eye-outline" color="blue" size="20" />
                                                         </Button>
                                                         <Button
                                                             @click="editMatchModal(match.id, match.result.id, match.team_home_id,
                                                                 match.team_away_id, match.result.date, match.result.time,
-                                                                match.result.status, match.result.home_score, match.result.away_score)"
+                                                                match.result.status, match.result.home_score, match.result.away_score, match.result.home_scorer, match.result.away_scorer)"
                                                             size="small">
                                                             <Icon type="ios-create-outline" color="green" size="20" />
                                                         </Button>
@@ -122,6 +122,9 @@
                 </p>
                 <p>Results: <Tag :color="matchColor(1)" type="border">{{ match.home_score }}</Tag> - <Tag
                         :color="matchColor(1)" type="border">{{ match.away_score }}</Tag>
+                </p>
+                <p>Scorer: <Tag :color="matchColor(1)" type="border">{{ (match.home_scorer) }}</Tag> ---
+                    <Tag :color="matchColor(1)" type="border">{{ (match.away_scorer) }}</Tag>
                 </p>
                 <p>Date: <Tag :color="matchColor(1)" type="border">{{ match.date }}</Tag>
                 </p>
@@ -197,6 +200,16 @@
                             </Select>
                         </FormItem>
                         </Col>
+                        <Col span="11">
+                        <FormItem label="Home Scorer" prop="home_scorer">
+                            <Input v-model="match.home_scorer"></Input>
+                        </FormItem>
+                        </Col>
+                        <Col span="11" offset="2">
+                        <FormItem label="Away Scorer" prop="away_scorer">
+                            <Input v-model="match.away_scorer"></Input>
+                        </FormItem>
+                        </Col>
                     </Row>
                 </Form>
             </template>
@@ -243,20 +256,19 @@
                             <Input v-model="match.away_score"></Input>
                         </FormItem>
                         </Col>
-                        <Col span="11">
+                        <Col span="8">
                         <FormItem label="Match Date" prop="date">
                             <DatePicker v-model="match.date" type="date" :options="options1" placeholder="Select Match date"
                                 style="width: 100%;" />
                         </FormItem>
                         </Col>
-                        <Col span="11" offset="2">
+                        <Col span="7" offset="1">
                         <FormItem label="Match Time" prop="time">
                             <TimePicker v-model="match.time" format="HH:mm" placeholder="Select match time"
                                 style="width: 100%;" />
                         </FormItem>
                         </Col>
-
-                        <Col v-if="match.status === 'Started'" span="11">
+                        <Col span="7" offset="1">
                         <FormItem label="Status" prop="status">
                             <Select v-model="match.status" filterable placeholder="Please select match status">
                                 <Option value="Not Started">Not Started</Option>
@@ -272,25 +284,14 @@
                             </Select>
                         </FormItem>
                         </Col>
-                        <Col v-else span="20" offset="2">
-                        <FormItem label="Status" prop="status">
-                            <Select v-model="match.status" filterable placeholder="Please select match status">
-                                <Option value="Not Started">Not Started</Option>
-                                <Option value="Started">Started</Option>
-                                <Option value="1st Half">1st Half</Option>
-                                <Option value="Halftime">Halftime</Option>
-                                <Option value="2nd Half">2nd Half</Option>
-                                <Option value="Extra Time">Extra Time</Option>
-                                <Option value="Penalties">Penalties</Option>
-                                <Option value="Finished">Finished</Option>
-                                <Option value="Postponed">Postponed</Option>
-                                <Option value="Cancelled">Cancelled</Option>
-                            </Select>
+                        <Col span="11">
+                        <FormItem label="Home Scorer" prop="home_scorer">
+                            <Input v-model="match.home_scorer"></Input>
                         </FormItem>
                         </Col>
-                        <Col v-if="match.status === 'Started'" span="11" offset="2">
-                        <FormItem label="Live Match Minutes" prop="time">
-                            <InputNumber :max="300" :min="1" v-model="match.minutes"  style="width: 100%;" />
+                        <Col span="11" offset="2">
+                        <FormItem label="Away Scorer" prop="away_scorer">
+                            <Input v-model="match.away_scorer"></Input>
                         </FormItem>
                         </Col>
                     </Row>
@@ -325,6 +326,8 @@ export default {
             isSaving: false,
             matches: [],
             teams: [],
+            homeScores: [],
+            awayScores: [],
             textMatch: [],
             homeTeamOptions: [],
             awayTeamOptions: [],
@@ -337,13 +340,13 @@ export default {
             matchName: "",
             matchId: "",
             resultId: "",
-            match: { home_team: "", home_score: 0, away_score: 0, away_team: "", date: "", minutes: 1, time: "", status: "" },
+            match: { home_team: "", home_score: 0, away_score: 0, away_team: "", date: "", minutes: 1, time: "", status: "", home_scorer: "", away_scorer: "" },
 
             validateMatch: {
                 match: [
                     {
                         required: true,
-                        message: "Match name cannot be empty.",
+                        message: "Match team cannot be empty.",
                         trigger: "blur",
                     },
                 ],
@@ -352,7 +355,7 @@ export default {
                 match: [
                     {
                         required: true,
-                        message: "Match name cannot be empty.",
+                        message: "Match team cannot be empty.",
                         trigger: "blur",
                     },
                 ],
@@ -408,6 +411,14 @@ export default {
     },
 
     methods: {
+        formatScorer(scores) {
+            if (scores) {
+                return scores.replace(/,\s*/g, '<br>');
+            } else {
+                return scores;
+            }
+            
+        },
         updateAwayTeamOptions() {
             this.awayTeamOptions = this.teams.filter(team => team.id !== this.match.home_team);
         },
@@ -445,7 +456,7 @@ export default {
             this.matchId = id;
         },
 
-        viewMatch(home, away, date, time, status, home_score, away_score) {
+        viewMatch(home, away, date, time, status, home_score, away_score, home_scorer, away_scorer) {
             this.viewMatchModal = true;
             this.match.home_team = home;
             this.match.away_team = away;
@@ -454,6 +465,8 @@ export default {
             this.match.status = status;
             this.match.home_score = home_score;
             this.match.away_score = away_score;
+            this.match.home_scorer = home_scorer;
+            this.match.away_scorer = away_scorer;
         },
         matchColor(index) {
             const colors = [
@@ -516,7 +529,7 @@ export default {
                 }
             });
         },
-        editMatchModal(id, resultId, team_home_id, team_away_id, date, time, status, home_score, away_score) {
+        editMatchModal(id, resultId, team_home_id, team_away_id, date, time, status, home_score, away_score, home_scorer, away_scorer) {
             this.editingMatchModal = true;
             this.matchId = id;
             this.resultId = resultId;
@@ -527,6 +540,8 @@ export default {
             this.match.status = status;
             this.match.home_score = home_score;
             this.match.away_score = away_score;
+            this.match.home_scorer = home_scorer;
+            this.match.away_scorer = away_scorer;
         },
 
         editMatch(name) {
@@ -565,6 +580,8 @@ export default {
             this.match.status = '';
             this.match.home_score = 0;
             this.match.away_score = 0;
+            this.match.home_scorer = '';
+            this.match.away_scorer = '';
         }
     },
 

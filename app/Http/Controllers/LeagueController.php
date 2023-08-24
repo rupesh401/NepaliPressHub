@@ -2,21 +2,82 @@
 
 namespace App\Http\Controllers;
 
+use App\About;
+use App\Ads;
+use App\Contact;
 use App\Game;
 use App\League;
 use App\Matchs;
+use App\MySite;
+use App\Post;
+use App\Province;
 use App\Result;
 use App\Table;
 use App\TableLeg;
+use App\Tag;
 use App\Team;
 use App\TeamLeg;
 use App\TeamTable;
+use App\Video;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class LeagueController extends Controller
 {   
+
+     /**
+     * This function returns single match page view
+     * @package sportsNews
+     * @return previewMatch view
+     */
+    public function previewMatch(Request $request, $home, $away, $link)
+    {
+        if ($request->cookie('language')) {
+            $lang = $request->cookie('language');
+        } else {
+            $lang = 'en';
+        }
+        $leagues = League::orderBy('created_at', 'asc')->get();
+
+        $about = About::where('id', 1)->get();
+        $tags = Tag::orderBy('id', 'ASC')->get();
+        $contact = Contact::where('id', 1)->get();
+       
+        $latestPost = Post::with(['tag', 'cat', 'prov', 'usr'])->latest('created_at')->where('status', 'Published')->take(3)->get();
+
+        $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
+        $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
+
+        $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
+        $recaptchaKey = config('services.recaptcha.key');
+        $provinces = Province::with(['post' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
+        $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
+        $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        return view('news.pages.single.match', [
+            'navAds' => $navAds,
+            'footerAds' => $footerAds,
+            'sideAds' => $sideAds,
+            'logo' => $logo,
+            'tags' => $tags,
+            'provinces' => $provinces,
+            'lang' => $lang,
+            'leagues' => $leagues,
+            'about' => $about,
+            'contact' => $contact,
+            'latestPost' => $latestPost,
+            'trendVideos' => $trendVideos,
+            'latestPosts' => $latestPosts,
+            'trendPosts' => $trendPosts,
+            'recaptchaKey' => $recaptchaKey
+        ]);
+    }
+
     public function uploadLeagueLogo(Request $request)
     {
         $picture = time() . '.' . $request->file->extension();
@@ -69,7 +130,11 @@ class LeagueController extends Controller
                 $result = Result::find($request->resultId);
                 $result->home_score = $request->home_score;
                 $result->away_score = $request->away_score;
+                $result->home_scorer = $request->home_scorer;
+                $result->away_scorer = $request->away_scorer;
                 $result->time = $request->time;
+                // $randomSlug = Str::random(10);
+                // $result->link = $randomSlug;
                 $result->minutes = $request->minutes;
                 $result->date = date('Y-m-d', strtotime($request->date));
                 if ($request->status != '') {
@@ -115,9 +180,14 @@ class LeagueController extends Controller
                 // Create and save the result
                 $result = new Result();
                 $result->user_id = Auth::user()->id;
-                $result->home_score = 0;
-                $result->away_score = 0;
+                $result->home_score = $request->home_score;
+                $result->away_score = $request->away_score;
+                $result->home_scorer = $request->home_scorer;
+                $result->away_scorer = $request->away_scorer;
                 $result->time = $request->time;
+                $randomSlug = Str::random(10);
+                $result->link = $randomSlug;
+                $result->link = $request->link;
                 $result->minutes = $request->minutes;
                 $result->date = date('Y-m-d', strtotime($request->date));
                 if ($request->status != '') {

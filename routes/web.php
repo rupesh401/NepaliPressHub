@@ -117,9 +117,9 @@ Route::get('/gallery', 'MainController@gallery')->name('gallery');
 Route::get('/gallery/album/{slug}', 'MainController@galleryAlbum')->name('gallery-album');
 
 /**
- * It Redirect to controller and return About us page
+ * It Redirect to controller and return Single Match page
  */
-//  Route::get('/about-us', 'MainController@aboutUs')->name('our-story');
+ Route::get('/preview/match/{home}/vs/{away}/{link}', 'LeagueController@previewMatch')->name('preview-match');
 
  /**
  * It Redirect to controller and return Contact us page

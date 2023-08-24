@@ -19,10 +19,13 @@ class CreateResultsTable extends Migration
             $table->integer('user_id');
             $table->string('home_score')->default(0);
             $table->string('away_score')->default(0);
+            $table->string('home_scorer')->nullable();
+            $table->string('away_scorer')->nullable();
             $table->string('time');
             $table->date('date');
             $table->integer('minutes')->nullable();
             $table->string('status')->default('Not Started');
+            $table->string('link')->unique();
             $table->timestamps();
 
             $table->foreign('game_id')->references('id')->on('games'); // Adjust the table name if necessary

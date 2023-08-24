@@ -28,7 +28,7 @@
                                                         <li>
                                                             <div class="row">
                                                                 <div class="col-5 text-right">
-                                                                    <a href="#">
+                                                                    <a href="{{ route('preview-match', ['home' => $result->match->home->team , 'away' => $result->match->away->team , 'link' => $result->link]) }}">
                                                                         <span
                                                                             class="team-name">{{ @$result->match->home->team }}</span>
                                                                         <img style="width: 30px" class="img-fluid"
@@ -61,7 +61,7 @@
                                                                     </span>
                                                                 </div>
                                                                 <div class="col-5 text-left">
-                                                                    <a href="#">
+                                                                    <a href="{{ route('preview-match', ['home' => $result->match->home->team , 'away' => $result->match->away->team , 'link' => $result->link]) }}">
                                                                         <img style="width: 30px" class="img-fluid"
                                                                             src="{{ "$pF/storage/uploads/team/logo/".$result->match->away->logo }}"
                                                                             alt="Image" />

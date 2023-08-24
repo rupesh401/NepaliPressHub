@@ -35,7 +35,7 @@
                     <p>
                         {{ $comment->comment }}
                     </p>
-                    <a href="javascript:void(0);" class="replay" data-comment-id="{{ $comment->id }}">Replay</a>
+                    <a href="javascript:void(0);" class="replay" data-comment-id="{{ $comment->id }}">Reply</a>
                 </div>
             </li>
             @foreach($comment->reply as $reply)
@@ -55,7 +55,7 @@
                     <p>
                        {{ $reply->message }}
                     </p>
-                    {{-- <a class="replay" href="#">Replay</a> --}}
+                    {{-- <a class="replay" href="#">Reply</a> --}}
                 </div>
             </li>
             @endforeach
@@ -117,7 +117,7 @@
         </form>
     </div>
     <div class="comments-box" id="reply-form">
-        <h1 class="section-title title">Replay a Comment</h1>
+        <h1 class="section-title title">Reply a Comment</h1>
         <form action="{{ route('reply-comment') }}" method="post">
             @csrf
             <div class="row">
