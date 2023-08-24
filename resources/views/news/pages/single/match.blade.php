@@ -1,6 +1,7 @@
 @extends('news.layouts.app')
 
 @section('title')
+    {{ @$match->home->team }} Vs {{ @$match->away->team }}
 @endsection
 
 @section('content')
@@ -15,18 +16,28 @@
                     <div class="featured-result p-3 content-center">
                         <h2 class="league-name">{{ $match->home->league[0]->league }}</h2>
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-3" style="text-align: center">
                                 <img class="img-fluid" src="{{ "$pF/storage/uploads/team/logo/" . $match->home->logo }}"
                                     alt="Image" />
+                                <br>
+                                <h3 class="mt-1">{{ @$match->home->team }}</h3>
+                            </div>
+                            <div class="col-2 text-right">
                                 <span class="match-result">
                                     @if ($match->result->status == 'Not Started' || $match->result->status == 'Postponed')
                                         --
                                     @else
                                         {{ $match->result->home_score }}
                                     @endif
+                                </span><br>
+                                <span>
+                                    @php
+                                        $homeScores = explode(', ', $match->result->home_scorer);
+                                        echo implode('<br>', $homeScores);
+                                    @endphp
                                 </span>
                             </div>
-                            <div class="col-4">
+                            <div class="col-2">
                                 <span class="verses">VS</span>
                                 @if ($match->result->status == 'Started')
                                     <span class="match-result p-1"
@@ -44,16 +55,25 @@
                                     @endif
                                 </span>
                             </div>
-                            <div class="col-4">
+                            <div class="col-2 text-left">
                                 <span class="match-result">
                                     @if ($match->result->status == 'Not Started' || $match->result->status == 'Postponed')
                                         --
                                     @else
                                         {{ $match->result->away_score }}
                                     @endif
+                                </span><br>
+                                <span>
+                                    @php
+                                        $homeScores = explode(', ', $match->result->away_scorer);
+                                        echo implode('<br>', $homeScores);
+                                    @endphp
                                 </span>
+                            </div>
+                            <div class="col-3" style="text-align: center">
                                 <img class="img-fluid" src="{{ "$pF/storage/uploads/team/logo/" . $match->away->logo }}"
-                                    alt="Image" />
+                                    alt="Image" /> <br>
+                                <h3 class="mt-1">{{ @$match->away->team }}</h3>
                             </div>
                         </div>
                     </div>
