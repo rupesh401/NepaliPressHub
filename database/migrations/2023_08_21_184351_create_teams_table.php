@@ -17,6 +17,7 @@ class CreateTeamsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('team');
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

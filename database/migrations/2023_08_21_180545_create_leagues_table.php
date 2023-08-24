@@ -17,6 +17,7 @@ class CreateLeaguesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('league');
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

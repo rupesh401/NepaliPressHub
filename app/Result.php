@@ -10,4 +10,5 @@ class Result extends Model
     {
         return $this->belongsTo(Game::class, 'game_id');
     }
+    
 }

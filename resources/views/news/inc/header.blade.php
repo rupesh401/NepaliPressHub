@@ -97,7 +97,7 @@
                                         <ul class="dropdown-menu">
                                             @foreach ($leagues as $leg)
                                                 <li><a
-                                                        href="{{ route('single-provinces', $leg->league) }}">{{ $leg->league }}</a>
+                                                        href="{{ route('football', $leg->league) }}">{{ $leg->league }}</a>
                                                 </li>
                                             @endforeach
 

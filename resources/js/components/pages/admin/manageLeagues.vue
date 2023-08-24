@@ -41,7 +41,8 @@
                                         <table class="table item-center">
                                             <thead class="content-center">
                                                 <tr>
-                                                    <th width="20%">ID</th>
+                                                    <th width="10%">ID</th>
+                                                    <th width="10%">Logo</th>
                                                     <th width="50%">League</th>
                                                     <th width="30%">Action</th>
                                                 </tr>
@@ -49,19 +50,24 @@
                                             <tbody>
                                                 <tr v-for="(league, i) in leagues" :key="i">
                                                     <td>{{ ++i }}</td>
+                                                    <td> <img style="object-fit: cover; width: 30px;"
+                                                            :src="`${url_api}uploads/league/logo/${league.logo}`"
+                                                            class="img-fluid" />
+                                                    </td>
                                                     <td>
                                                         <Tag :color="leagueColor(i)" type="border">{{ league.league }}
                                                         </Tag>
                                                     </td>
                                                     <td>
-                                                        <Button @click="viewLeague(league.league)">
+                                                        <Button @click="viewLeague(league.league, league.logo)">
                                                             <Icon type="ios-eye-outline" color="blue" size="25" />
                                                         </Button>
-                                                        <Button @click="editLeagueModal(i, league.id, league.league)">
+                                                        <Button
+                                                            @click="editLeagueModal(i, league.id, league.league, league.logo)">
                                                             <Icon type="ios-create-outline" color="green" size="25" />
                                                         </Button>
                                                         <Button v-if="$store.state.userInfos.level == 1"
-                                                            @click="deleteLeague(league.id, league.league)">
+                                                            @click="deleteLeague(league.id, league.league, league.logo)">
                                                             <Icon type="ios-trash-outline" color="red" size="25" />
                                                         </Button>
                                                     </td>
@@ -86,7 +92,8 @@
             </template>
             <div style="text-align:center">
                 <p><strong>Are you sure you want to delete this <i>{{ leagueName }}</i> league?</strong></p>
-                <p>This action cannot be undone. Once deleted, the league will be permanently removed with their related teams.</p>
+                <p>This action cannot be undone. Once deleted, the league will be permanently removed with their related
+                    teams.</p>
             </div>
             <div slot="footer">
                 <Button @click="confirmDeleteLeague()" type="error">
@@ -101,6 +108,8 @@
         </Modal>
         <Modal v-model="viewLeagueModal" title="View League" width="30%" class="text-center">
             <template>
+                <div><img style="object-fit: cover; width: 30px;" :src="`${url_api}uploads/league/logo/${league.logo}`"
+                        class="img-fluid" /></div>
                 <Tag :color="leagueColor(1)" type="border">{{ leagueName }}</Tag>
             </template>
             <div slot="footer">
@@ -120,6 +129,22 @@
                             <Input v-model="league.league" type="text" placeholder="EPL"></Input>
                         </FormItem>
                         </Col>
+                        <Col span="24">
+                        <template>
+                            <Upload action="/upload_league_logo" type="drag" :headers="{ 'x-csrf-token': token }"
+                                :on-success="handleSuccess" :format="['png', 'jpg', 'jpeg']"
+                                :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :max-size="2048">
+                                <div style="padding: 20px 0">
+                                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff" />
+                                    <p>Click or drag league logo here to upload</p>
+                                </div>
+                            </Upload>
+                        </template>
+                        </Col>
+                        <Col span="24" v-if="league.logo">
+                        <img style="object-fit: cover; width: 100%;" :src="`${url_api}uploads/league/logo/${league.logo}`"
+                            class="img-fluid" />
+                        </Col>
                     </Row>
                 </Form>
             </template>
@@ -128,8 +153,7 @@
                     <Icon type="md-close-circle" size="18" />
                     Cancel
                 </Button>
-                <Button @click="addLeague('validateLeagueForm')" type="primary" :disabled="isSaving"
-                    :loading="isSaving">
+                <Button @click="addLeague('validateLeagueForm')" type="primary" :disabled="isSaving" :loading="isSaving">
                     <Icon type="md-document" size="18" />
                     {{ isSaving ? "Saving..." : "Save" }}
                 </Button>
@@ -144,6 +168,22 @@
                         <FormItem label="League Name" prop="title">
                             <Input v-model="league.league" type="text" placeholder="Tech"></Input>
                         </FormItem>
+                        </Col>
+                        <Col span="24">
+                        <template>
+                            <Upload action="/upload_league_logo" type="drag" :headers="{ 'x-csrf-token': token }"
+                                :on-success="handleSuccess" :format="['png', 'jpg', 'jpeg']"
+                                :on-format-error="handleFormatError" :on-exceeded-size="handleMaxSize" :max-size="2048">
+                                <div style="padding: 20px 0">
+                                    <Icon type="ios-cloud-upload" size="52" style="color: #3399ff" />
+                                    <p>Click or drag league logo here to upload</p>
+                                </div>
+                            </Upload>
+                        </template>
+                        </Col>
+                        <Col span="24" v-if="league.logo">
+                        <img style="object-fit: cover; width: 100%;" :src="`${url_api}uploads/league/logo/${league.logo}`"
+                            class="img-fluid" />
                         </Col>
                     </Row>
                 </Form>
@@ -185,8 +225,9 @@ export default {
             status: "",
             token: "",
             leagueName: "",
+            deleteImageDetail: "",
             leagueId: "",
-            league: { league: "" },
+            league: { league: "", logo: "" },
 
             validateLeague: {
                 league: [
@@ -223,11 +264,41 @@ export default {
     computed: {},
 
     methods: {
+        async handleSuccess(response, file) {
+            if (this.deleteImageDetail) {
+                var path = this.url_api + "uploads/league/logo/" + this.deleteImageDetail;
+                const res = await this.callApi("post", "/delete_images", { path: path });
+                if (res.data.success == 1) {
+                    console.log("image removed");
+                } else {
+                    console.log("image was not deleted in the server");
+                }
+            }
+            this.league.logo = response;
+        },
+
+        handleFormatError(file) {
+            this.$Notice.warning({
+                title: "The file format is incorrect",
+                desc: "File format of " + file.name + " is incorrect, Please select jpg or png. ",
+            });
+        },
+
+        handleMaxSize(file) {
+            this.$Notice.warning({
+                title: "Exceeding file size limit",
+                desc: "File " + file.name + " is too large, no more than 2 MB. ",
+            });
+        },
+
         async confirmDeleteLeague() {
             this.isSaving = true;
             var data = { id: this.leagueId };
             const res = await this.callApi("post", "/delete_league", data);
             if (res.data.status_code === 200) {
+                if (this.deleteImageDetail) {
+                    this.handleSuccess()
+                }
                 this.getLeagues();
                 this.deleteLeagueModal = false;
                 this.isSaving = false;
@@ -240,14 +311,20 @@ export default {
 
         },
 
-        deleteLeague(id, league) {
+        deleteLeague(id, league, logo) {
             this.deleteLeagueModal = true;
             this.leagueName = league;
             this.leagueId = id;
+            if (logo) {
+                this.deleteImageDetail = logo
+            } else {
+                this.deleteImageDetail = ""
+            }
         },
-        viewLeague(league) {
+        viewLeague(league, logo) {
             this.viewLeagueModal = true;
             this.leagueName = league;
+            this.league.logo = logo;
         },
         leagueColor(index) {
             const colors = [
@@ -300,6 +377,7 @@ export default {
                         this.addingLeagueModal = false;
                         this.isSaving = false;
                         this.league.league = "";
+                        this.league.logo = "";
                         this.$refs[name].resetFields();
                         return this.s("New league was added successfully");
                     } else {
@@ -310,11 +388,17 @@ export default {
                 }
             });
         },
-        editLeagueModal(index, id, name) {
+        editLeagueModal(index, id, name, logo) {
             this.editingLeagueModal = true;
             this.rowIndex = index;
             this.leagueId = id;
             this.league.league = name;
+            if (logo) {
+                this.league.logo = logo;
+                this.deleteImageDetail = logo;
+            } else {
+                this.league.logo = "";
+            }
         },
 
         editLeague(name) {
@@ -328,6 +412,7 @@ export default {
                         this.editingLeagueModal = false;
                         this.isEditing = false;
                         this.league.league = "";
+                        this.league.logo = "";
                         this.$refs[name].resetFields();
                         return this.s("League was updated successfully");
                     } else {
@@ -344,6 +429,8 @@ export default {
             this.editingLeagueModal = false;
             this.deleteLeagueModal = false;
             this.viewLeagueModal = false;
+            this.league.league = '';
+            this.league.logo = '';
             this.$refs[name].resetFields();
         },
     },

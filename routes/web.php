@@ -147,6 +147,11 @@ Route::get('/videos', 'MainController@videos')->name('videos');
 Route::get('/videos/{slug}', 'MainController@singleVideo')->name('single-video');
 
 /**
+ * It Redirect to controller and return football page
+ */
+Route::get('/football/{football}', 'MainController@football')->name('football');
+
+/**
  * It Redirect to controller and return Single-Provinces page
  */
 Route::get('/province/{province}', 'MainController@singleProvince')->name('single-provinces');
@@ -163,6 +168,11 @@ Route::get('/', 'MainController@home')->name('home');
  * Apis Routes for Shadomby Admin Dashboard
  * @package Shadomby
  */
+ // Uploads League Logo
+ Route::post('/upload_league_logo', 'LeagueController@uploadLeagueLogo');
+
+ // Uploads Team Logo
+ Route::post('/upload_team_logo', 'LeagueController@uploadTeamLogo');
 
  //  Delete Match
 Route::post('/delete_match', 'LeagueController@deleteMatch');
@@ -218,7 +228,7 @@ Route::post('/update_comment_status', 'ApiController@updateCommentStatus');
 //  Get All Comments From Visitors
 Route::get('/get_comments', 'ApiController@getComments');
 
- // Uploads Images
+// Uploads Images
 Route::post('/uploads_images', 'ApiController@uploadImages');
 
 //  Delete Images

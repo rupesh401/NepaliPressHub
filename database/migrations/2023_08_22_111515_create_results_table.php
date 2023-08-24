@@ -21,6 +21,7 @@ class CreateResultsTable extends Migration
             $table->string('away_score')->default(0);
             $table->string('time');
             $table->date('date');
+            $table->integer('minutes')->nullable();
             $table->string('status')->default('Not Started');
             $table->timestamps();
 

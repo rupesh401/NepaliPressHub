@@ -54,15 +54,15 @@
                                             <tbody>
                                                 <tr v-for="(match, i) in matches" :key="i">
                                                     <td>{{ ++i }}</td>
-                                                    <td>{{ match.team_a.team }}</td>
-                                                    <td>{{ match.team_b.team }}</td>
+                                                    <td>{{ match.home.team }}</td>
+                                                    <td>{{ match.away.team }}</td>
                                                     <td>{{ match.result.time }}</td>
                                                     <td>{{ match.result.date }}</td>
                                                     <td>{{ match.result.status }}</td>
                                                     <td>{{ match.result.home_score }} - {{ match.result.away_score }} </td>
                                                     <td>
                                                         <Button
-                                                            @click="viewMatch(match.team_a.team, match.team_b.team, match.result.date,
+                                                            @click="viewMatch(match.home.team, match.away.team, match.result.date,
                                                                 match.result.time, match.result.status, match.result.home_score, match.result.away_score)"
                                                             size="small">
                                                             <Icon type="ios-eye-outline" color="blue" size="20" />
@@ -75,7 +75,7 @@
                                                             <Icon type="ios-create-outline" color="green" size="20" />
                                                         </Button>
                                                         <Button v-if="$store.state.userInfos.level == 1"
-                                                            @click="deleteMatch(match.id, match.team_a.team, match.team_b.team)"
+                                                            @click="deleteMatch(match.id, match.home.team, match.away.team)"
                                                             size="small">
                                                             <Icon type="ios-trash-outline" color="red" size="20" />
                                                         </Button>
@@ -243,19 +243,20 @@
                             <Input v-model="match.away_score"></Input>
                         </FormItem>
                         </Col>
-                        <Col span="8">
+                        <Col span="11">
                         <FormItem label="Match Date" prop="date">
                             <DatePicker v-model="match.date" type="date" :options="options1" placeholder="Select Match date"
                                 style="width: 100%;" />
                         </FormItem>
                         </Col>
-                        <Col span="7" offset="1">
+                        <Col span="11" offset="2">
                         <FormItem label="Match Time" prop="time">
                             <TimePicker v-model="match.time" format="HH:mm" placeholder="Select match time"
                                 style="width: 100%;" />
                         </FormItem>
                         </Col>
-                        <Col span="7" offset="1">
+
+                        <Col v-if="match.status === 'Started'" span="11">
                         <FormItem label="Status" prop="status">
                             <Select v-model="match.status" filterable placeholder="Please select match status">
                                 <Option value="Not Started">Not Started</Option>
@@ -269,6 +270,27 @@
                                 <Option value="Postponed">Postponed</Option>
                                 <Option value="Cancelled">Cancelled</Option>
                             </Select>
+                        </FormItem>
+                        </Col>
+                        <Col v-else span="20" offset="2">
+                        <FormItem label="Status" prop="status">
+                            <Select v-model="match.status" filterable placeholder="Please select match status">
+                                <Option value="Not Started">Not Started</Option>
+                                <Option value="Started">Started</Option>
+                                <Option value="1st Half">1st Half</Option>
+                                <Option value="Halftime">Halftime</Option>
+                                <Option value="2nd Half">2nd Half</Option>
+                                <Option value="Extra Time">Extra Time</Option>
+                                <Option value="Penalties">Penalties</Option>
+                                <Option value="Finished">Finished</Option>
+                                <Option value="Postponed">Postponed</Option>
+                                <Option value="Cancelled">Cancelled</Option>
+                            </Select>
+                        </FormItem>
+                        </Col>
+                        <Col v-if="match.status === 'Started'" span="11" offset="2">
+                        <FormItem label="Live Match Minutes" prop="time">
+                            <InputNumber :max="300" :min="1" v-model="match.minutes"  style="width: 100%;" />
                         </FormItem>
                         </Col>
                     </Row>
@@ -315,7 +337,7 @@ export default {
             matchName: "",
             matchId: "",
             resultId: "",
-            match: { home_team: "", home_score: 0, away_score: 0, away_team: "", date: "", time: "", status: "" },
+            match: { home_team: "", home_score: 0, away_score: 0, away_team: "", date: "", minutes: 1, time: "", status: "" },
 
             validateMatch: {
                 match: [
@@ -423,10 +445,10 @@ export default {
             this.matchId = id;
         },
 
-        viewMatch(team_a, team_b, date, time, status, home_score, away_score) {
+        viewMatch(home, away, date, time, status, home_score, away_score) {
             this.viewMatchModal = true;
-            this.match.home_team = team_a;
-            this.match.away_team = team_b;
+            this.match.home_team = home;
+            this.match.away_team = away;
             this.match.date = date;
             this.match.time = time;
             this.match.status = status;

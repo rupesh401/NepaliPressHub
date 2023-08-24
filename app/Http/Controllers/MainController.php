@@ -21,6 +21,7 @@ use App\MySite;
 use App\PostComment;
 use App\Province;
 use App\Reply;
+use App\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -1054,6 +1055,75 @@ class MainController extends Controller
         ]);
     }
 
+    /**
+     * This function return Football Results page view
+     * @package sportsNews
+     * @return Football results view
+     */
+    public function football(Request $request, $football)
+    {
+
+        if ($request->cookie('language')) {
+            $lang = $request->cookie('language');
+        } else {
+            $lang = 'en';
+        }
+        $leagues = League::orderBy('created_at', 'asc')->get();
+
+
+        $about = About::where('id', 1)->get();
+
+        $contact = Contact::where('id', 1)->get();
+
+        $latestPosts = Post::with(['com' => function ($query) {
+            $query->where('status', 'Approved');
+        }, 'tag', 'cat', 'prov', 'usr'])
+            ->where('status', 'Published')->where('lang', $lang)->orderBy('created_at', 'DESC')->take(10)->get();
+
+        $trendPosts = Post::with(['com' => function ($query) {
+            $query->where('status', 'Approved');
+        }, 'tag', 'cat', 'prov', 'usr'])
+            ->where('status', 'Published')->where('lang', $lang)->orderBy('views', 'DESC')->take(10)->get();
+
+        $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
+        $provinces = Province::with(['post' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
+        $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
+        $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        $sideAds = Ads::with(['prv'])->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+        $results = Result::with(['match' => function($query) use($football) {
+            $query->with(['home' => function($query) use($football) { $query->whereHas('league', function ($query) use ($football) {
+                $query->where('league', $football);
+            }); }, 'away']);
+        }])->orderBy('date', 'asc')->get();
+        // $results = Result::with(['match' => function ($query) use ($football) {
+        //     $query->whereHas('home', function ($query) use ($football) {
+        //         $query->whereHas('league', function ($query) use ($football) {
+        //             $query->where('league', $football);
+        //         });
+        //     })->with('away');
+        // }])->orderBy('date', 'asc')->get();
+        // dd($results);
+        return view('news.pages.football', [
+            'sideAds' => $sideAds,
+            'navAds' => $navAds,
+            'footerAds' => $footerAds,
+            'sideAds' => $sideAds,
+            'logo' => $logo,
+            'lang' => $lang,
+            'leagues' => $leagues,
+            'provinces' => $provinces,
+            'about' => $about,
+            'contact' => $contact,
+            'trendVideos' => $trendVideos,
+            'latestPosts' => $latestPosts,
+            'trendPosts' => $trendPosts,
+            'results' => $results,
+            'football' => $football,
+        ]);
+    }
     /**
      * This function return Single Province page view
      * @package sportsNews

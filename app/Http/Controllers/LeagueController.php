@@ -17,6 +17,23 @@ use Illuminate\Support\Facades\DB;
 
 class LeagueController extends Controller
 {   
+    public function uploadLeagueLogo(Request $request)
+    {
+        $picture = time() . '.' . $request->file->extension();
+        $path = 'uploads/league/logo';
+        $filePath = $request->file->storeAs($path, $picture, 'storage');
+
+        return $picture;
+    }
+    
+    public function uploadTeamLogo(Request $request)
+    {
+        $picture = time() . '.' . $request->file->extension();
+        $path = 'uploads/team/logo';
+        $filePath = $request->file->storeAs($path, $picture, 'storage');
+
+        return $picture;
+    }
     public function deleteMatch(Request $request)
     {
         DB::beginTransaction();
@@ -53,6 +70,7 @@ class LeagueController extends Controller
                 $result->home_score = $request->home_score;
                 $result->away_score = $request->away_score;
                 $result->time = $request->time;
+                $result->minutes = $request->minutes;
                 $result->date = date('Y-m-d', strtotime($request->date));
                 if ($request->status != '') {
                     $result->status = $request->status;
@@ -75,7 +93,7 @@ class LeagueController extends Controller
 
     public function getMatches()
     {
-        $games = Game::with(['teamA', 'teamB', 'result'])->orderBy('created_at', 'DESC')->get();
+        $games = Game::with(['home', 'away', 'result'])->orderBy('created_at', 'DESC')->get();
 
         if (!empty($games)) {
             return response()->json(['data' => $games, 'status' => 'success', 'status_code' => 200]);
@@ -100,6 +118,7 @@ class LeagueController extends Controller
                 $result->home_score = 0;
                 $result->away_score = 0;
                 $result->time = $request->time;
+                $result->minutes = $request->minutes;
                 $result->date = date('Y-m-d', strtotime($request->date));
                 if ($request->status != '') {
                     $result->status = $request->status;
@@ -177,6 +196,7 @@ class LeagueController extends Controller
             $updateTeam =  Team::find($request->id);
             if (empty($request->status)) {
                 $updateTeam->team = $request->team;
+                $updateTeam->logo = $request->logo;
                 $teamLeague = ['league_id' => $request->league, 'team_id' => $request->id];
                 TeamLeg::where('team_id', $request->id)->delete();
                 TeamLeg::insert($teamLeague);
@@ -205,6 +225,7 @@ class LeagueController extends Controller
             $newTeam = new Team();
             $newTeam->user_id = Auth::user()->id;
             $newTeam->team = $request->team;
+            $newTeam->logo = $request->logo;
             if ($newTeam->save()) {
                 $teamLeague = ['league_id' => $request->league, 'team_id' => $newTeam->id];
                 TeamLeg::insert($teamLeague);
@@ -271,6 +292,7 @@ class LeagueController extends Controller
     {
         $updateLeague =  League::find($request->id);
         $updateLeague->league = $request->league;
+        $updateLeague->logo = $request->logo;
         if ($updateLeague->update()) {
             return response()->json(['data' => $updateLeague, 'status' => 'success', 'status_code' => 201]);
         } else {
@@ -283,6 +305,7 @@ class LeagueController extends Controller
         $newLeague = new League();
         $newLeague->user_id = Auth::user()->id;
         $newLeague->league = $request->league;
+        $newLeague->logo = $request->logo;
         if ($newLeague->save()) {
             return response()->json(['data' => $newLeague, 'status' => 'success', 'status_code' => 201]);
         } else {
