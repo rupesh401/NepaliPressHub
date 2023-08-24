@@ -7,7 +7,11 @@
 @section('content')
     <div class="container">
         <div class="page-breadcrumbs">
-            <h1 class="section-title">{{ $football }} Fixtures and Results</h1>
+            <h1 class="section-title"> 
+                <img style="width: 30px" class="img-fluid"
+                src="{{ "$pF/storage/uploads/league/logo/".$results[0]->match->home->league[0]->logo }}"
+                alt="Image" />
+                {{ $football }} Fixtures and Results</h1>
         </div>
         <div class="section">
             <div class="row">
@@ -28,7 +32,7 @@
                                                                         <span
                                                                             class="team-name">{{ @$result->match->home->team }}</span>
                                                                         <img style="width: 30px" class="img-fluid"
-                                                                            src="{{ "$pF/news/assets/images/gallery/team1.png" }}"
+                                                                            src="{{ "$pF/storage/uploads/team/logo/".$result->match->home->logo }}"
                                                                             alt="Image" />
                                                                     </a>
                                                                 </div>
@@ -59,7 +63,7 @@
                                                                 <div class="col-5 text-left">
                                                                     <a href="#">
                                                                         <img style="width: 30px" class="img-fluid"
-                                                                            src="{{ "$pF/news/assets/images/gallery/team2.png" }}"
+                                                                            src="{{ "$pF/storage/uploads/team/logo/".$result->match->away->logo }}"
                                                                             alt="Image" />
                                                                         <span
                                                                             class="team-name">{{ @$result->match->away->team }}</span>
