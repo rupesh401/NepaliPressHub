@@ -59,7 +59,9 @@ class LeagueController extends Controller
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        $match = Game::whereHas('result', function ($query) use ($link) { $query->where('link', $link);})->with(['home.league','away.league'])->first();
         return view('news.pages.single.match', [
+            'match' => $match,
             'navAds' => $navAds,
             'footerAds' => $footerAds,
             'sideAds' => $sideAds,

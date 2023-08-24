@@ -1,49 +1,69 @@
 @extends('news.layouts.app')
 
-@section('title') @endsection
+@section('title')
+@endsection
 
 @section('content')
-
-<div class="col-lg-12 col-md-12 tr-sticky">
-    <div class="middle-content theiaStickySidebar">
-        <div class="section sports-section">
-            {{-- <h1 class="section-title title">Sports</h1>
-            <div class="cat-menu">
-                <a href="listing-sports.html">See all</a>
-            </div> --}}
-            <div class="football-result post">
-                <div class="featured-result">
-                    <h2 class="league-name">Premier League</h2>
-                    <div class="row">
-                        <div class="col-4">
-                            <img
-                                class="img-fluid"
-                                src="images/gallery/league1.png"
-                                alt="Image"
-                            />
-                            <span class="match-result">3</span>
-                        </div>
-                        <div class="col-4">
-                            <span class="verses">VS</span>
-                            <span class="match-time">90:00</span>
-                        </div>
-                        <div class="col-4">
-                            <img
-                                class="img-fluid"
-                                src="images/gallery/league2.png"
-                                alt="Image"
-                            />
-                            <span class="match-result">0</span>
+    <div class="col-lg-12 col-md-12 tr-sticky">
+        <div class="middle-content theiaStickySidebar">
+            <div class="section sports-section">
+                <h1 class="section-title title">{{ $match->home->league[0]->league }}</h1>
+                <div class="cat-menu">
+                    {{-- <a href="listing-sports.html">See all</a> --}}
+                </div>
+                <div class="football-result post">
+                    <div class="featured-result p-3 content-center">
+                        <h2 class="league-name">{{ $match->home->league[0]->league }}</h2>
+                        <div class="row">
+                            <div class="col-4">
+                                <img class="img-fluid" src="{{ "$pF/storage/uploads/team/logo/" . $match->home->logo }}"
+                                    alt="Image" />
+                                <span class="match-result">
+                                    @if ($match->result->status == 'Not Started' || $match->result->status == 'Postponed')
+                                        --
+                                    @else
+                                        {{ $match->result->home_score }}
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="col-4">
+                                <span class="verses">VS</span>
+                                @if ($match->result->status == 'Started')
+                                    <span class="match-result p-1"
+                                        style="background-color: red; color: white; font-size: 10px;">
+                                        Live</span><br>
+                                @endif
+                                <span class="match-time">
+                                    @if ($match->result->status == 'Started')
+                                        {{ $match->result->minutes }}'
+                                    @elseif ($match->result->status == 'Not Started')
+                                        {{ $match->result->status }} <br>
+                                        {{ $match->result->time }}
+                                    @elseif ($match->result->status == 'Finished')
+                                        Finished
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="col-4">
+                                <span class="match-result">
+                                    @if ($match->result->status == 'Not Started' || $match->result->status == 'Postponed')
+                                        --
+                                    @else
+                                        {{ $match->result->away_score }}
+                                    @endif
+                                </span>
+                                <img class="img-fluid" src="{{ "$pF/storage/uploads/team/logo/" . $match->away->logo }}"
+                                    alt="Image" />
+                            </div>
                         </div>
                     </div>
+
                 </div>
-                
             </div>
+
         </div>
-       
     </div>
-</div>
-{{-- <div class="container">
+    {{-- <div class="container">
     <div class="page-breadcrumbs">
        @if ($lang == 'en')
        @if ($singlePost->prov->count() > 0)
@@ -130,5 +150,4 @@
         </div>
     </div>  
 </div> --}}
-
 @endsection
