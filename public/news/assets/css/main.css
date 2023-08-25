@@ -2587,3 +2587,14 @@ input.header-mobile__search-control:focus {
 #comment-form > p > img {
     width: 100%;
 }
+.away {
+    background-color: #cfcdcd;
+}
+.draw {
+    border-width: 0px 1px 0px 1px;
+    border-style: solid;
+    border-color: #cfcdcd;
+}
+.status-goal {
+    font-size: 11px;
+}

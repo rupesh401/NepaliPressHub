@@ -119,7 +119,7 @@ Route::get('/gallery/album/{slug}', 'MainController@galleryAlbum')->name('galler
 /**
  * It Redirect to controller and return Single Match page
  */
- Route::get('/preview/match/{home}/vs/{away}/{link}', 'LeagueController@previewMatch')->name('preview-match');
+ Route::get('/preview/match/{league}/{home}/vs/{away}/{link}', 'LeagueController@previewMatch')->name('preview-match');
 
  /**
  * It Redirect to controller and return Contact us page

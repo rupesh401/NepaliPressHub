@@ -14,6 +14,7 @@
     <link href='{{ "$pF/news/assets/css/magnific-popup.css" }}' rel="stylesheet">
     <link href='{{ "$pF/news/assets/css/owl.carousel.css" }}' rel="stylesheet">
     <link href='{{ "$pF/news/assets/css/subscribe-better.css" }}' rel="stylesheet">
+    <link href='{{ "$pF/news/assets/css/table.css" }}' rel="stylesheet">
     <link href='{{ "$pF/news/assets/css/main.css" }}' rel="stylesheet">
     <link id="preset" rel="stylesheet" type="text/css" href='{{ "$pF/news/assets/css/presets/preset1.css" }}'>
     <link href='{{ "$pF/news/assets/css/responsive.css" }}' rel="stylesheet">

@@ -32,7 +32,7 @@ class LeagueController extends Controller
      * @package sportsNews
      * @return previewMatch view
      */
-    public function previewMatch(Request $request, $home, $away, $link)
+    public function previewMatch(Request $request, $league, $home, $away, $link)
     {
         if ($request->cookie('language')) {
             $lang = $request->cookie('language');
@@ -60,8 +60,29 @@ class LeagueController extends Controller
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $match = Game::whereHas('result', function ($query) use ($link) { $query->where('link', $link);})->with(['home.league','away.league'])->first();
+        $table = Table::whereHas('team.league', function ($query) use ($league) {$query->where('league', $league);})->with(['team'])->orderBy('pts', 'DESC')->get();
+        // $sportsNews = Post::with(['com' => function ($query) {
+        //     $query->where('status', 'Approved');
+        // }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'DESC')->get();
+        $keywords = ['sports', 'football', 'soccer', 'players', 'worldcup'];
+        $sportsNews = Post::with(['com' => function ($query) {
+            $query->where('status', 'Approved');
+        }, 'tag', 'cat', 'prov', 'usr'])
+            ->where('status', 'Published')
+            ->where(function ($query) use ($keywords) {
+                $query->whereHas('tag', function ($query) use ($keywords) {
+                    $query->whereIn('tag', $keywords);
+                })
+                ->orWhereHas('cat', function ($query) use ($keywords) {
+                    $query->whereIn('category', $keywords);
+                });
+            })
+            ->orderBy('created_at', 'DESC')
+            ->get();
         return view('news.pages.single.match', [
+            'table' => $table,
             'match' => $match,
+            'sportsNews' => $sportsNews,
             'navAds' => $navAds,
             'footerAds' => $footerAds,
             'sideAds' => $sideAds,
