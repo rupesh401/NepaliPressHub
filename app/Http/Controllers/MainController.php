@@ -1095,7 +1095,7 @@ class MainController extends Controller
         $sideAds = Ads::with(['prv'])->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
         $results = Result::with(['match.home.league', 'match.away'])
         ->whereHas('match.home.league', function ($query) use ($football) {
-            $query->where('league', $football);})->orderBy('date', 'asc')->get();
+            $query->where('league', $football);})->orderBy('date', 'desc')->get();
         return view('news.pages.football', [
             'sideAds' => $sideAds,
             'navAds' => $navAds,

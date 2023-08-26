@@ -14,10 +14,13 @@
     </style>
     <div class="col-lg-12 col-md-12 tr-sticky">
         <div class="middle-content theiaStickySidebar">
-            <div class="section sports-section">
-                <h1 class="section-title title">{{ $games->home->league[0]->league }}</h1>
+            <div class="section sports-section mt-4">
+                @if ($lang == 'en')
+                <h1 class="section-title" style="font-size: 15px"><a href="{{ route('home') }}"> Home </a> > <a> Football </a> > {{ $games->home->league[0]->league }}</h1>
+                @else
+                <h1 class="section-title" style="font-size: 15px"><a href="{{ route('home') }}"> घर </a> > <a> फुटबल </a> > {{ $games->home->league[0]->league }} </h1>
+                @endif
                 <div class="cat-menu">
-                    {{-- <a href="listing-sports.html">See all</a> --}}
                 </div>
                 <div class="football-result post">
                     <div class="featured-result p-3 content-center">
@@ -92,192 +95,194 @@
     </div>
     <div class="container">
         <div class="page-breadcrumbs">
-            <h1 class="section-title section-t" style="color: #f3f4f5;">Sports</h1>
+            <h1 class="section-title section-t" style="color: #f3f4f5;">Sports News</h1>
             <div class="world-nav cat-menu" style="left: 0;">
                 <ul class="list-inline">
-                    <li class="active"><a href="#">Summary</a></li>
-                    <li><a href="#">Table</a></li>
-                    <li><a href="#">News</a></li>
+                    <li class="active" id="summary-link"><a href="javascript:void(0)">Summary</a></li>
+                    <li id="table-link"><a href="javascript:void(0)">Table</a></li>
+                    <li id="news-link"><a href="javascript:void(0)">News</a></li>
                 </ul>
             </div>
         </div>
         <div class="section">
             <div class="row">
                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xm-12">
-                    <div id="site-content" class="site-content">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 tr-sticky">
-                                <h3 class="mt-4"><strong>STATISTICS</strong></h3>
-                                <h6 class="mt-4 ml-0">HEAD TO HEAD / LAST 5 MATCHES</h6>
-                                <div class="col-lg-12 col-md-12">
-                                    <div class="row">
-                                        <div class="league-result col-6 mt-1 p-0">
-                                            <ul>
-                                                <li>
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <img style="width:56px;" class="img-fluid"
-                                                                src="{{ "$pF/storage/uploads/team/logo/" . $games->home->logo }}"
-                                                                alt="Image" />
-                                                            <h2 class="mt-1">{{ @$games->home->team }}</h2>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="league-result col-6 mt-1 p-0 away">
-                                            <ul>
-                                                <li>
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <img style="width:56px;" class="img-fluid"
-                                                                src="{{ "$pF/storage/uploads/team/logo/" . $games->away->logo }}"
-                                                                alt="Image" />
-                                                            <h2 class="mt-1">{{ @$games->away->team }}</h2>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div id="teams-summary">
+                        <div id="site-content" class="site-content">
+                            <div class="row">
                                 <div class="col-lg-12 col-md-12 tr-sticky">
-                                    <div class="row">
-                                        <div class="league-result col-4 mt-3 p-0">
-                                            <ul class="m-0 p-0">
-                                                <li class="m-0 p-1">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <h2 class="mt-1">{{ $homeWinCount }}</h2>
-                                                            <p class="status-goal">WINS</p>
+                                    <h3 class="mt-4"><strong>STATISTICS</strong></h3>
+                                    <h6 class="mt-4 ml-0">HEAD TO HEAD / LAST 5 MATCHES</h6>
+                                    <div class="col-lg-12 col-md-12">
+                                        <div class="row">
+                                            <div class="league-result col-6 mt-1 p-0">
+                                                <ul>
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <img style="width:56px;" class="img-fluid"
+                                                                    src="{{ "$pF/storage/uploads/team/logo/" . $games->home->logo }}"
+                                                                    alt="Image" />
+                                                                <h2 class="mt-1">{{ @$games->home->team }}</h2>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="league-result col-6 mt-1 p-0 away">
+                                                <ul>
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <img style="width:56px;" class="img-fluid"
+                                                                    src="{{ "$pF/storage/uploads/team/logo/" . $games->away->logo }}"
+                                                                    alt="Image" />
+                                                                <h2 class="mt-1">{{ @$games->away->team }}</h2>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <div class="league-result col-4 mt-3 p-0 draw">
-                                            <ul>
-                                                <li class="m-0 p-1">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <h2 class="mt-1">{{ $drawCount }}</h2>
-                                                            <p class="status-goal">DRAW</p>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 tr-sticky">
+                                        <div class="row">
+                                            <div class="league-result col-4 mt-3 p-0">
+                                                <ul class="m-0 p-0">
+                                                    <li class="m-0 p-1">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <h2 class="mt-1">{{ $homeWinCount }}</h2>
+                                                                <p class="status-goal">WINS</p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="league-result col-4 mt-3 p-0">
-                                            <ul>
-                                                <li class="m-0 p-1">
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <h2 class="mt-1">{{ $awayWinCount }}</h2>
-                                                            <p class="status-goal">WINS</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="league-result col-4 mt-3 p-0 draw">
+                                                <ul>
+                                                    <li class="m-0 p-1">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <h2 class="mt-1">{{ $drawCount }}</h2>
+                                                                <p class="status-goal">DRAW</p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="league-result col-4 mt-3 p-0">
+                                                <ul>
+                                                    <li class="m-0 p-1">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <h2 class="mt-1">{{ $awayWinCount }}</h2>
+                                                                <p class="status-goal">WINS</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12 tr-sticky">
-                        <div class="middle-content">
-                            <h6 class="mt-4">RECENT MATCHES</h6>
-                            <div class="post football-result mt-1">
-                                <div class="league-result">
-                                    <ul>
-                                        <li class="p-3">
-                                            <div class="row">
-                                                <div class="col-4 text-left">
-                                                    <img style="width:30px;" class="img-fluid"
-                                                        src="{{ "$pF/storage/uploads/team/logo/" . $games->home->logo }}"
-                                                        alt="Image" />
-                                                    <span class="team-name">{{ @$games->home->team }}</span>
+                        <div class="col-lg-12 col-md-12 tr-sticky">
+                            <div class="middle-content">
+                                <h6 class="mt-4">RECENT MATCHES</h6>
+                                <div class="post football-result mt-1">
+                                    <div class="league-result">
+                                        <ul>
+                                            <li class="p-3">
+                                                <div class="row">
+                                                    <div class="col-4 text-left">
+                                                        <img style="width:30px;" class="img-fluid"
+                                                            src="{{ "$pF/storage/uploads/team/logo/" . $games->home->logo }}"
+                                                            alt="Image" />
+                                                        <span class="team-name">{{ @$games->home->team }}</span>
+                                                    </div>
+                                                    <div class="col-4">
+                                                    </div>
+                                                    <div class="col-4">
+                                                        @foreach ($homeMatches as $result)
+                                                            @if ($result->relation == 'home_team' && $result->result->home_score > $result->result->away_score)
+                                                                <img style="width:18px;" class="img-fluid"
+                                                                    src="{{ "$pF/news/assets/images/team/win.png" }}"
+                                                                    alt="Image" />
+                                                            @elseif ($result->relation == 'home_team' && $result->result->away_score > $result->result->home_score)
+                                                                <img style="width:18px;" class="img-fluid"
+                                                                    src="{{ "$pF/news/assets/images/team/lose.png" }}"
+                                                                    alt="Image" />
+                                                            @elseif ($result->relation == 'away_team' && $result->result->away_score > $result->result->home_score)
+                                                                <img style="width:18px;" class="img-fluid"
+                                                                    src="{{ "$pF/news/assets/images/team/win.png" }}"
+                                                                    alt="Image" />
+                                                                {{-- @endif --}}
+                                                            @elseif ($result->relation == 'away_team' && $result->result->away_score < $result->result->home_score)
+                                                                <img style="width:18px;" class="img-fluid"
+                                                                    src="{{ "$pF/news/assets/images/team/lose.png" }}"
+                                                                    alt="Image" />
+                                                            @elseif (
+                                                                ($result->result->status == 'Finished' || $result->result->status == 'Started') &&
+                                                                    $result->result->away_score == $result->result->home_score)
+                                                                <img style="width:18px;" class="img-fluid"
+                                                                    src="{{ "$pF/news/assets/images/team/draw.png" }}"
+                                                                    alt="Image" />
+                                                                {{-- @else --}}
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
                                                 </div>
-                                                <div class="col-4">
+                                            </li>
+                                            <li class="p-3">
+                                                <div class="row">
+                                                    <div class="col-4 text-left">
+                                                        <img style="width:30px;" class="img-fluid"
+                                                            src="{{ "$pF/storage/uploads/team/logo/" . $games->away->logo }}"
+                                                            alt="Image" />
+                                                        <span class="team-name">{{ @$games->away->team }}</span>
+                                                    </div>
+                                                    <div class="col-4">
+                                                    </div>
+                                                    <div class="col-4">
+                                                        @foreach ($awayMatches as $result)
+                                                            @if ($result->relation == 'home_team' && $result->result->home_score > $result->result->away_score)
+                                                                <img style="width:18px;" class="img-fluid"
+                                                                    src="{{ "$pF/news/assets/images/team/win.png" }}"
+                                                                    alt="Image" />
+                                                            @elseif ($result->relation == 'home_team' && $result->result->away_score > $result->result->home_score)
+                                                                <img style="width:18px;" class="img-fluid"
+                                                                    src="{{ "$pF/news/assets/images/team/lose.png" }}"
+                                                                    alt="Image" />
+                                                            @elseif ($result->relation == 'away_team' && $result->result->away_score > $result->result->home_score)
+                                                                <img style="width:18px;" class="img-fluid"
+                                                                    src="{{ "$pF/news/assets/images/team/win.png" }}"
+                                                                    alt="Image" />
+                                                                {{-- @endif --}}
+                                                            @elseif ($result->relation == 'away_team' && $result->result->away_score < $result->result->home_score)
+                                                                <img style="width:18px;" class="img-fluid"
+                                                                    src="{{ "$pF/news/assets/images/team/lose.png" }}"
+                                                                    alt="Image" />
+                                                            @elseif (
+                                                                ($result->result->status == 'Finished' || $result->result->status == 'Started') &&
+                                                                    $result->result->away_score == $result->result->home_score)
+                                                                <img style="width:18px;" class="img-fluid"
+                                                                    src="{{ "$pF/news/assets/images/team/draw.png" }}"
+                                                                    alt="Image" />
+                                                                {{-- @else --}}
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
                                                 </div>
-                                                <div class="col-4">
-                                                    @foreach ($homeMatches as $result)
-                                                        @if ($result->relation == 'home_team' && $result->result->home_score > $result->result->away_score)
-                                                            <img style="width:18px;" class="img-fluid"
-                                                                src="{{ "$pF/news/assets/images/team/win.png" }}"
-                                                                alt="Image" />
-                                                        @elseif ($result->relation == 'home_team' && $result->result->away_score > $result->result->home_score)
-                                                            <img style="width:18px;" class="img-fluid"
-                                                                src="{{ "$pF/news/assets/images/team/lose.png" }}"
-                                                                alt="Image" />
-                                                        @elseif ($result->relation == 'away_team' && $result->result->away_score > $result->result->home_score)
-                                                            <img style="width:18px;" class="img-fluid"
-                                                                src="{{ "$pF/news/assets/images/team/win.png" }}"
-                                                                alt="Image" />
-                                                            {{-- @endif --}}
-                                                        @elseif ($result->relation == 'away_team' && $result->result->away_score < $result->result->home_score)
-                                                            <img style="width:18px;" class="img-fluid"
-                                                                src="{{ "$pF/news/assets/images/team/lose.png" }}"
-                                                                alt="Image" />
-                                                        @elseif (
-                                                            ($result->result->status == 'Finished' || $result->result->status == 'Started') &&
-                                                                $result->result->away_score == $result->result->home_score)
-                                                            <img style="width:18px;" class="img-fluid"
-                                                                src="{{ "$pF/news/assets/images/team/draw.png" }}"
-                                                                alt="Image" />
-                                                            {{-- @else --}}
-                                                        @endif
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="p-3">
-                                            <div class="row">
-                                                <div class="col-4 text-left">
-                                                    <img style="width:30px;" class="img-fluid"
-                                                        src="{{ "$pF/storage/uploads/team/logo/" . $games->away->logo }}"
-                                                        alt="Image" />
-                                                    <span class="team-name">{{ @$games->away->team }}</span>
-                                                </div>
-                                                <div class="col-4">
-                                                </div>
-                                                <div class="col-4">
-                                                    @foreach ($awayMatches as $result)
-                                                        @if ($result->relation == 'home_team' && $result->result->home_score > $result->result->away_score)
-                                                            <img style="width:18px;" class="img-fluid"
-                                                                src="{{ "$pF/news/assets/images/team/win.png" }}"
-                                                                alt="Image" />
-                                                        @elseif ($result->relation == 'home_team' && $result->result->away_score > $result->result->home_score)
-                                                            <img style="width:18px;" class="img-fluid"
-                                                                src="{{ "$pF/news/assets/images/team/lose.png" }}"
-                                                                alt="Image" />
-                                                        @elseif ($result->relation == 'away_team' && $result->result->away_score > $result->result->home_score)
-                                                            <img style="width:18px;" class="img-fluid"
-                                                                src="{{ "$pF/news/assets/images/team/win.png" }}"
-                                                                alt="Image" />
-                                                            {{-- @endif --}}
-                                                        @elseif ($result->relation == 'away_team' && $result->result->away_score < $result->result->home_score)
-                                                            <img style="width:18px;" class="img-fluid"
-                                                                src="{{ "$pF/news/assets/images/team/lose.png" }}"
-                                                                alt="Image" />
-                                                        @elseif (
-                                                            ($result->result->status == 'Finished' || $result->result->status == 'Started') &&
-                                                                $result->result->away_score == $result->result->home_score)
-                                                            <img style="width:18px;" class="img-fluid"
-                                                                src="{{ "$pF/news/assets/images/team/draw.png" }}"
-                                                                alt="Image" />
-                                                            {{-- @else --}}
-                                                        @endif
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 tr-sticky">
+                    <div id="league-table" class="col-lg-12 col-md-12 tr-sticky">
                         <div class="middle-content">
                             <!-- Team Standings -->
                             <div class="card card--has-table mt-4">
@@ -326,8 +331,11 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Team Standings / End -->
+                        </div>
+                    </div>
+                    <div id="sports-news" class="col-lg-12 col-md-12 tr-sticky">
+                        <div class="middle-content">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="section">
@@ -352,7 +360,8 @@
                                                                                     class="fa fa-clock-o"></i>{{ $post->created_at->format('F d, Y') }}</a>
                                                                         </li>
                                                                         <li class="views">
-                                                                            <a><i class="fa fa-eye"></i>{{ $post->views }}</a>
+                                                                            <a><i
+                                                                                    class="fa fa-eye"></i>{{ $post->views }}</a>
                                                                         </li>
                                                                         <li class="loves">
                                                                             <a><i
@@ -388,7 +397,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xm-12">
                     @include('news.inc.sidebar')

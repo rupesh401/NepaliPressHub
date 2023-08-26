@@ -140,5 +140,46 @@
         });
     </script>
 @endif
+@if (Route::currentRouteName() == 'preview-match')
+    <script>
+        $(document).ready(function() {
+            // Hide Table and News content by default
+            $("#league-table, #sports-news").hide();
+
+            // Click event for Summary link
+            $("#summary-link").click(function() {
+                $("#teams-summary").show();
+                $("#league-table, #sports-news").hide();
+
+                $(this).addClass("active");
+                $("#table-link, #news-link").removeClass("active");
+
+                return false; // Prevent default link behavior
+            });
+
+            // Click event for Table link
+            $("#table-link").click(function() {
+                $("#league-table").show();
+                $("#teams-summary, #sports-news").hide();
+
+                $(this).addClass("active");
+                $("#summary-link, #news-link").removeClass("active");
+
+                return false; // Prevent default link behavior
+            });
+
+            // Click event for News link
+            $("#news-link").click(function() {
+                $("#sports-news").show();
+                $("#teams-summary, #league-table").hide();
+
+                $(this).addClass("active");
+                $("#summary-link, #table-link").removeClass("active");
+
+                return false; // Prevent default link behavior
+            });
+        });
+    </script>
+@endif
 
 </html>
