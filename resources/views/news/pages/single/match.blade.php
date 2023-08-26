@@ -328,12 +328,64 @@
                             </div>
 
                             <!-- Team Standings / End -->
-                            {{-- @foreach ($sportsNews as $item)
-                            <p>
-                               {{ $loop->index }}-{{ $item->cat[0]->category }}
-                            </p>  
-                            @endforeach --}}
-
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="section">
+                                        <div class="row">
+                                            @foreach ($sportsNews as $post)
+                                                @if ($post->image)
+                                                    <div class="col-md-6 col-lg-4">
+                                                        <div class="post medium-post">
+                                                            <div class="entry-header">
+                                                                <div class="entry-thumbnail">
+                                                                    <img class="img-fluid"
+                                                                        style="width: 255px; height: 146px; object-fit:cover;"
+                                                                        src="{{ "$pF/storage/uploads/posts/" . $post->image }}"
+                                                                        alt="Image" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="post-content">
+                                                                <div class="entry-meta">
+                                                                    <ul class="list-inline">
+                                                                        <li class="publish-date">
+                                                                            <a><i
+                                                                                    class="fa fa-clock-o"></i>{{ $post->created_at->format('F d, Y') }}</a>
+                                                                        </li>
+                                                                        <li class="views">
+                                                                            <a><i class="fa fa-eye"></i>{{ $post->views }}</a>
+                                                                        </li>
+                                                                        <li class="loves">
+                                                                            <a><i
+                                                                                    class="fa fa-heart-o"></i>{{ $post->likes }}</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <h2 class="entry-title">
+                                                                    <a href="{{ route('single-post', $post->slug) }}">
+                                                                        @php
+                                                                            $strippedContent = strip_tags($post->title);
+                                                                            $truncatedContent = mb_substr($strippedContent, 0, 25, 'UTF-8');
+                                                                            $remainingCharacters = mb_strlen($strippedContent, 'UTF-8') - mb_strlen($truncatedContent, 'UTF-8');
+                                                                            
+                                                                            // Display the truncated content
+                                                                            echo $truncatedContent;
+                                                                            
+                                                                            // If there are remaining characters, show an ellipsis
+                                                                            if ($remainingCharacters > 0) {
+                                                                                echo '...';
+                                                                            }
+                                                                        @endphp
+                                                                    </a>
+                                                                </h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

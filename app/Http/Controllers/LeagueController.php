@@ -70,16 +70,16 @@ class LeagueController extends Controller
         $sportsNews = Post::with(['com' => function ($query) {
             $query->where('status', 'Approved');
         }, 'tag', 'cat', 'prov', 'usr'])
-            ->where('status', 'Published')->where(function ($query) use ($keywords) {
+            ->where('status', 'Published')->where('lang', $lang)->where(function ($query) use ($keywords) {
                 $query->whereHas('tag', function ($query) use ($keywords) {
                     $query->whereIn('tag', $keywords);
                 })
                     ->orWhereHas('cat', function ($query) use ($keywords) {
                         $query->whereIn('category', $keywords);
                     });
-            })->orderBy('created_at', 'DESC')->get();
-        // $lastFiveHomeTeam = Team::where('team', $home)->with(['matchesAsTeamHome.result', 'matchesAsTeamAway.result'])->take(5)->get();
-        $lastFiveHomeTeam = Team::where('team', $home)->with([
+            })->orderBy('created_at', 'DESC')->take(12)->get();
+
+            $lastFiveHomeTeam = Team::where('team', $home)->with([
             'matchesAsTeamHome.result' => function ($query) {
                 $query->addSelect('id', 'game_id', 'home_score', 'away_score', 'time', 'date', 'status', 'created_at', 'updated_at')->orderByDesc('updated_at')->take(5);
             },
