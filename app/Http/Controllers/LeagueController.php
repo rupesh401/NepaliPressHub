@@ -25,9 +25,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class LeagueController extends Controller
-{   
+{
 
-     /**
+    /**
      * This function returns single match page view
      * @package sportsNews
      * @return previewMatch view
@@ -44,7 +44,7 @@ class LeagueController extends Controller
         $about = About::where('id', 1)->get();
         $tags = Tag::orderBy('id', 'ASC')->get();
         $contact = Contact::where('id', 1)->get();
-       
+
         $latestPost = Post::with(['tag', 'cat', 'prov', 'usr'])->latest('created_at')->where('status', 'Published')->take(3)->get();
 
         $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
@@ -59,29 +59,138 @@ class LeagueController extends Controller
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
-        $match = Game::whereHas('result', function ($query) use ($link) { $query->where('link', $link);})->with(['home.league','away.league'])->first();
-        $table = Table::whereHas('team.league', function ($query) use ($league) {$query->where('league', $league);})->with(['team'])->orderBy('pts', 'DESC')->get();
-        // $sportsNews = Post::with(['com' => function ($query) {
-        //     $query->where('status', 'Approved');
-        // }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'DESC')->get();
+        $games = Game::whereHas('result', function ($query) use ($link) {
+            $query->where('link', $link);
+        })->with(['home.league', 'away.league'])->first();
+        $table = Table::whereHas('team.league', function ($query) use ($league) {
+            $query->where('league', $league);
+        })->with(['team'])->orderBy('pts', 'DESC')->get();
+
         $keywords = ['sports', 'football', 'soccer', 'players', 'worldcup'];
         $sportsNews = Post::with(['com' => function ($query) {
             $query->where('status', 'Approved');
         }, 'tag', 'cat', 'prov', 'usr'])
-            ->where('status', 'Published')
-            ->where(function ($query) use ($keywords) {
+            ->where('status', 'Published')->where(function ($query) use ($keywords) {
                 $query->whereHas('tag', function ($query) use ($keywords) {
                     $query->whereIn('tag', $keywords);
                 })
-                ->orWhereHas('cat', function ($query) use ($keywords) {
-                    $query->whereIn('category', $keywords);
-                });
+                    ->orWhereHas('cat', function ($query) use ($keywords) {
+                        $query->whereIn('category', $keywords);
+                    });
+            })->orderBy('created_at', 'DESC')->get();
+        // $lastFiveHomeTeam = Team::where('team', $home)->with(['matchesAsTeamHome.result', 'matchesAsTeamAway.result'])->take(5)->get();
+        $lastFiveHomeTeam = Team::where('team', $home)->with([
+            'matchesAsTeamHome.result' => function ($query) {
+                $query->addSelect('id', 'game_id', 'home_score', 'away_score', 'time', 'date', 'status', 'created_at', 'updated_at')->orderByDesc('updated_at')->take(5);
+            },
+            'matchesAsTeamAway.result' => function ($query) {
+                $query->addSelect('id', 'game_id', 'home_score', 'away_score', 'time', 'date', 'status', 'created_at', 'updated_at')
+                    ->orderByDesc('updated_at')->take(5);
+            }
+        ])->select('id', 'team')->first();
+
+        if ($lastFiveHomeTeam) {
+            $homeMatches = collect([])->merge($lastFiveHomeTeam->matchesAsTeamHome->map(function ($match) {
+                $match->relation = 'home_team';
+                return $match;
+            }))->merge($lastFiveHomeTeam->matchesAsTeamAway->map(function ($match) {
+                $match->relation = 'away_team';
+                return $match;
+            }))->sortByDesc(function ($match) {
+                return $match->result->updated_at;
+            })->take(5);
+
+            foreach ($homeMatches as $match) {
+                $matchType = $match->relation;
+                $matchResult = $match->result;
+            }
+        }
+
+        $lastFiveAwayTeam = Team::where('team', $away)->with([
+            'matchesAsTeamHome.result' => function ($query) {
+                $query->addSelect('id', 'game_id', 'home_score', 'away_score', 'time', 'date', 'status', 'created_at', 'updated_at')->orderByDesc('updated_at')->take(5);
+            },
+            'matchesAsTeamAway.result' => function ($query) {
+                $query->addSelect('id', 'game_id', 'home_score', 'away_score', 'time', 'date', 'status', 'created_at', 'updated_at')
+                    ->orderByDesc('updated_at')->take(5);
+            }
+        ])->select('id', 'team')->first();
+
+        if ($lastFiveAwayTeam) {
+            $awayMatches = collect([])->merge($lastFiveAwayTeam->matchesAsTeamHome->map(function ($match) {
+                $match->relation = 'home_team';
+                return $match;
+            }))->merge($lastFiveAwayTeam->matchesAsTeamAway->map(function ($match) {
+                $match->relation = 'away_team';
+                return $match;
+            }))->sortByDesc(function ($match) {
+                return $match->result->updated_at;
+            })->take(5);
+
+            foreach ($awayMatches as $match) {
+                $matchType = $match->relation;
+                $matchResult = $match->result;
+            }
+        }
+
+        // Retrieve team IDs based on team names
+        $homeTeam = Team::where('team', $home)->value('id');
+        $awayTeam = Team::where('team', $away)->value('id');
+
+        // Retrieve head-to-head matches between the two teams
+        $headToHeadMatches = Game::where(function ($query) use ($homeTeam, $awayTeam) {
+            $query->where([
+                ['team_home_id', '=', $homeTeam],
+                ['team_away_id', '=', $awayTeam],
+            ])->orWhere([
+                ['team_home_id', '=', $awayTeam],
+                ['team_away_id', '=', $homeTeam],
+            ]);
+        })
+            ->whereHas('result', function ($query) {
+                $query->where('status', '<>', 'Not Started');
             })
-            ->orderBy('created_at', 'DESC')
+            ->with('result')
+            ->orderByDesc('updated_at')
+            ->take(5)
             ->get();
+
+        // Initialize counts for home and away teams
+        $homeWinCount = 0;
+        $awayWinCount = 0;
+        $drawCount = 0;
+
+        foreach ($headToHeadMatches as $match) {
+            $result = $match->result;
+            $homeScore = (int)$result->home_score;
+            $awayScore = (int)$result->away_score;
+
+            if ($homeScore > $awayScore) {
+                if ($match->team_home_id === $homeTeam) {
+                    $homeWinCount++;
+                } else {
+                    $awayWinCount++;
+                }
+            } elseif ($homeScore < $awayScore) {
+                if ($match->team_home_id === $homeTeam) {
+                    $awayWinCount++;
+                } else {
+                    $homeWinCount++;
+                }
+            } else {
+                $drawCount++;
+            }
+        }
+
+
         return view('news.pages.single.match', [
+            'homeWinCount' => $homeWinCount,
+            'awayWinCount' => $awayWinCount,
+            'drawCount' => $drawCount,
             'table' => $table,
-            'match' => $match,
+            'games' => $games,
+            'homeMatches' => $homeMatches,
+            'awayMatches' => $awayMatches,
             'sportsNews' => $sportsNews,
             'navAds' => $navAds,
             'footerAds' => $footerAds,
@@ -109,7 +218,7 @@ class LeagueController extends Controller
 
         return $picture;
     }
-    
+
     public function uploadTeamLogo(Request $request)
     {
         $picture = time() . '.' . $request->file->extension();
@@ -138,7 +247,7 @@ class LeagueController extends Controller
             ]);
         }
     }
-    
+
     public function editMatch(Request $request)
     {
         DB::beginTransaction();
@@ -210,7 +319,6 @@ class LeagueController extends Controller
                 $result->time = $request->time;
                 $randomSlug = Str::random(10);
                 $result->link = $randomSlug;
-                $result->link = $request->link;
                 $result->minutes = $request->minutes;
                 $result->date = date('Y-m-d', strtotime($request->date));
                 if ($request->status != '') {
@@ -232,7 +340,7 @@ class LeagueController extends Controller
             return response()->json(['message' => $th, 'status' => 'error', 'status_code' => 500]);
         }
     }
-   
+
 
     public function updateTable(Request $request)
     {
@@ -269,7 +377,7 @@ class LeagueController extends Controller
             return response()->json(['status' => 'failed', 'status_code' => 200]);
         }
     }
-   
+
     public function deleteTeam(Request $request)
     {
         $delTeam = Team::find($request->id);
