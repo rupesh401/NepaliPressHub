@@ -274,6 +274,8 @@ class LeagueController extends Controller
                 $result->corner_away = $request->corner_away;
                 $result->shorts_home = $request->shorts_home;
                 $result->shorts_away = $request->shorts_away;
+                $result->shorts_off_home = $request->shorts_off_home;
+                $result->shorts_off_away = $request->shorts_off_away;
                 $result->passes_home = $request->passes_home;
                 $result->passes_away = $request->passes_away;
                 $result->date = date('Y-m-d', strtotime($request->date));
@@ -324,6 +326,18 @@ class LeagueController extends Controller
                 $result->away_score = $request->away_score;
                 $result->home_scorer = $request->home_scorer;
                 $result->away_scorer = $request->away_scorer;
+
+                $result->possesion_home = $request->possesion_home;
+                $result->possesion_away = $request->possesion_away;
+                $result->corner_home = $request->corner_home;
+                $result->corner_away = $request->corner_away;
+                $result->shorts_home = $request->shorts_home;
+                $result->shorts_away = $request->shorts_away;
+                $result->shorts_off_home = $request->shorts_off_home;
+                $result->shorts_off_away = $request->shorts_off_away;
+                $result->passes_home = $request->passes_home;
+                $result->passes_away = $request->passes_away;
+
                 $result->time = $request->time;
                 $randomSlug = Str::random(10);
                 $result->link = $randomSlug;
