@@ -399,7 +399,9 @@
                             </div>
                         </div>
                     </div>
-                    @if ($games->result->corner_home != 0 && $games->result->corner_away != 0 && $games->result->shorts_home != 0 && $games->result->shorts_away != 0 && $games->result->passes_home != 0 && $games->result->passes_away != 0)
+                    @if ($games->result->corner_home != 0 && $games->result->corner_away != 0 && $games->result->shorts_home != 0 
+                    && $games->result->shorts_away != 0 && $games->result->passes_home != 0 && $games->result->passes_away != 0
+                    && $games->result->shorts_off_home != 0 && $games->result->shorts_off_away != 0)
                     <div class="col-lg-12 col-md-12 tr-sticky"><br>
                         <p class="text-center m-0 p-0">POSSESSION</p>
                         <div class="progress" style="height: 35px;">
