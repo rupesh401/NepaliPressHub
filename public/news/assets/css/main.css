@@ -2598,3 +2598,9 @@ input.header-mobile__search-control:focus {
 .status-goal {
     font-size: 11px;
 }
+.bg-color {
+    background-color: #4b4b49;
+}
+.bg-color-two {
+    background-color: #35302a;
+}
