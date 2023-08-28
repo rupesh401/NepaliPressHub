@@ -24,6 +24,16 @@ class CreateResultsTable extends Migration
             $table->string('time');
             $table->date('date');
             $table->integer('minutes')->nullable();
+            $table->integer('possesion_home')->nullable();
+            $table->integer('possesion_away')->nullable();
+            $table->integer('corner_home')->nullable();
+            $table->integer('corner_away')->nullable();
+            $table->integer('shorts_off_home')->nullable();
+            $table->integer('shorts_off_away')->nullable();
+            $table->integer('shorts_home')->nullable();
+            $table->integer('shorts_away')->nullable();
+            $table->integer('passes_home')->nullable();
+            $table->integer('passes_away')->nullable();
             $table->string('status')->default('Not Started');
             $table->string('link')->unique();
             $table->timestamps();

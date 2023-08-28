@@ -16,9 +16,11 @@
         <div class="middle-content theiaStickySidebar">
             <div class="section sports-section mt-4">
                 @if ($lang == 'en')
-                <h1 class="section-title" style="font-size: 15px"><a href="{{ route('home') }}"> Home </a> > <a> Football </a> > {{ $games->home->league[0]->league }}</h1>
+                    <h1 class="section-title" style="font-size: 15px"><a href="{{ route('home') }}"> Home </a> > <a> Football
+                        </a> > {{ $games->home->league[0]->league }}</h1>
                 @else
-                <h1 class="section-title" style="font-size: 15px"><a href="{{ route('home') }}"> घर </a> > <a> फुटबल </a> > {{ $games->home->league[0]->league }} </h1>
+                    <h1 class="section-title" style="font-size: 15px"><a href="{{ route('home') }}"> घर </a> > <a> फुटबल </a> >
+                        {{ $games->home->league[0]->league }} </h1>
                 @endif
                 <div class="cat-menu">
                 </div>
@@ -397,6 +399,39 @@
                             </div>
                         </div>
                     </div>
+                    @if ($games->result->corner_home != 0 && $games->result->corner_away != 0 && $games->result->shorts_home != 0 && $games->result->shorts_away != 0 && $games->result->passes_home != 0 && $games->result->passes_away != 0)
+                    <div class="col-lg-12 col-md-12 tr-sticky"><br>
+                        <p class="text-center m-0 p-0">POSSESSION</p>
+                        <div class="progress" style="height: 35px;">
+                            <div class="progress-bar" role="progressbar" style="width: {{ @$games->result->possesion_home }}%" aria-valuenow="15"
+                                aria-valuemin="0" aria-valuemax="100">{{ @$games->result->possesion_home }}%</div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ @$games->result->possesion_away }}%"
+                                aria-valuenow="{{ @$games->result->possesion_away }}" aria-valuemin="0" aria-valuemax="100">{{ @$games->result->possesion_away }}%</div>
+                        </div><br>
+                        <p class="text-center m-0 p-0">CORNERS</p>
+                        <div class="progress" style="height: 35px;">
+                            <div class="progress-bar" role="progressbar" style="width: {{ (@$games->result->corner_home/(@$games->result->corner_home + @$games->result->corner_away)*100) }}%" aria-valuenow="15"
+                                aria-valuemin="0" aria-valuemax="100">{{ @$games->result->corner_home }}</div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ (@$games->result->corner_away/(@$games->result->corner_home + @$games->result->corner_away)*100) }}%"
+                                aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{ @$games->result->corner_away }}</div>
+                        </div><br>
+                        <p class="text-center m-0 p-0">SHOTS ON TARGET</p>
+                        <div class="progress" style="height: 35px;">
+                            <div class="progress-bar" role="progressbar" style="width: {{ (@$games->result->shorts_home/(@$games->result->shorts_home + @$games->result->shorts_away)*100) }}%" aria-valuenow="15"
+                                aria-valuemin="0" aria-valuemax="100">{{ @$games->result->shorts_home }}</div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ (@$games->result->shorts_away/(@$games->result->shorts_away + @$games->result->shorts_away)*100) }}%"
+                                aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{ @$games->result->shorts_away }}</div>
+                        </div><br>
+                        <p class="text-center m-0 p-0">TOTAL PASSES</p>
+                        <div class="progress" style="height: 35px;">
+                            <div class="progress-bar" role="progressbar" style="width: {{ (@$games->result->passes_home/(@$games->result->passes_home + @$games->result->passes_away)*100) }}%" aria-valuenow="15"
+                                aria-valuemin="0" aria-valuemax="100">{{ @$games->result->passes_home }}</div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ (@$games->result->passes_away/(@$games->result->passes_home + @$games->result->passes_away)*100) }}%"
+                                aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">{{ @$games->result->passes_away }}</div>
+                        </div><br>
+                       
+                    </div>
+                    @endif
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xm-12">
                     @include('news.inc.sidebar')

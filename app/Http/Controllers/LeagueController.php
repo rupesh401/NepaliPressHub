@@ -181,7 +181,7 @@ class LeagueController extends Controller
                 $drawCount++;
             }
         }
-
+        // $statistics = Result::
 
         return view('news.pages.single.match', [
             'homeWinCount' => $homeWinCount,
@@ -268,6 +268,14 @@ class LeagueController extends Controller
                 // $randomSlug = Str::random(10);
                 // $result->link = $randomSlug;
                 $result->minutes = $request->minutes;
+                $result->possesion_home = $request->possesion_home;
+                $result->possesion_away = $request->possesion_away;
+                $result->corner_home = $request->corner_home;
+                $result->corner_away = $request->corner_away;
+                $result->shorts_home = $request->shorts_home;
+                $result->shorts_away = $request->shorts_away;
+                $result->passes_home = $request->passes_home;
+                $result->passes_away = $request->passes_away;
                 $result->date = date('Y-m-d', strtotime($request->date));
                 if ($request->status != '') {
                     $result->status = $request->status;
