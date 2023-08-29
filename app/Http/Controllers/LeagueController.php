@@ -26,6 +26,21 @@ use Illuminate\Support\Facades\DB;
 
 class LeagueController extends Controller
 {
+    public function getTodayMatches(Request $request)
+    {
+        $football = $request->query('football');
+        $date = $request->query('date');
+
+        $results = Result::with(['match.home.league', 'match.away'])
+            ->whereHas('match.home.league', function ($query) use ($football) {
+                $query->where('league', $football);
+            })
+            ->whereDate('date', $date) 
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return response()->json(['results' => $results]);
+    }
 
     /**
      * This function returns single match page view
@@ -181,7 +196,6 @@ class LeagueController extends Controller
                 $drawCount++;
             }
         }
-        // $statistics = Result::
 
         return view('news.pages.single.match', [
             'homeWinCount' => $homeWinCount,

@@ -2604,3 +2604,37 @@ input.header-mobile__search-control:focus {
 .bg-color-two {
     background-color: #35302a;
 }
+
+.filter-button {
+    background-color: #4b4b49;
+    border: 1px solid #fff;
+    padding: 10px;
+    cursor: pointer;
+}
+.filter-button:hover {
+    background-color: #00aeef;
+    border: 1px solid #fff;
+    padding: 10px;
+    color: #000;
+}
+.filter-active {
+    background-color: #00aeef;
+    border: 1px solid #fff;
+    padding: 10px;
+}
+.filter-date {
+    color: #ffffff;
+}
+/* .filter-date:hover {
+    color: #000;
+} */
+.a-tag {
+    margin: 0px 2px 0px 2px;
+}
+.list-tag {
+    background-color: #f2f3f5;
+    /* padding: 10px 10px !important; */
+}
+.span-tag {
+    font-size: 12px !important;
+}

@@ -22,6 +22,7 @@ use App\PostComment;
 use App\Province;
 use App\Reply;
 use App\Result;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -1093,10 +1094,23 @@ class MainController extends Controller
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $sideAds = Ads::with(['prv'])->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
+        $todayDate = Carbon::now()->format('Y-m-d');
         $results = Result::with(['match.home.league', 'match.away'])
         ->whereHas('match.home.league', function ($query) use ($football) {
-            $query->where('league', $football);})->orderBy('date', 'desc')->get();
+            $query->where('league', $football);
+        })
+        // ->whereDate('date', $todayDate) // Filter by current date
+        ->orderBy('date', 'desc')
+        ->get();
+        // dd($results);
+        $currentDate = Carbon::now();
+        $yesterdayDate = Carbon::yesterday()->toFormattedDateString();
+        $tomorrowDate = Carbon::tomorrow()->toFormattedDateString();
+        
         return view('news.pages.football', [
+            'currentDate' => $currentDate,
+            'yesterdayDate' => $yesterdayDate,
+            'tomorrowDate' => $tomorrowDate,
             'sideAds' => $sideAds,
             'navAds' => $navAds,
             'footerAds' => $footerAds,
