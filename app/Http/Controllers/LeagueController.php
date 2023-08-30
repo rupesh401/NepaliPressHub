@@ -19,6 +19,7 @@ use App\Team;
 use App\TeamLeg;
 use App\TeamTable;
 use App\Video;
+use Facade\Ignition\Tabs\Tab;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -294,7 +295,70 @@ class LeagueController extends Controller
                 $result->passes_away = $request->passes_away;
                 $result->date = date('Y-m-d', strtotime($request->date));
                 if ($request->status != '') {
-                    $result->status = $request->status;
+                    $singleResult = Result::where('id', $request->resultId)->first();
+                    if ($singleResult->status != 'Finished') {
+                        $result->status = $request->status;
+                        if ($request->status == 'Finished') {
+                            if ($request->home_score > $request->away_score) {
+                                $teamTable = TeamTable::where('team_id', $request->home_team)->first();
+                                $awayTeam = TeamTable::where('team_id', $request->away_team)->first();
+    
+                                $updateTable = Table::find($teamTable->table_id);
+                                $updateAway = Table::find($awayTeam->table_id);
+    
+                                $updateTable->increment('p');
+                                $updateTable->increment('w');
+                                $updateTable->increment('pts', 3);
+    
+                                $updateAway->increment('p');
+                                $updateAway->increment('l');
+    
+                                $updateTable->update();
+                                $updateAway->update();
+                                
+                            }
+                            if ($request->away_score > $request->home_score) {
+    
+                                $teamTable = TeamTable::where('team_id', $request->away_team)->first();
+                                $homeTeam = TeamTable::where('team_id', $request->home_team)->first();
+    
+                                $updateTable = Table::find($teamTable->table_id);
+                                $updateHome = Table::find($homeTeam->table_id);
+    
+                                $updateTable->increment('p');
+                                $updateTable->increment('w');
+                                $updateTable->increment('pts', 3);
+    
+                                $updateHome->increment('p');
+                                $updateHome->increment('l');
+    
+                                $updateTable->update();
+                                $updateHome->update();
+                            }
+                            if ($request->home_score == $request->away_score) {
+    
+                                $teamHomeTable = TeamTable::where('team_id', $request->home_team)->first();
+                                $teamAwayTable = TeamTable::where('team_id', $request->away_team)->first();
+    
+                                $updateHomeTable = Table::find($teamHomeTable->table_id);
+                                $updateAwayTable = Table::find($teamAwayTable->table_id);
+    
+                                $updateHomeTable->increment('p');
+                                $updateAwayTable->increment('p');
+    
+                                $updateHomeTable->increment('d');
+                                $updateAwayTable->increment('d');
+    
+                                $updateHomeTable->increment('pts');
+                                $updateAwayTable->increment('pts');
+    
+                                $updateHomeTable->update();
+                                $updateAwayTable->update();
+                                
+                            }
+                        }
+                    }
+                   
                 }
                 if ($result->update()) {
                     DB::commit();
