@@ -182,7 +182,6 @@
     </script>
 @endif
 @if (Route::currentRouteName() == 'football')
-    {{ Route::currentRouteName() }}
     <script>
         var filterDate = '';
         var resultsList = '';
@@ -200,66 +199,72 @@
                 method: 'GET',
                 success: function(data) {
                     var newResultsList = $('<ul>'); // Create a new ul element 
-                     resultsList = $('#results-list');
+                    resultsList = $('#results-list');
 
-                    data.results.forEach(function(result) {
-                        console.log(result + "Hello ")
-                        if (result != '') {
+                    console.log(data.results.length + "Hello ")
+                    if (data.results.length > 0) {
+                        data.results.forEach(function(result) {
                             var listItem = $('<li>');
-                        var row = $('<div class="row">');
+                            var row = $('<div class="row">');
 
-                        var col1 = $('<div class="col-5 text-right">');
-                        var link1 = $('<a>').attr('href', '/preview/match/' + football + '/' +
-                            result.match.home.team + '/vs/' + result.match.away.team + '/' +
-                            result.link);
-                        var teamLogo1 = $('<img>').attr('style', 'width: 30px').addClass(
-                            'img-fluid').attr('src', pF + '/storage/uploads/team/logo/' + result
-                            .match.home.logo).attr('alt', 'Image');
-                        var teamName1 = $('<span>').addClass('team-name').text(result.match.home
-                            .team);
-                        link1.append(teamName1, ' ', teamLogo1);
-                        col1.append(link1);
+                            var col1 = $('<div class="col-5 text-right">');
+                            var link1 = $('<a>').attr('href', '/preview/match/' + football + '/' +
+                                result.match.home.team + '/vs/' + result.match.away.team + '/' +
+                                result.link);
+                            var teamLogo1 = $('<img>').attr('style', 'width: 30px').addClass(
+                                'img-fluid').attr('src', pF + '/storage/uploads/team/logo/' +
+                                result
+                                .match.home.logo).attr('alt', 'Image');
+                            var teamName1 = $('<span>').addClass('team-name').text(result.match.home
+                                .team);
+                            link1.append(teamName1, ' ', teamLogo1);
+                            col1.append(link1);
 
-                        var col2 = $('<div class="col-2">');
-                        var matchResult = $('<span>').addClass('match-result');
-                        if (result.status === 'Started') {
-                            var liveSpan = $('<span>').addClass('match-result p-1').css({
-                                backgroundColor: 'red',
-                                color: 'white',
-                                fontSize: '10px'
-                            }).text('Live');
-                            matchResult.append(liveSpan, $('<br>'));
-                        }
-                        matchResult.append(result.home_score + '-' + result.away_score, $('<br>'));
-                        matchResult.append(result.status === 'Started' ? result.minutes + "'" : (
-                            result.status === 'Not Started' ? result.time : 'Finished'));
-                        col2.append(matchResult);
+                            var col2 = $('<div class="col-2">');
+                            var matchResult = $('<span>').addClass('match-result');
+                            if (result.status === 'Started') {
+                                var liveSpan = $('<span>').addClass('match-result p-1').css({
+                                    backgroundColor: 'red',
+                                    color: 'white',
+                                    fontSize: '10px'
+                                }).text('Live');
+                                matchResult.append(liveSpan, $('<br>'));
+                            }
+                            matchResult.append(result.home_score + '-' + result.away_score, $(
+                                '<br>'));
+                            matchResult.append(result.status === 'Started' ? result.minutes + "'" :
+                                (
+                                    result.status === 'Not Started' ? result.time : 'Finished'));
+                            col2.append(matchResult);
 
-                        var col3 = $('<div class="col-5 text-left">');
-                        var link2 = $('<a>').attr('href', '/preview/match/' + football + '/' +
-                            result.match.home.team + '/vs/' + result.match.away.team + '/' +
-                            result.link);
-                        var teamLogo2 = $('<img>').attr('style', 'width: 30px').addClass(
-                            'img-fluid').attr('src', pF + '/storage/uploads/team/logo/' + result
-                            .match.away.logo).attr('alt', 'Image');
-                        var teamName2 = $('<span>').addClass('team-name').text(result.match.away
-                            .team);
-                        link2.append(teamLogo2, ' ', teamName2);
-                        col3.append(link2);
+                            var col3 = $('<div class="col-5 text-left">');
+                            var link2 = $('<a>').attr('href', '/preview/match/' + football + '/' +
+                                result.match.home.team + '/vs/' + result.match.away.team + '/' +
+                                result.link);
+                            var teamLogo2 = $('<img>').attr('style', 'width: 30px').addClass(
+                                'img-fluid').attr('src', pF + '/storage/uploads/team/logo/' +
+                                result
+                                .match.away.logo).attr('alt', 'Image');
+                            var teamName2 = $('<span>').addClass('team-name').text(result.match.away
+                                .team);
+                            link2.append(teamLogo2, ' ', teamName2);
+                            col3.append(link2);
 
-                        row.append(col1, col2, col3);
-                        listItem.append(row);
-                        resultsList.append(listItem);
-                        } else {
-                            $('#results-list').replaceWith(newResultsList);
-                        }
-                       
-                    });
+                            row.append(col1, col2, col3);
+                            listItem.append(row);
+                            resultsList.append(listItem);
+
+
+                        });
+                    } else {
+                        resultsList.empty();
+                    }
                 }
             });
         }
 
         async function yesterdayMatch() {
+            resultsList.empty();
             filterDate = new Date(new Date().getTime() - 86400000).toISOString().slice(0, 10);
             await getMatches(filterDate);
 
@@ -269,6 +274,7 @@
         }
 
         async function todayMatch() {
+            resultsList.empty();
             filterDate = new Date().toISOString().slice(0, 10);
             await getMatches(filterDate);
 
@@ -278,6 +284,7 @@
         }
 
         async function tomorrowMatch() {
+            resultsList.empty();
             filterDate = new Date(new Date().getTime() + 86400000).toISOString().slice(0, 10);
             await getMatches(filterDate);
 
