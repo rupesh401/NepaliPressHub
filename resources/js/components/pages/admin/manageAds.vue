@@ -183,6 +183,10 @@
         <Modal v-model="addingAdsModal" title="Add Ad" width="40%">
             <template>
                 <Form ref="addFormValidation" :model="ad" :rules="ruleValidate">
+                    <p v-if="ad.position == 'sidebar' || ad.position == 'sidebar-home'" style="color: red; text-align: center;">Ads Height should be 283px and Width 255px</p>
+                    <p v-if="ad.position == 'home-between'" style="color: red; text-align: center;">Ads Height should be 100px and Width 825px</p>
+                    <p v-if="ad.position == 'navbar'" style="color: red; text-align: center;">Ads Height should be 90px and Width 730px</p>
+                    <p v-if="ad.position == 'footer'" style="color: red; text-align: center;">Ads Height should be 90px and Width 680px</p>
                     <Row>
                         <Col v-if="ad.position === 'sidebar'" span="11">
                         <FormItem label="Position" prop="position">
