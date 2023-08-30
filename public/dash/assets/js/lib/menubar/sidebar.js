@@ -93,95 +93,95 @@
 
 
   // check if hide on content click
-  sidebar.prototype.isHideOnContentClick = function() {
-    return this.$sidebar.hasClass('sidebar-overlap-content');
-  }
+  // sidebar.prototype.isHideOnContentClick = function() {
+  //   return this.$sidebar.hasClass('sidebar-overlap-content');
+  // }
 
-  // check if sidebar static position
-  sidebar.prototype.isStatic = function() {
-    return this.$sidebar.hasClass('sidebar-static');
-  }
+  // // check if sidebar static position
+  // sidebar.prototype.isStatic = function() {
+  //   return this.$sidebar.hasClass('sidebar-static');
+  // }
 
 
-  sidebar.prototype.togglesidebar = function(type) {
-    var _this = this;
-    var show = !_this.isShow();
+  // sidebar.prototype.togglesidebar = function(type) {
+  //   var _this = this;
+  //   var show = !_this.isShow();
 
-    if(type) {
-      if(
-        (type=='show' && !show)
-        || (type=='hide' && show)) {
-        return;
-      }
-    }
+  //   if(type) {
+  //     if(
+  //       (type=='show' && !show)
+  //       || (type=='hide' && show)) {
+  //       return;
+  //     }
+  //   }
 
-    _this.options.changed = true;
+  //   _this.options.changed = true;
 
-    if( show ) {
-      _this.showsidebar();
-    } else {
-      _this.hidesidebar();
-    }
-  }
+  //   if( show ) {
+  //     _this.showsidebar();
+  //   } else {
+  //     _this.hidesidebar();
+  //   }
+  // }
 
-  sidebar.prototype.showsidebar = function() {
-    var _this = this;
+  // sidebar.prototype.showsidebar = function() {
+  //   var _this = this;
 
-    _this.$body.removeClass('sidebar-hide');
+  //   _this.$body.removeClass('sidebar-hide');
 
-    if( _this.showType() == 'push'/* && !_this.isStatic() */) {
-      _this.$body.css('overflow', 'hidden');
-    }
+  //   if( _this.showType() == 'push'/* && !_this.isStatic() */) {
+  //     _this.$body.css('overflow', 'hidden');
+  //   }
 
-    setTimeout(function() {
-      // restore scroller on normal sidebar after end animation (300ms)
-      _this.$nano.nanoScroller();
+  //   setTimeout(function() {
+  //     // restore scroller on normal sidebar after end animation (300ms)
+  //     _this.$nano.nanoScroller();
 
-      // resize for charts reinit
-      _this.$window.resize();
-    }, _this.options.duration);
-  }
+  //     // resize for charts reinit
+  //     _this.$window.resize();
+  //   }, _this.options.duration);
+  // }
 
-  sidebar.prototype.hidesidebar = function() {
-    var _this = this;
+  // sidebar.prototype.hidesidebar = function() {
+  //   var _this = this;
 
-    _this.$body.addClass('sidebar-hide');
+  //   _this.$body.addClass('sidebar-hide');
 
-    // destroy scroller on hidden sidebar
-    _this.$nano.nanoScroller({ destroy: true });
+  //   // destroy scroller on hidden sidebar
+  //   _this.$nano.nanoScroller({ destroy: true });
 
-    // resize for charts reinit
-    setTimeout(function() {
-      if( _this.showType() == 'push'/* && !_this.isStatic() */) {
-        _this.$body.css('overflow', 'visible');
-      }
-      _this.$window.resize();
-    }, _this.options.duration);
-  }
+  //   // resize for charts reinit
+  //   setTimeout(function() {
+  //     if( _this.showType() == 'push'/* && !_this.isStatic() */) {
+  //       _this.$body.css('overflow', 'visible');
+  //     }
+  //     _this.$window.resize();
+  //   }, _this.options.duration);
+  // }
 
 
   // toggle submenu [open or close]
-  sidebar.prototype.toggleSub = function(toggle) {
-    var _this = this;
+  // sidebar.prototype.toggleSub = function(toggle) {
+  //   var _this = this;
 
-    var toggleParent = toggle.parent();
-    var subMenu = toggleParent.find('> ul');
-    var opened = toggleParent.hasClass('open');
+  //   var toggleParent = toggle.parent();
+  //   var subMenu = toggleParent.find('> ul');
+  //   var opened = toggleParent.hasClass('open');
 
-    if(!subMenu.length) {
-      return;
-    }
+  //   if(!subMenu.length) {
+  //     return;
+  //   }
 
-    // close
-    if(opened) {
-      _this.closeSub(subMenu);
-    }
+  //   // close
+  //   if(opened) {
+  //     _this.closeSub(subMenu);
+  //   }
 
-    // open
-    else {
-      _this.openSub(subMenu, toggleParent);
-    }
-  }
+  //   // open
+  //   else {
+  //     _this.openSub(subMenu, toggleParent);
+  //   }
+  // }
 
   // close submenus
   sidebar.prototype.closeSub = function(subMenu) {
