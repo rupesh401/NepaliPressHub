@@ -200,8 +200,6 @@
                 success: function(data) {
                     var newResultsList = $('<ul>'); // Create a new ul element 
                     resultsList = $('#results-list');
-
-                    console.log(data.results.length + "Hello ")
                     if (data.results.length > 0) {
                         data.results.forEach(function(result) {
                             var listItem = $('<li>');
@@ -230,8 +228,11 @@
                                 }).text('Live');
                                 matchResult.append(liveSpan, $('<br>'));
                             }
-                            matchResult.append(result.home_score + '-' + result.away_score, $(
-                                '<br>'));
+                            matchResult.append(result.status === 'Not Started' || result.status ===
+                                'Postponed' ?
+                                '-- &nbsp; --' :
+                                result.home_score + '-' + result.away_score,
+                                $('<br>'));
                             matchResult.append(result.status === 'Started' ? result.minutes + "'" :
                                 (
                                     result.status === 'Not Started' ? result.time : 'Finished'));
