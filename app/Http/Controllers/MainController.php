@@ -1055,6 +1055,63 @@ class MainController extends Controller
             'trendPosts' => $trendPosts,
         ]);
     }
+    /**
+     * This function return entertainment page view
+     * @package sportsNews
+     * @return entertainment view
+     */
+    public function entertainment(Request $request)
+    {
+        if ($request->cookie('language')) {
+            $lang = $request->cookie('language');
+        } else {
+            $lang = 'en';
+        }
+        $leagues = League::orderBy('created_at', 'asc')->get();
+        $about = About::where('id', 1)->get();
+
+        $contact = Contact::where('id', 1)->get();
+
+        $firstPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'desc')->first();
+
+        $secondPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'desc')->skip(1)->take(2)->get();
+
+        $intNews = Post::with(['com' => function ($query) {
+            $query->where('status', 'Approved');
+        }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function ($query) {
+            $query->where('category', 'entertainment');})->orderBy('created_at', 'DESC')->paginate(15);
+        $randPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->inRandomOrder()->take(3)->get();
+        $onePost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->latest('created_at')->take(1)->get();
+        $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
+        $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
+        $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
+        $provinces = Province::with(['post' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
+        $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
+        $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        return view('news.pages.entertainment', [
+            'navAds' => $navAds,
+            'footerAds' => $footerAds,
+            'sideAds' => $sideAds,
+            'logo' => $logo,
+            'lang' => $lang,
+            'leagues' => $leagues,
+            'intNews' => $intNews,
+            'provinces' => $provinces,
+            'about' => $about,
+            'contact' => $contact,
+            'onePost' => $onePost,
+            'firstPost' => $firstPost,
+            'randPosts' => $randPosts,
+            'secondPosts' => $secondPosts,
+            'trendVideos' => $trendVideos,
+            'latestPosts' => $latestPosts,
+            'trendPosts' => $trendPosts,
+        ]);
+    }
 
     /**
      * This function return Football Results page view

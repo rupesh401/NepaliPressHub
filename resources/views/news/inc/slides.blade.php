@@ -22,7 +22,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <h2 class="entry-title">
+                            <h2 class="entry-title slide-title">
                                 <a href="{{ route('single-post', $post->slug) }}">{{ $post->title }}</a>
                             </h2>
                         </div>

@@ -66,6 +66,9 @@
                                     <li class="sports mr-1">
                                         <a href="{{ route('news') }}">International News</a>
                                     </li>
+                                    <li class="sports mr-1">
+                                        <a href="{{ route('entertainment') }}">Entertainment</a>
+                                    </li>
 
                                     <li class="sports mr-1 dropdown">
                                         <a href="javascript:void(0);" class="dropdown-toggle"
@@ -188,6 +191,9 @@
                                 <ul class="nav navbar-nav nav-add">
                                     <li class="sports mr-2"><a href="{{ route('home') }}">घर</a></li>
                                     <li class="sports mr-2"><a href="{{ route('news') }}">अन्तर्राष्ट्रिय समाचार</a>
+                                    </li>
+                                    <li class="sports mr-1">
+                                        <a href="{{ route('entertainment') }}">मनोरञ्जन</a>
                                     </li>
 
                                     <li class="home mr-2 dropdown"><a href="javascript:void(0);"

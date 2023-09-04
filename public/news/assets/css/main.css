@@ -2638,3 +2638,6 @@ input.header-mobile__search-control:focus {
 .span-tag {
     font-size: 12px !important;
 }
+.slide-title {
+    font-size: 35px !important;
+}

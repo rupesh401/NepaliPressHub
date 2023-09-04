@@ -128,17 +128,17 @@
                             </span>
                         </a>
                         <ul>
-                            <li :class="$route.path === '/manage_contacts' ? 'active' : ''">
+                            <li>
                                 <router-link to="manage_contacts">
                                     <i class="ti-email"></i> Contacts
                                 </router-link>
                             </li>
-                            <li :class="$route.path === '/manage_our_story' ? 'active' : ''">
+                            <li>
                                 <router-link to="manage_our_story">
                                     <i class="ti-info-alt"></i> Our Story
                                 </router-link>
                             </li>
-                            <li :class="$route.path === '/manage_advertise' ? 'active' : ''">
+                            <li>
                                 <router-link to="manage_advertise">
                                     <i class="ti-image"></i> Advertise
                                 </router-link>
@@ -189,9 +189,9 @@ export default {
                 to.path === "/my_profile";
             
             this.settingsActive =
-                to.path === "/manage_comments" ||
-                to.path === "/manage_admins" ||
-                to.path === "/my_profile";
+                to.path === "/manage_contacts" ||
+                to.path === "/manage_our_story" ||
+                to.path === "/manage_advertise";
 
             console.log("Route updated:", to.path);
         },

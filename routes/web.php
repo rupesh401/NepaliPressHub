@@ -137,6 +137,11 @@ Route::get('/gallery/album/{slug}', 'MainController@galleryAlbum')->name('galler
 Route::get('/international-news', 'MainController@news')->name('news');
 
 /**
+ * It Redirect to controller and return entertainment page
+ */
+Route::get('/entertainment', 'MainController@entertainment')->name('entertainment');
+
+/**
  * It Redirect to controller and return Single-Provinces page
  */
 Route::get('/videos', 'MainController@videos')->name('videos');
