@@ -60,17 +60,17 @@
                             </a>
                             <nav id="mainmenu" class="navbar-left collapse navbar-collapse">
                                 <ul class="nav navbar-nav nav-add">
-                                    <li class="sports mr-1">
+                                    <li class="sports">
                                         <a href="{{ route('home') }}">Home</a>
                                     </li>
-                                    <li class="sports mr-1">
+                                    <li class="sports">
                                         <a href="{{ route('news') }}">International News</a>
                                     </li>
-                                    <li class="sports mr-1">
+                                    <li class="sports">
                                         <a href="{{ route('entertainment') }}">Entertainment</a>
                                     </li>
 
-                                    <li class="sports mr-1 dropdown">
+                                    <li class="sports dropdown">
                                         <a href="javascript:void(0);" class="dropdown-toggle"
                                             data-toggle="dropdown">Province</a>
                                         <ul class="dropdown-menu">
@@ -82,13 +82,13 @@
 
                                         </ul>
                                     </li>
-                                    <li class="sports mr-1">
+                                    <li class="sports">
                                         <a href="{{ route('gallery') }}">Gallery</a>
                                     </li>
-                                    <li class="sports mr-1">
+                                    <li class="sports">
                                         <a href="{{ route('videos') }}">Videos</a>
                                     </li>
-                                    <li class="sports mr-1 dropdown">
+                                    <li class="sports dropdown">
                                         <a href="javascript:void(0);" class="dropdown-toggle"
                                             data-toggle="dropdown">Football</a>
                                         <ul class="dropdown-menu">
@@ -100,15 +100,15 @@
 
                                         </ul>
                                     </li>
-                                    <li class="sports mr-1">
+                                    <li class="sports">
                                         <a href="{{ route('our-story') }}">Our Story</a>
                                     </li>
-                                    <li class="sports mr-1">
+                                    <li class="sports">
                                         <a href="{{ route('contact-us') }}">Contact Us</a>
                                     </li>
 
                                     <!-- Header Search Form -->
-                                    <div class="header-search-form header-search-form--right ml-1">
+                                    <div class="header-search-form header-search-form--right">
                                         <form action="{{ route('search') }}" method="post" id="mobile-search-form"
                                             class="search-form">
                                             @csrf
