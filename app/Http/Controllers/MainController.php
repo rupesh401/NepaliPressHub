@@ -1076,10 +1076,16 @@ class MainController extends Controller
 
         $secondPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'desc')->skip(1)->take(2)->get();
 
-        $intNews = Post::with(['com' => function ($query) {
+        $entertainments = Post::with(['com' => function ($query) {
             $query->where('status', 'Approved');
         }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function ($query) {
-            $query->where('category', 'entertainment');})->orderBy('created_at', 'DESC')->paginate(15);
+            $query->where('category', 'entertainment');})->orderBy('created_at', 'DESC')->skip(1)->take(6)->get();
+        
+        $singleEntertainment = Post::with(['com' => function ($query) {
+            $query->where('status', 'Approved');
+        }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function ($query) {
+            $query->where('category', 'entertainment');})->orderBy('created_at', 'DESC')->first();
+
         $randPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->inRandomOrder()->take(3)->get();
         $onePost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->latest('created_at')->take(1)->get();
         $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
@@ -1099,7 +1105,8 @@ class MainController extends Controller
             'logo' => $logo,
             'lang' => $lang,
             'leagues' => $leagues,
-            'intNews' => $intNews,
+            'entertainments' => $entertainments,
+            'singleEntertainment' => $singleEntertainment,
             'provinces' => $provinces,
             'about' => $about,
             'contact' => $contact,
