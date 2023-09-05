@@ -472,6 +472,7 @@ export default {
 
             filteredMatches: [],
             teamFilter: "",
+            awayLeague: "",
 
             tableLoading: true,
             keyword: "",
@@ -584,6 +585,10 @@ export default {
     },
 
     methods: {
+        findLeague() {
+            alert('changed')
+        },
+
         formatScorer(scores) {
             if (scores) {
                 return scores.replace(/,\s*/g, '<br>');
@@ -593,7 +598,8 @@ export default {
 
         },
         updateAwayTeamOptions() {
-            this.awayTeamOptions = this.teams.filter(team => team.id !== this.match.home_team);
+            // console.log(this.teams[0].league[0].league)
+            this.awayTeamOptions = this.teams.filter(team => team.id != this.match.home_team && team.league[0].league == this.awayLeague);
         },
 
         async getTeams() {

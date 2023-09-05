@@ -36,6 +36,19 @@
                     <div class="main-content">
                         <div class="row">
                             <div class="col-lg-12">
+                                <template>
+                                    <Form>
+                                        <Row>
+                                            <Col span="20" offset="1" class="p-4 m-4">
+                                            <Select v-model="teamFilter" placeholder="Filter by Team Name" filterable>
+                                                <Option value="">All Teams</Option>
+                                                <Option v-for="(team, i) in teams" :key="i" :value="team.team">{{ team.team
+                                                }}</Option>
+                                            </Select>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </template>
                                 <div class="card alert">
                                     <div class="order-list-item">
                                         <table class="table item-center">
@@ -49,7 +62,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(team, i) in teams" :key="i">
+                                                <tr v-for="(team, i) in newDatas" :key="i">
                                                     <td>{{ ++i }}</td>
                                                     <td> <img style="object-fit: cover; width: 30px;"
                                                             :src="`${url_api}uploads/team/logo/${team.logo}`"
@@ -240,6 +253,7 @@ export default {
             isSaving: false,
             teams: [],
             leagues: [],
+            teamFilter: "",
             textTeam: [],
             tableLoading: true,
             keyword: "",
@@ -286,7 +300,23 @@ export default {
         await this.getLeagues();
     },
 
-    computed: {},
+    computed: {
+         // Apply filters to the Teams
+         newDatas() {
+            let filteredTeams = this.teams;
+
+            // Apply Team filter
+            if (this.teamFilter) {
+                filteredTeams = filteredTeams.filter(team => {
+                    return (
+                        team.team.toLowerCase().includes(this.teamFilter.toLowerCase())
+                    );
+                });
+            }
+
+            return filteredTeams;
+        }
+    },
 
     methods: {
 
