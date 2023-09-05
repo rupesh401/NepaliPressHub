@@ -46,21 +46,21 @@
     });
 
     // hide sidebar when push content overlay
-    _this.$content.on( 'click', function() {
-      if( _this.isHideOnContentClick() ) {
-        _this.hidesidebar();
-      }
-    })
+    // _this.$content.on( 'click', function() {
+    //   if( _this.isHideOnContentClick() ) {
+    //     _this.hidesidebar();
+    //   }
+    // })
 
     // toggle sub menus
-    _this.$sidebar.on('click', 'li a.sidebar-sub-toggle', function(e) {
-      e.preventDefault();
-      _this.toggleSub($(this));
-    });
+    // _this.$sidebar.on('click', 'li a.sidebar-sub-toggle', function(e) {
+    //   e.preventDefault();
+    //   _this.toggleSub($(this));
+    // });
 
-    if( _this.showType() == 'push' && _this.isShow()) {
-      _this.$body.css('overflow', 'hidden');
-    }
+    // if( _this.showType() == 'push' && _this.isShow()) {
+    //   _this.$body.css('overflow', 'hidden');
+    // }
 
     // init gesture swipes
     if( _this.$sidebar.hasClass('sidebar-gestures') ) {

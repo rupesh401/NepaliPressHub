@@ -193,7 +193,7 @@ export default {
                 to.path === "/manage_our_story" ||
                 to.path === "/manage_advertise";
 
-            console.log("Route updated:", to.path);
+            // console.log("Route updated:", to.path);
         },
         toggleList() {
             this.isActive = !this.isActive;

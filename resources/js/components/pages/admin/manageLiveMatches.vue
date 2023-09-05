@@ -36,6 +36,19 @@
                     <div class="main-content">
                         <div class="row">
                             <div class="col-lg-12">
+                                <template>
+                                    <Form>
+                                        <Row>
+                                            <Col span="20" offset="1" class="p-4 m-4">
+                                            <Select v-model="teamFilter" placeholder="Filter by Team Name" filterable>
+                                                <Option value="">All Teams</Option>
+                                                <Option v-for="(team, i) in teams" :key="i" :value="team.team">{{ team.team
+                                                }}</Option>
+                                            </Select>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </template>
                                 <div class="card alert">
                                     <div class="order-list-item">
                                         <table class="table item-center">
@@ -52,7 +65,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(match, i) in matches" :key="i">
+                                                <tr v-for="(match, i) in newDatas" :key="i">
                                                     <td>{{ ++i }}</td>
                                                     <td>{{ match.home.team }}</td>
                                                     <td>{{ match.away.team }}</td>
@@ -218,64 +231,64 @@
                     </Row>
                 </Form>
                 <template v-if="match.status === 'Finished' || match.status === 'Halftime'">
-                    <Form  label-position="left" :label-width="70">
-                    <Row>
-                        <p style="color: red;">Home Team Statistics</p>
-                        <Col span="5">
+                    <Form label-position="left" :label-width="70">
+                        <Row>
+                            <p style="color: red;">Home Team Statistics</p>
+                            <Col span="5">
                             <FormItem label="Possession ">
                                 <InputNumber :max="100" :min="0" v-model="match.possesion_home" />
                             </FormItem>
-                        </Col>
-                        <Col span="4">
+                            </Col>
+                            <Col span="4">
                             <FormItem label="Corners ">
                                 <InputNumber v-model="match.corner_home" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Shorts on">
                                 <InputNumber v-model="match.shorts_home" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Shorts off ">
                                 <InputNumber v-model="match.shorts_off_home" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Passes ">
                                 <InputNumber v-model="match.passes_home" />
                             </FormItem>
-                        </Col>
-                       
+                            </Col>
 
-                        <p style="color: red;">Away Team Statistics</p>
-                        <Col span="5">
+
+                            <p style="color: red;">Away Team Statistics</p>
+                            <Col span="5">
                             <FormItem label="Possession ">
                                 <InputNumber :max="100" :min="0" v-model="match.possesion_away" />
                             </FormItem>
-                        </Col>
-                        <Col span="4">
+                            </Col>
+                            <Col span="4">
                             <FormItem label="Corners ">
                                 <InputNumber v-model="match.corner_away" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Shorts on">
                                 <InputNumber v-model="match.shorts_away" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Shorts off ">
                                 <InputNumber v-model="match.shorts_off_away" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Passes ">
-                                <InputNumber v-model="match.passes_away"/>
+                                <InputNumber v-model="match.passes_away" />
                             </FormItem>
-                        </Col>
-                    </Row>
-                </Form>
+                            </Col>
+                        </Row>
+                    </Form>
                 </template>
             </template>
             <div slot="footer">
@@ -362,64 +375,64 @@
                     </Row>
                 </Form>
                 <template v-if="match.status === 'Finished' || match.status === 'Halftime'">
-                    <Form  label-position="left" :label-width="70">
-                    <Row>
-                        <p style="color: red;">Home Team Statistics</p>
-                        <Col span="5">
+                    <Form label-position="left" :label-width="70">
+                        <Row>
+                            <p style="color: red;">Home Team Statistics</p>
+                            <Col span="5">
                             <FormItem label="Possession ">
                                 <InputNumber :max="100" :min="0" v-model="match.possesion_home" />
                             </FormItem>
-                        </Col>
-                        <Col span="4">
+                            </Col>
+                            <Col span="4">
                             <FormItem label="Corners ">
                                 <InputNumber v-model="match.corner_home" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Shorts on">
                                 <InputNumber v-model="match.shorts_home" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Shorts off ">
                                 <InputNumber v-model="match.shorts_off_home" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Passes ">
                                 <InputNumber v-model="match.passes_home" />
                             </FormItem>
-                        </Col>
-                       
+                            </Col>
 
-                        <p style="color: red;">Away Team Statistics</p>
-                        <Col span="5">
+
+                            <p style="color: red;">Away Team Statistics</p>
+                            <Col span="5">
                             <FormItem label="Possession ">
                                 <InputNumber :max="100" :min="0" v-model="match.possesion_away" />
                             </FormItem>
-                        </Col>
-                        <Col span="4">
+                            </Col>
+                            <Col span="4">
                             <FormItem label="Corners ">
                                 <InputNumber v-model="match.corner_away" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Shorts on">
                                 <InputNumber v-model="match.shorts_away" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Shorts off ">
                                 <InputNumber v-model="match.shorts_off_away" />
                             </FormItem>
-                        </Col>
-                        <Col span="5">
+                            </Col>
+                            <Col span="5">
                             <FormItem label="Passes ">
-                                <InputNumber v-model="match.passes_away"/>
+                                <InputNumber v-model="match.passes_away" />
                             </FormItem>
-                        </Col>
-                    </Row>
-                </Form>
+                            </Col>
+                        </Row>
+                    </Form>
                 </template>
             </template>
             <div slot="footer">
@@ -456,6 +469,10 @@ export default {
             textMatch: [],
             homeTeamOptions: [],
             awayTeamOptions: [],
+
+            filteredMatches: [],
+            teamFilter: "",
+
             tableLoading: true,
             keyword: "",
             isEditing: false,
@@ -466,14 +483,15 @@ export default {
             matchId: "",
             resultId: "",
             match: {
-                 home_team: "", home_score: 0, away_score: 0,
-                  away_team: "", date: "", minutes: 1, 
-                  time: "", status: "", home_scorer: "",away_scorer: "",
-                  possesion_home: 0, possesion_away: 0,
-                  corner_home: 0,corner_away: 0, 
-                  shorts_home: 0, shorts_away: 0,
-                  shorts_off_home: 0, shorts_off_away: 0,
-                  passes_home: 0, passes_away: 0},
+                home_team: "", home_score: 0, away_score: 0,
+                away_team: "", date: "", minutes: 1,
+                time: "", status: "", home_scorer: "", away_scorer: "",
+                possesion_home: 0, possesion_away: 0,
+                corner_home: 0, corner_away: 0,
+                shorts_home: 0, shorts_away: 0,
+                shorts_off_home: 0, shorts_off_away: 0,
+                passes_home: 0, passes_away: 0
+            },
 
             validateMatch: {
                 match: [
@@ -538,14 +556,31 @@ export default {
         this.updateAwayTeamOptions();
     },
 
-    computed: {},
+    computed: {
+        // Apply filters to the Ads
+        newDatas() {
+            let filteredMatches = this.matches;
+
+            // Apply Team filter
+            if (this.teamFilter) {
+                filteredMatches = filteredMatches.filter(match => {
+                    return (
+                        match.home.team.toLowerCase().includes(this.teamFilter.toLowerCase()) ||
+                        match.away.team.toLowerCase().includes(this.teamFilter.toLowerCase())
+                    );
+                });
+            }
+
+            return filteredMatches;
+        }
+    },
     watch: {
         'match.home_team': 'updateAwayTeamOptions',
-        'match.possesion_home': function(newValue) {
-        if (newValue) {
-            this.match.possesion_away = 100 - newValue;
+        'match.possesion_home': function (newValue) {
+            if (newValue) {
+                this.match.possesion_away = 100 - newValue;
+            }
         }
-    }
     },
 
     methods: {
@@ -595,8 +630,8 @@ export default {
         },
 
         viewMatch(home, away, date, time, status, home_score, away_score, home_scorer, away_scorer,
-        possesion_home,possesion_away,corner_home,corner_away,shorts_home,shorts_away,passes_home,passes_away,
-        shorts_off_home,shorts_off_away) {
+            possesion_home, possesion_away, corner_home, corner_away, shorts_home, shorts_away, passes_home, passes_away,
+            shorts_off_home, shorts_off_away) {
             this.viewMatchModal = true;
             this.match.home_team = home;
             this.match.away_team = away;
@@ -681,8 +716,8 @@ export default {
             });
         },
         editMatchModal(id, resultId, team_home_id, team_away_id, date, time, status, home_score, away_score, home_scorer, away_scorer,
-        possesion_home,possesion_away,corner_home,corner_away,shorts_home,shorts_away,passes_home,passes_away,
-        shorts_off_home, shorts_off_away) {
+            possesion_home, possesion_away, corner_home, corner_away, shorts_home, shorts_away, passes_home, passes_away,
+            shorts_off_home, shorts_off_away) {
             this.editingMatchModal = true;
             this.matchId = id;
             this.resultId = resultId;
