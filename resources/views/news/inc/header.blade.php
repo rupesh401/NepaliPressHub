@@ -201,7 +201,7 @@
                                     <li class="sports mr-2"><a href="{{ route('news') }}">अन्तर्राष्ट्रिय समाचार</a>
                                     </li>
                                     <li class="home mr-2 dropdown"><a href="javascript:void(0);"
-                                        class="dropdown-toggle" data-toggle="dropdown">Categories</a>
+                                        class="dropdown-toggle" data-toggle="dropdown">कोटीहरू</a>
                                     <ul class="dropdown-menu">
                                         @foreach ($categories as $category)
                                             <li><a

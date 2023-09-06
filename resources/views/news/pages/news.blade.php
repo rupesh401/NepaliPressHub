@@ -1,20 +1,20 @@
 @extends('news.layouts.app')
 
 @if ($lang == 'en') @section('title')
-    International News
+    International
 @endsection
 @else
 @section('title')
-    अन्तर्राष्ट्रिय समाचार
+    अन्तर्राष्ट्रिय
     @endsection @endif
 
 @section('content')
     <div class="container">
         <div class="page-breadcrumbs">
             @if ($lang == 'en')
-                <h1 class="section-title">International News</h1>
+                <h1 class="section-title">International</h1>
             @else
-                <h1 class="section-title">अन्तर्राष्ट्रिय समाचार</h1>
+                <h1 class="section-title">अन्तर्राष्ट्रिय</h1>
             @endif
         </div>
         <div class="section">
@@ -80,41 +80,51 @@
                             </div>
                         </div>
                         @if ($lang == 'en')
-                        <div class="pagination-wrapper text-center">
-                            @if($intNews->lastPage() > 1)
-                            <ul class="pagination">
-                                @if($intNews->currentPage() != 1)
-                                <li><a href="{{ $intNews->previousPageUrl() }}" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> Previous</span></a></li>
+                            <div class="pagination-wrapper text-center">
+                                @if ($intNews->lastPage() > 1)
+                                    <ul class="pagination">
+                                        @if ($intNews->currentPage() != 1)
+                                            <li><a href="{{ $intNews->previousPageUrl() }}" aria-label="Previous"><span
+                                                        aria-hidden="true"><i class="fa fa-long-arrow-left"></i>
+                                                        Previous</span></a></li>
+                                        @endif
+
+                                        @for ($i = 1; $i <= $intNews->lastPage(); $i++)
+                                            <li class="{{ $intNews->currentPage() == $i ? 'active' : '' }}"><a
+                                                    href="{{ $intNews->url($i) }}">{{ $i }}</a></li>
+                                        @endfor
+
+                                        @if ($intNews->currentPage() != $intNews->lastPage())
+                                            <li><a href="{{ $intNews->nextPageUrl() }}" aria-label="Next"><span
+                                                        aria-hidden="true">Next <i
+                                                            class="fa fa-long-arrow-right"></i></span></a></li>
+                                        @endif
+                                    </ul>
                                 @endif
-                        
-                                @for($i = 1; $i <= $intNews->lastPage(); $i++)
-                                    <li class="{{ ($intNews->currentPage() == $i) ? 'active' : '' }}"><a href="{{ $intNews->url($i) }}">{{ $i }}</a></li>
-                                @endfor
-                        
-                                @if($intNews->currentPage() != $intNews->lastPage())
-                                <li><a href="{{ $intNews->nextPageUrl() }}" aria-label="Next"><span aria-hidden="true">Next <i class="fa fa-long-arrow-right"></i></span></a></li>
-                                @endif
-                            </ul>
-                            @endif
-                        </div>
+                            </div>
                         @else
-                        <div class="pagination-wrapper text-center">
-                            @if($intNews->lastPage() > 1)
-                            <ul class="pagination">
-                                @if($intNews->currentPage() != 1)
-                                <li><a href="{{ $intNews->previousPageUrl() }}" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-long-arrow-left"></i> अघिल्लो</span></a></li>
+                            <div class="pagination-wrapper text-center">
+                                @if ($intNews->lastPage() > 1)
+                                    <ul class="pagination">
+                                        @if ($intNews->currentPage() != 1)
+                                            <li><a href="{{ $intNews->previousPageUrl() }}" aria-label="Previous"><span
+                                                        aria-hidden="true"><i class="fa fa-long-arrow-left"></i>
+                                                        अघिल्लो</span></a></li>
+                                        @endif
+
+                                        @for ($i = 1; $i <= $intNews->lastPage(); $i++)
+                                            <li class="{{ $intNews->currentPage() == $i ? 'active' : '' }}"><a
+                                                    href="{{ $intNews->url($i) }}">{{ $i }}</a></li>
+                                        @endfor
+
+                                        @if ($intNews->currentPage() != $intNews->lastPage())
+                                            <li><a href="{{ $intNews->nextPageUrl() }}" aria-label="Next"><span
+                                                        aria-hidden="true">अर्को <i
+                                                            class="fa fa-long-arrow-right"></i></span></a></li>
+                                        @endif
+                                    </ul>
                                 @endif
-                        
-                                @for($i = 1; $i <= $intNews->lastPage(); $i++)
-                                    <li class="{{ ($intNews->currentPage() == $i) ? 'active' : '' }}"><a href="{{ $intNews->url($i) }}">{{ $i }}</a></li>
-                                @endfor
-                        
-                                @if($intNews->currentPage() != $intNews->lastPage())
-                                <li><a href="{{ $intNews->nextPageUrl() }}" aria-label="Next"><span aria-hidden="true">अर्को <i class="fa fa-long-arrow-right"></i></span></a></li>
-                                @endif
-                            </ul>
-                            @endif
-                        </div>
+                            </div>
                         @endif
                     </div>
                 </div>

@@ -2,14 +2,14 @@
     <div id="site-content">
         <div class="section technology-news">
             @if ($lang == 'en')
-                <h1 class="section-title">International News</h1>
+                <h1 class="section-title">International</h1>
                 <div class="world-nav cat-menu">
                     <ul class="list-inline">
                         <li class="active"><a href="{{ route('news') }}">See All</a></li>
                     </ul>
                 </div>
             @else
-                <h1 class="section-title">अन्तर्राष्ट्रिय समाचार</h1>
+                <h1 class="section-title">अन्तर्राष्ट्रिय</h1>
                 <div class="world-nav cat-menu">
                     <ul class="list-inline">
                         <li class="active"><a href="{{ route('news') }}">सबै हेर्नुहोस्</a></li>

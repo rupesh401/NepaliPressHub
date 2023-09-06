@@ -1,12 +1,12 @@
 @extends('news.layouts.app')
 
 @if ($lang == 'en') @section('title')
-    International News
+    International
 @endsection
 @else
 @section('title')
-    अन्तर्राष्ट्रिय समाचार
-    @endsection @endif
+    अन्तर्राष्ट्रिय
+@endsection @endif
 
 @section('content')
     <div class="container">
@@ -14,7 +14,7 @@
             @if ($lang == 'en')
                 <h1 class="section-title">Videos</h1>
             @else
-                <h1 class="section-title">Videos</h1>
+                <h1 class="section-title">भिडियोहरू</h1>
             @endif
         </div>
         <div class="section">
@@ -84,9 +84,9 @@
                                 @if ($videos->lastPage() > 1)
                                     <ul class="pagination">
                                         @if ($videos->currentPage() != 1)
-                                            <li><a href="{{ $videos->previousPageUrl() }}"
-                                                    aria-label="Previous"><span aria-hidden="true"><i
-                                                            class="fa fa-long-arrow-left"></i> Previous</span></a></li>
+                                            <li><a href="{{ $videos->previousPageUrl() }}" aria-label="Previous"><span
+                                                        aria-hidden="true"><i class="fa fa-long-arrow-left"></i>
+                                                        Previous</span></a></li>
                                         @endif
 
                                         @for ($i = 1; $i <= $videos->lastPage(); $i++)
@@ -107,9 +107,9 @@
                                 @if ($videos->lastPage() > 1)
                                     <ul class="pagination">
                                         @if ($videos->currentPage() != 1)
-                                            <li><a href="{{ $videos->previousPageUrl() }}"
-                                                    aria-label="Previous"><span aria-hidden="true"><i
-                                                            class="fa fa-long-arrow-left"></i> अघिल्लो</span></a></li>
+                                            <li><a href="{{ $videos->previousPageUrl() }}" aria-label="Previous"><span
+                                                        aria-hidden="true"><i class="fa fa-long-arrow-left"></i>
+                                                        अघिल्लो</span></a></li>
                                         @endif
 
                                         @for ($i = 1; $i <= $videos->lastPage(); $i++)

@@ -20,7 +20,7 @@
                                             <div class="post">
                                                 <div class="entry-header">
                                                     <div class="entry-thumbnail">
-                                                        <img style="height: 360px; width:540px; object-fit: cover;" class="img-fluid" src='{{ ("$pF/storage/uploads/posts/".$post->image) }}'
+                                                        <img class="img-fluid" src='{{ ("$pF/storage/uploads/posts/".$post->image) }}'
                                                             alt="Image" />
                                                     </div>
                                                 </div>
@@ -54,7 +54,7 @@
                                                         <p>
                                                             @php
                                                             $strippedContent = strip_tags($post->content);
-                                                            $truncatedContent = mb_substr($strippedContent, 0, 120, 'UTF-8');
+                                                            $truncatedContent = mb_substr($strippedContent, 0, 55, 'UTF-8');
                                                             $remainingCharacters = mb_strlen($strippedContent, 'UTF-8') - mb_strlen($truncatedContent, 'UTF-8');
                                                             
                                                             // Display the truncated content

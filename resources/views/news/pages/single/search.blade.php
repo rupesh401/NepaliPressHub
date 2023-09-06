@@ -20,12 +20,12 @@
                             <div class="section">
                                 <div class="row">
                                     @foreach ($posts as $post)
-                                        <div class="col-md-6 col-lg-4">
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
                                             <div class="post medium-post">
                                                 <div class="entry-header">
                                                     <div class="entry-thumbnail">
                                                         <img class="img-fluid"
-                                                            style="width: 255px; height: 146px; object-fit:cover;"
+                                                            style="width: 100%; height: 146px; object-fit:cover;"
                                                             src="{{ "$pF/storage/uploads/posts/".$post->image }}"
                                                             alt="Image" />
                                                     </div>
@@ -48,7 +48,7 @@
                                                         <a href="{{ route('single-post', $post->slug) }}">
                                                             @php
                                                             $strippedContent = strip_tags($post->title);
-                                                            $truncatedContent = mb_substr($strippedContent, 0, 25, 'UTF-8');
+                                                            $truncatedContent = mb_substr($strippedContent, 0, 28, 'UTF-8');
                                                             $remainingCharacters = mb_strlen($strippedContent, 'UTF-8') - mb_strlen($truncatedContent, 'UTF-8');
                                                             
                                                             // Display the truncated content
