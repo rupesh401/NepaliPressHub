@@ -241,7 +241,7 @@
                         <img style="width: 100%; object-fit: cover;" :src="`${url_api}uploads/posts/${post.image}`"
                             class="img-fluid" />
                         </Col>
-                        <Col span="7">
+                        <Col span="6">
                         <FormItem label="Category" prop="category">
                             <Select v-model="post.category" filterable>
                                 <Option v-for="(cat, i) in categories" :key="i" :value="cat.id">{{
@@ -250,7 +250,7 @@
                             </Select>
                         </FormItem>
                         </Col>
-                        <Col span="7" offset="1">
+                        <Col span="6" offset="1">
                         <FormItem label="Tags" prop="tags">
                             <Select v-model="post.tags" filterable multiple>
                                 <Option v-for="(tag, i) in tags" :key="i" :value="tag.id">{{
@@ -259,12 +259,17 @@
                             </Select>
                         </FormItem>
                         </Col>
-                        <Col span="3" offset="1">
-                        <FormItem label="With Province" prop="with_province">
+                        <Col span="2" offset="1">
+                        <FormItem label="National" prop="national">
+                            <Checkbox v-model="post.national"></Checkbox>
+                        </FormItem>
+                        </Col>
+                        <Col span="2" offset="1">
+                        <FormItem label="Province" prop="with_province">
                             <Checkbox v-model="checkbox"></Checkbox>
                         </FormItem>
                         </Col>
-                        <Col v-if="checkbox" span="4" offset="1">
+                        <Col v-if="checkbox" span="3" offset="1">
                         <FormItem label="Province" prop="province">
                             <Select v-model="post.province" filterable>
                                 <Option v-for="(prov, i) in provinces" :key="i" :value="prov.id">{{
@@ -330,7 +335,7 @@
                         <img style="width: 100%; object-fit: cover;" :src="`${url_api}uploads/posts/${post.image}`"
                             class="img-fluid" />
                         </Col>
-                        <Col span="7">
+                        <Col span="6">
                         <FormItem label="Category" prop="category">
                             <Select v-model="post.category" filterable>
                                 <Option v-for="(cat, i) in categories" :key="i" :value="cat.id">{{
@@ -339,7 +344,7 @@
                             </Select>
                         </FormItem>
                         </Col>
-                        <Col span="7" offset="1">
+                        <Col span="6" offset="1">
                         <FormItem label="Tags" prop="tags">
                             <Select v-model="post.tags" filterable multiple>
                                 <Option v-for="(tag, i) in tags" :key="i" :value="tag.id">{{
@@ -348,12 +353,17 @@
                             </Select>
                         </FormItem>
                         </Col>
-                        <Col span="3" offset="1">
-                        <FormItem label="With Province" prop="with_province">
+                        <Col span="2" offset="1">
+                        <FormItem label="National" prop="national">
+                            <Checkbox v-model="post.national"></Checkbox>
+                        </FormItem>
+                        </Col>
+                        <Col span="2" offset="1">
+                        <FormItem label="Province" prop="with_province">
                             <Checkbox v-model="checkbox"></Checkbox>
                         </FormItem>
                         </Col>
-                        <Col v-if="checkbox" span="4" offset="1">
+                        <Col v-if="checkbox" span="3" offset="1">
                         <FormItem label="Province" prop="province">
                             <Select v-model="post.province" filterable>
                                 <Option v-for="(prov, i) in provinces" :key="i" :value="prov.id">{{
@@ -417,7 +427,7 @@ export default {
             url: "",
             urlPost: "",
             checkbox: false,
-            post: { title: "", content: "", category: "", tags: [], image: "", province: '', lang: "en", flash_news: false },
+            post: { title: "", content: "", category: "", tags: [], image: "", province: '', lang: "en", flash_news: false, national:false },
             tag: { name: "" },
 
             ruleValidate: {

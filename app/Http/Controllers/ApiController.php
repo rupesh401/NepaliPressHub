@@ -771,6 +771,7 @@ class ApiController extends Controller
                 $updatePost->lang = $request->lang;
                 $updatePost->image = $request->image;
                 $updatePost->flash_news = $request->flash_news;
+                $updatePost->national = $request->national;
                 $slug = Str::slug($request->title);
                 $count = Post::whereNotIn('id', [$request->id])->where('slug', $slug)->count();
                 if ($count > 0) {
@@ -837,6 +838,7 @@ class ApiController extends Controller
             $newPost->lang = $request->lang;
             $newPost->status = 'Published';
             $newPost->flash_news = $request->flash_news;
+            $newPost->national = $request->national;
             $slug = Str::slug($request->title);
             $count = Post::where('slug', $slug)->count();
             if ($count >= 1) {

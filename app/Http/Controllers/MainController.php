@@ -1067,7 +1067,7 @@ class MainController extends Controller
 
         $intNews = Post::with(['com' => function ($query) {
             $query->where('status', 'Approved');
-        }, 'tag', 'cat', 'prov', 'usr'])->whereDoesntHave('prov')->where('status', 'Published')->orderBy('created_at', 'DESC')->paginate(15);
+        }, 'tag', 'cat', 'prov', 'usr'])->whereDoesntHave('prov')->where('national', 0)->where('status', 'Published')->orderBy('created_at', 'DESC')->paginate(15);
         $randPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->inRandomOrder()->take(3)->get();
         $onePost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->latest('created_at')->take(1)->get();
         $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
@@ -1435,7 +1435,7 @@ class MainController extends Controller
 
         $postSlides = Post::with(['com' => function ($query) {
             $query->where('status', 'Approved');
-        }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->where('flash_news', 1)->orderBy('created_at', 'DESC')->take(4)->get();
+        }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->where('flash_news', 1)->where('national', 0)->orderBy('created_at', 'DESC')->take(4)->get();
 
         $postFeatured = Post::with(['com' => function ($query) {
             $query->where('status', 'Approved');

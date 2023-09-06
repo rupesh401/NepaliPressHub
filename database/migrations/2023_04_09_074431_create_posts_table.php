@@ -25,6 +25,7 @@ class CreatePostsTable extends Migration
             $table->integer('likes')->default(0);
             $table->string('lang')->default('en');
             $table->boolean('flash_news')->default(false);
+            $table->boolean('national')->default(false);
             $table->timestamps();
         });
     }
