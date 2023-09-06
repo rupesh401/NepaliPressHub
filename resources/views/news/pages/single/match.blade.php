@@ -100,9 +100,9 @@
             <h1 class="section-title section-t" style="color: #f3f4f5;">Sports News</h1>
             <div class="world-nav cat-menu" style="left: 0;">
                 <ul class="list-inline">
-                    <li class="active" id="summary-link"><a href="javascript:void(0)">Summary</a></li>
-                    <li id="table-link"><a href="javascript:void(0)">Table</a></li>
-                    <li id="news-link"><a href="javascript:void(0)">News</a></li>
+                    <li class="active" id="summary-link"><a href="javascript:void(0)"><strong>Summary</strong></a></li>
+                    <li id="table-link"><a href="javascript:void(0)"><strong>Table</strong></a></li>
+                    <li id="news-link"><a href="javascript:void(0)"><strong>News</strong></a></li>
                 </ul>
             </div>
         </div>
@@ -400,7 +400,7 @@
                                                             <div class="entry-header">
                                                                 <div class="entry-thumbnail">
                                                                     <img class="img-fluid"
-                                                                        style="width: 255px; height: 146px; object-fit:cover;"
+                                                                        style="width: 100%; object-fit:cover;"
                                                                         src="{{ "$pF/storage/uploads/posts/" . $post->image }}"
                                                                         alt="Image" />
                                                                 </div>

@@ -2658,3 +2658,6 @@ input.header-mobile__search-control:focus {
 .sidebar-p {
     padding-right: 0px !important;
 }
+.cat-menu a {
+    font-size: 16px !important;
+}

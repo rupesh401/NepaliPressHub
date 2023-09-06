@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\About;
 use App\Ads;
+use App\Category;
 use App\Contact;
 use App\Game;
 use App\League;
@@ -198,9 +199,14 @@ class LeagueController extends Controller
             }
         }
 
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
+
         return view('news.pages.single.match', [
             'homeWinCount' => $homeWinCount,
             'awayWinCount' => $awayWinCount,
+            'categories' => $categories,
             'drawCount' => $drawCount,
             'table' => $table,
             'games' => $games,
