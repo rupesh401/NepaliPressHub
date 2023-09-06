@@ -1,4 +1,4 @@
-<div class="col-md-12 col-lg-12 col-sm-12 col-xm-12 col-xl-12 tr-sticky">
+<div class="col-md-12 col-lg-12 col-sm-12 col-xm-12 col-xl-12 sidebar-p">
     <div id="sitebar" class="theiaStickySidebar">
         <div class="widget follow-us">
             @if ($lang == 'en')

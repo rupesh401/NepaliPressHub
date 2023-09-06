@@ -2654,3 +2654,7 @@ input.header-mobile__search-control:focus {
         padding-left: 38px !important;
     }
 }
+
+.sidebar-p {
+    padding-right: 0px !important;
+}
