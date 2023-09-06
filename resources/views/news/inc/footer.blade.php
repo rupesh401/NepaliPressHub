@@ -47,7 +47,7 @@
                         @if ($footerAds != '')
                             <div>
                                 <a href="{{ @$footerAds->link }}" target="_blank">
-                                    <img style="width: 680px; height: 90px; object-fit:cover;"
+                                    <img style="width: 100%; object-fit:cover;"
                                         src="{{ "$pF/storage/uploads/ads/" . @$footerAds->image }}" alt="">
                                 </a>
                             </div>
