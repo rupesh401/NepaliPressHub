@@ -2661,3 +2661,7 @@ input.header-mobile__search-control:focus {
 .cat-menu a {
     font-size: 16px !important;
 }
+.page-cs {
+    position: relative;
+    margin: 0px 0 1px !important;
+}

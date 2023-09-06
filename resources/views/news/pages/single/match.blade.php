@@ -96,8 +96,8 @@
         </div>
     </div>
     <div class="container">
-        <div class="page-breadcrumbs">
-            <h1 class="section-title section-t" style="color: #f3f4f5;">Sports News</h1>
+        <div class="page-breadcrumbs page-cs">
+            <h1 class="section-title section-t" style="color: #f3f4f5;">&nbsp;</h1>
             <div class="world-nav cat-menu" style="left: 0;">
                 <ul class="list-inline">
                     <li class="active" id="summary-link"><a href="javascript:void(0)"><strong>Summary</strong></a></li>
