@@ -276,7 +276,7 @@ export default {
             const res = await this.callApi("get", "/get_leagues");
             if (res.data.status === "success") {
                 this.leagues = res.data.data;
-                this.teams = res.data.data[0].team;
+                this.teams = res.data.data[1].team;
                 this.tableLoading = false;
             } else {
                 this.leagues = [];

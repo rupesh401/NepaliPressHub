@@ -10,6 +10,6 @@ class Category extends Model
     // Define the hasMany relationship with Post
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->belongsToMany('App\Post', 'post_cats');
     }
 }

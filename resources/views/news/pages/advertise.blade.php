@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-xm-12 offset-1">
+        <div class="col-md-10 col-lg-10 col-xl-10 col-sm-12 col-xs-12 offset-md-1 offset-lg-1 offset-xl-1">
             @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -37,7 +37,7 @@
                     <form action="{{ route('post-message') }}" id="comment-form" name="comment-form" method="post">
                         @csrf
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>Name</label>
                                     <input
@@ -49,7 +49,7 @@
                                     />
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>Email</label>
                                     <input
@@ -61,7 +61,7 @@
                                     />
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>Subject</label>
                                     <input
@@ -72,7 +72,7 @@
                                     />
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
                                     <label>Your Message</label>
                                     <textarea
@@ -96,7 +96,7 @@
                     <form action="{{ route('post-message') }}" id="comment-form" name="comment-form" method="post">
                         @csrf
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>नाम</label>
                                     <input
@@ -108,7 +108,7 @@
                                     />
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>इमेल</label>
                                     <input
@@ -120,7 +120,7 @@
                                     />
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>विषय</label>
                                     <input
@@ -131,7 +131,7 @@
                                     />
                                 </div>
                             </div>
-                            <div class="col-sm-12">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label>तिम्रो सन्देश</label>
                                     <textarea

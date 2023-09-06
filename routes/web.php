@@ -162,6 +162,11 @@ Route::get('/football/{football}', 'MainController@football')->name('football');
 Route::get('/province/{province}', 'MainController@singleProvince')->name('single-provinces');
 
 /**
+ * It Redirect to controller and return Single-Category page
+ */
+Route::get('/categories/{category}', 'MainController@singleCategory')->name('single-category');
+
+/**
  * It Redirect to controller and returns home page
  */
 Route::get('/', 'MainController@home')->name('home');

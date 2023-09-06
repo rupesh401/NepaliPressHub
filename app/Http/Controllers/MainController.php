@@ -9,6 +9,7 @@ use App\Ads;
 use App\Advertise;
 use App\League;
 use App\BreakingNews;
+use App\Category;
 use App\Video;
 use App\Comment;
 use App\ComReply;
@@ -69,6 +70,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->orderBy('created_at', 'DESC')->take(10)->get();
         $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->orderBy('views', 'DESC')->take(10)->get();
         $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
@@ -89,6 +93,7 @@ class MainController extends Controller
             'onePost' => $onePost,
             'contact' => $contact,
             'provinces' => $provinces,
+            'categories' => $categories,
             'firstPost' => $firstPost,
             'randPosts' => $randPosts,
             'postSlides' => $postSlides,
@@ -450,6 +455,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -461,6 +469,7 @@ class MainController extends Controller
             'logo' => $logo,
             'tags' => $tags,
             'provinces' => $provinces,
+            'categories' => $categories,
             'lang' => $lang,
             'leagues' => $leagues,
             'singlePost' => $singlePost,
@@ -539,6 +548,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
 
         return view('news.pages.single.video', [
             'logo' => $logo,
@@ -549,6 +561,7 @@ class MainController extends Controller
             'contact' => $contact,
             'footerAds' => $footerAds,
             'provinces' => $provinces,
+            'categories' => $categories,
             'trendPosts' => $trendPosts,
             'latestPosts' => $latestPosts,
             'singleVideo' => $singleVideo,
@@ -584,6 +597,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
 
         return view('news.pages.videos', [
@@ -597,6 +613,7 @@ class MainController extends Controller
             'sideAds' => $sideAds,
             'videos' => $videos,
             'provinces' => $provinces,
+            'categories' => $categories,
             'contact' => $contact,
             'trendVideos' => $trendVideos,
             'trendPosts' => $trendPosts,
@@ -633,6 +650,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -645,6 +665,7 @@ class MainController extends Controller
             'logo' => $logo,
             'posts' => $posts,
             'provinces' => $provinces,
+            'categories' => $categories,
             'about' => $about,
             'contact' => $contact,
             'category' => $category,
@@ -688,6 +709,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -701,6 +725,7 @@ class MainController extends Controller
             'leagues' => $leagues,
             'posts' => $posts,
             'provinces' => $provinces,
+            'categories' => $categories,
             'about' => $about,
             'contact' => $contact,
             'onePost' => $onePost,
@@ -740,6 +765,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -751,6 +779,7 @@ class MainController extends Controller
             'logo' => $logo,
             'tags' => $tags,
             'provinces' => $provinces,
+            'categories' => $categories,
             'lang' => $lang,
             'leagues' => $leagues,
             'singleAlbum' => $singleAlbum,
@@ -797,6 +826,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $gallery = Gallery::with(['img'])->orderBy('created_at', 'desc')->paginate(15);
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -817,6 +849,7 @@ class MainController extends Controller
             'contact' => $contact,
             'onePost' => $onePost,
             'provinces' => $provinces,
+            'categories' => $categories,
             'firstPost' => $firstPost,
             'randPosts' => $randPosts,
             'secondPosts' => $secondPosts,
@@ -859,6 +892,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -872,6 +908,7 @@ class MainController extends Controller
             'leagues' => $leagues,
             'posts' => $posts,
             'provinces' => $provinces,
+            'categories' => $categories,
             'about' => $about,
             'contact' => $contact,
             'onePost' => $onePost,
@@ -916,6 +953,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -931,6 +971,7 @@ class MainController extends Controller
             'leagues' => $leagues,
             'posts' => $posts,
             'provinces' => $provinces,
+            'categories' => $categories,
             'about' => $about,
             'contact' => $contact,
             'onePost' => $onePost,
@@ -975,6 +1016,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -988,6 +1032,7 @@ class MainController extends Controller
             'leagues' => $leagues,
             'posts' => $posts,
             'provinces' => $provinces,
+            'categories' => $categories,
             'about' => $about,
             'contact' => $contact,
             'onePost' => $onePost,
@@ -1031,6 +1076,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -1044,6 +1092,7 @@ class MainController extends Controller
             'leagues' => $leagues,
             'intNews' => $intNews,
             'provinces' => $provinces,
+            'categories' => $categories,
             'about' => $about,
             'contact' => $contact,
             'onePost' => $onePost,
@@ -1094,6 +1143,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -1108,6 +1160,7 @@ class MainController extends Controller
             'entertainments' => $entertainments,
             'singleEntertainment' => $singleEntertainment,
             'provinces' => $provinces,
+            'categories' => $categories,
             'about' => $about,
             'contact' => $contact,
             'onePost' => $onePost,
@@ -1154,6 +1207,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -1183,6 +1239,7 @@ class MainController extends Controller
             'lang' => $lang,
             'leagues' => $leagues,
             'provinces' => $provinces,
+            'categories' => $categories,
             'about' => $about,
             'contact' => $contact,
             'trendVideos' => $trendVideos,
@@ -1243,6 +1300,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
@@ -1260,7 +1320,85 @@ class MainController extends Controller
             'leagues' => $leagues,
             'provincesPosts' => $provincesPosts,
             'provinces' => $provinces,
+            'categories' => $categories,
             'province' => $province,
+            'about' => $about,
+            'contact' => $contact,
+            'onePost' => $onePost,
+            'firstPost' => $firstPost,
+            'randPosts' => $randPosts,
+            'secondPosts' => $secondPosts,
+            'trendVideos' => $trendVideos,
+            'latestPosts' => $latestPosts,
+            'trendPosts' => $trendPosts,
+        ]);
+    }
+
+    /**
+     * This function return Single Category page view
+     * @package sportsNews
+     * @return SingleCategory view
+     */
+    public function singleCategory(Request $request, $category)
+    {
+
+        if ($request->cookie('language')) {
+            $lang = $request->cookie('language');
+        } else {
+            $lang = 'en';
+        }
+        $leagues = League::orderBy('created_at', 'asc')->get();
+        $about = About::where('id', 1)->get();
+
+        $contact = Contact::where('id', 1)->get();
+
+        $firstPost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'desc')->first();
+
+        $secondPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->orderBy('created_at', 'desc')->skip(1)->take(2)->get();
+
+        $categoryPosts = Post::with(['com' => function ($query) {
+            $query->where('status', 'Approved');
+        }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function ($query) use ($category) {
+            $query->where('category', $category);})->where('lang', $lang)->orderBy('created_at', 'DESC')->skip(1)->take(6)->get();
+        
+        $morePosts = Post::with(['com' => function ($query) {
+            $query->where('status', 'Approved');
+        }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function ($query) use ($category) {
+            $query->where('category', $category);})->where('lang', $lang)->orderBy('created_at', 'DESC')->skip(7)->paginate(12);
+        
+        $singleCatPost = Post::with(['com' => function ($query) {
+            $query->where('status', 'Approved');
+        }, 'tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->whereHas('cat', function ($query) use ($category) {
+            $query->where('category', $category);})->where('lang', $lang)->orderBy('created_at', 'DESC')->first();
+
+        $randPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->inRandomOrder()->take(3)->get();
+        $onePost = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->latest('created_at')->take(1)->get();
+        $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('created_at', 'DESC')->take(10)->get();
+        $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('lang', $lang)->where('status', 'Published')->orderBy('views', 'DESC')->take(10)->get();
+        $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
+        $provinces = Province::with(['post' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
+        $logo = MySite::orderBy('created_at', 'DESC')->get()->first();
+        $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        $sideAds = Ads::where('position', 'sidebar-home')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
+        return view('news.pages.single.category', [
+            'navAds' => $navAds,
+            'footerAds' => $footerAds,
+            'sideAds' => $sideAds,
+            'logo' => $logo,
+            'lang' => $lang,
+            'leagues' => $leagues,
+            'category' => $category,
+            'morePosts' => $morePosts,
+            'categoryPosts' => $categoryPosts,
+            'singleCatPost' => $singleCatPost,
+            'provinces' => $provinces,
+            'categories' => $categories,
             'about' => $about,
             'contact' => $contact,
             'onePost' => $onePost,
@@ -1306,6 +1444,9 @@ class MainController extends Controller
         $provinces = Province::with(['post' => function ($query) use ($lang) {
             $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
         }])->orderBy('created_at', 'asc')->get();
+        $categories = Category::with(['posts' => function ($query) use ($lang) {
+            $query->with(['cat', 'tag', 'usr', 'com'])->where('lang', $lang)->orderBy('created_at', 'desc');
+        }])->orderBy('created_at', 'asc')->get();
         $latestPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->orderBy('created_at', 'DESC')->take(10)->get();
         $trendPosts = Post::with(['tag', 'cat', 'prov', 'usr'])->where('status', 'Published')->where('lang', $lang)->orderBy('views', 'DESC')->take(10)->get();
         $trendVideos = Video::where('status', 'Published')->orderBy('views', 'desc')->take(3)->get();
@@ -1331,6 +1472,7 @@ class MainController extends Controller
             'about' => $about,
             'contact' => $contact,
             'provinces' => $provinces,
+            'categories' => $categories,
             'postSlides' => $postSlides,
             'trendVideos' => $trendVideos,
             'latestPosts' => $latestPosts,

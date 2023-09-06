@@ -64,11 +64,19 @@
                                         <a href="{{ route('home') }}">Home</a>
                                     </li>
                                     <li class="sports">
-                                        <a href="{{ route('news') }}">International News</a>
+                                        <a href="{{ route('news') }}">International</a>
                                     </li>
-                                    <li class="sports">
-                                        <a href="{{ route('entertainment') }}">Entertainment</a>
-                                    </li>
+                                    <li class="home mr-2 dropdown"><a href="javascript:void(0);"
+                                        class="dropdown-toggle" data-toggle="dropdown">Categories</a>
+                                    <ul class="dropdown-menu">
+                                        @foreach ($categories as $category)
+                                            <li><a
+                                                    href="{{ route('single-category', $category->category) }}">{{ $category->category }}</a>
+                                            </li>
+                                        @endforeach
+
+                                    </ul>
+                                </li>
 
                                     <li class="sports dropdown">
                                         <a href="javascript:void(0);" class="dropdown-toggle"
@@ -192,9 +200,17 @@
                                     <li class="sports mr-2"><a href="{{ route('home') }}">घर</a></li>
                                     <li class="sports mr-2"><a href="{{ route('news') }}">अन्तर्राष्ट्रिय समाचार</a>
                                     </li>
-                                    <li class="sports mr-1">
-                                        <a href="{{ route('entertainment') }}">मनोरञ्जन</a>
-                                    </li>
+                                    <li class="home mr-2 dropdown"><a href="javascript:void(0);"
+                                        class="dropdown-toggle" data-toggle="dropdown">Categories</a>
+                                    <ul class="dropdown-menu">
+                                        @foreach ($categories as $category)
+                                            <li><a
+                                                    href="{{ route('single-category', $category->category) }}">{{ $category->category }}</a>
+                                            </li>
+                                        @endforeach
+
+                                    </ul>
+                                </li>
 
                                     <li class="home mr-2 dropdown"><a href="javascript:void(0);"
                                             class="dropdown-toggle" data-toggle="dropdown">प्रान्तहरू</a>
