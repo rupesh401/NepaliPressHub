@@ -410,7 +410,7 @@
                                                                     <ul class="list-inline">
                                                                         <li class="publish-date">
                                                                             <a><i
-                                                                                    class="fa fa-clock-o"></i>{{ $post->created_at->format('F d, Y') }}</a>
+                                                                                    class="fa fa-clock-o"></i>{{ $post->created_at->format('M d, Y') }}</a>
                                                                         </li>
                                                                         <li class="views">
                                                                             <a><i
@@ -426,7 +426,7 @@
                                                                     <a href="{{ route('single-post', $post->slug) }}">
                                                                         @php
                                                                             $strippedContent = strip_tags($post->title);
-                                                                            $truncatedContent = mb_substr($strippedContent, 0, 25, 'UTF-8');
+                                                                            $truncatedContent = mb_substr($strippedContent, 0, 22, 'UTF-8');
                                                                             $remainingCharacters = mb_strlen($strippedContent, 'UTF-8') - mb_strlen($truncatedContent, 'UTF-8');
                                                                             
                                                                             // Display the truncated content
