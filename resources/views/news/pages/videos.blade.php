@@ -57,7 +57,7 @@
                                                                 <a href="{{ route('single-video', $video->slug) }}">
                                                                     @php
                                                                         $strippedContent = strip_tags($video->title);
-                                                                        $truncatedContent = mb_substr($strippedContent, 0, 25, 'UTF-8');
+                                                                        $truncatedContent = mb_substr($strippedContent, 0, 21, 'UTF-8');
                                                                         $remainingCharacters = mb_strlen($strippedContent, 'UTF-8') - mb_strlen($truncatedContent, 'UTF-8');
                                                                         
                                                                         // Display the truncated content
