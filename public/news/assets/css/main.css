@@ -2692,8 +2692,8 @@ input.header-mobile__search-control:focus {
         padding: 12px 0 !important;
     }
     .header-search-form {
-        width: 322px;
-        margin-left: 10px;
+        width: 345px;
+        margin-left: 60px;
     }
 }
 @media (min-width: 1400px) {
