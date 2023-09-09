@@ -1173,7 +1173,7 @@ class MainController extends Controller
         ]);
     }
 
-    /**
+     /**
      * This function return Football Results page view
      * @package sportsNews
      * @return Football results view
@@ -1214,20 +1214,20 @@ class MainController extends Controller
         $navAds = Ads::where('position', 'navbar')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $footerAds = Ads::where('position', 'footer')->where('status', 'Active')->orderBy('created_at', 'DESC')->get()->first();
         $sideAds = Ads::with(['prv'])->orderBy('created_at', 'DESC')->where('status', 'Active')->get()->first();
-        $todayDate = Carbon::now()->format('Y-m-d');
         $results = Result::with(['match.home.league', 'match.away'])
         ->whereHas('match.home.league', function ($query) use ($football) {
-            $query->where('league', $football);
-        })
-        // ->whereDate('date', $todayDate) // Filter by current date
-        ->orderBy('date', 'desc')
-        ->get();
+            $query->where('league', $football);})->orderBy('date', 'desc')->get();
         // dd($results);
         $currentDate = Carbon::now();
         $yesterdayDate = Carbon::yesterday()->toFormattedDateString();
         $tomorrowDate = Carbon::tomorrow()->toFormattedDateString();
+            // dd($results);
+        // $groupedResults = $results->groupBy('date');
+        $groupedResults = $results->pluck('date')->unique()->toArray();
+        // dd($groupedResults);
         
         return view('news.pages.football', [
+            'groupedResults' => $groupedResults,
             'currentDate' => $currentDate,
             'yesterdayDate' => $yesterdayDate,
             'tomorrowDate' => $tomorrowDate,

@@ -2676,7 +2676,7 @@ input.header-mobile__search-control:focus {
         padding: 4px 0 !important;
     }
     .header-search-form {
-        width: 203px;
+        width: 120px;
     }
 }
 @media (min-width: 1200px) {
@@ -2692,8 +2692,8 @@ input.header-mobile__search-control:focus {
         padding: 12px 0 !important;
     }
     .header-search-form {
-        width: 350px;
-        margin-left: 57px;
+        width: 322px;
+        margin-left: 10px;
     }
 }
 @media (min-width: 1400px) {
@@ -2709,8 +2709,8 @@ input.header-mobile__search-control:focus {
         padding: 4px 0 !important;
     }
     .header-search-form {
-        width: 331px;
-        margin-left: 40px;
+        width: 280px;
+        margin-left: 10px;
     }
 }
 

@@ -186,9 +186,18 @@
         var filterDate = '';
         var resultsList = '';
         $(document).ready(function() {
-            filterDate = new Date().toISOString().slice(0, 10);
+            var groupedResults = @json($groupedResults);
+            filterDate = groupedResults[0];
+            // filterDate = new Date().toISOString().slice(0, 10);
             getMatches();
         });
+
+        function handleFilterDateMatch(item) {
+            resultsList.empty();
+            var groupedResults = @json($groupedResults);
+            filterDate = item
+            getMatches();
+        }
 
         async function getMatches() {
 
